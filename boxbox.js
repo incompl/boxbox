@@ -1,0 +1,3 @@
+window.bb = (function() {
+
+})();
