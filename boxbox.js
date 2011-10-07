@@ -56,7 +56,16 @@ window.BB = (function() {
 
     var World = {
         
+        _ops: null,
+        _world: null,
+        _canvas: null,
+        _keydownHandlers: {},
+        _keyupHandlers: {},
+        _entities: {},
+        _nextEntityId: 0,
+        
         _init: function(canvasElem, options) {
+            var self = this;
             this._ops = extend(options, WORLD_DEFAULT_OPTIONS);
             this._world = new b2World(new b2Vec2(0, this._ops.gravity), true);
             this._canvas = canvasElem;
@@ -80,20 +89,47 @@ window.BB = (function() {
                     // TODO paul irish shim
                     window.webkitRequestAnimationFrame(animationLoop);
                 })();
+                
+                var body = document.getElementsByTagName('body')[0];
+                var keydown = false;
+                body.addEventListener('keydown', function(e) {
+                    if (keydown === false) {
+                        keydown = true;
+                        for (var key in self._keydownHandlers) {
+                            self._keydownHandlers[key].call(self._entities[key], e);
+                        }
+                    }
+                }, false);
+                body.addEventListener('keyup', function(e) {
+                    keydown = false;
+                    for (var key in self._keyupHandlers) {
+                        self._keyupHandlers[key].call(self._entities[key], e);
+                    }
+                }, false);
             }
+        },
+        
+        _addKeydownHandler: function(id, f) {
+            this._keydownHandlers[id] = f;
+        },
+        
+        _addKeyupHandler: function(id, f) {
+            this._keyupHandlers[id] = f;
         },
         
         gravity: function(value) {
             if (value !== undefined) {
-                this._ops.gravity = value;
                 this._world.SetGravity(new b2Vec2(0, this._ops.gravity))
             }
-            return this._ops.gravity;
+            var v = this._body.GetGravity();
+            return {x: v.x, y: v.y};
         },
         
         createEntity: function(o) {
             var entity = create(Entity);
-            entity._init(this._world, o);
+            var id = this._nextEntityId++;
+            entity._init(this, o, id);
+            this._entities[id] = entity;
             return entity;
         }
         
@@ -103,30 +139,48 @@ window.BB = (function() {
         x: 10,
         y: 5,
         type: 'dynamic', // or static
-        shape: 'box', // or circle
+        shape: 'box', // or circle or polygon
         height: 1, // for box
         width: 1, // for box
         radius: 1, // for circle
+        points: [{x:0, y:0}, // for polygon
+                 {x:2, y:0},
+                 {x:0, y:2}], 
         density: 1,
         friction: .5,
-        restitution: .2
+        restitution: .2, // bounciness
+        active: true, // participates in collision and dynamics
+        fixedRotation: false,
+        bullet: false // perform expensive continuous collision detection
     };
     
     var Entity = {
         
-        _init: function(world, options) {
+        _id: null,
+        _ops: null,
+        _body: null,
+        _world: null,
+        
+        _init: function(world, options, id) {
             this._ops = extend(options, ENTITY_DEFAULT_OPTIONS);
             var ops = this._ops;
+            
+            this._body = new b2BodyDef;
+            var body = this._body;
+            
+            this._world = world;
+            this._id = id;
             
             var fixture = new b2FixtureDef;
             fixture.density = ops.density;
             fixture.friction = ops.friction;
             fixture.restitution = ops.restitution;
 
-            var body = new b2BodyDef;
+            
             body.position.x = ops.x;
             body.position.y = ops.y;
             
+            // type
             if (ops.type === 'static') {
                 body.type = b2Body.b2_staticBody;
             }
@@ -134,6 +188,7 @@ window.BB = (function() {
                 body.type = b2Body.b2_dynamicBody;
             }
             
+            // shape
             if (ops.shape === 'box') {
                 fixture.shape = new b2PolygonShape;
                 fixture.shape.SetAsBox(ops.width, ops.height);
@@ -141,8 +196,101 @@ window.BB = (function() {
             else if (ops.shape === 'circle') {
                 fixture.shape = new b2CircleShape(ops.radius);
             }
+            else if (ops.shape === 'polygon') {
+                fixture.shape = new b2PolygonShape;
+                fixture.shape.SetAsArray(ops.points, ops.points.length);
+            }
             
-            world.CreateBody(body).CreateFixture(fixture);
+            body.active = ops.active;
+            body.fixedRotation = ops.fixedRotation;
+            body.bullet = ops.bullet;
+            
+            this._body = world._world.CreateBody(body); 
+            this._body.CreateFixture(fixture);
+        },
+        
+        position: function(value) {
+            if (value !== undefined) {
+                this._body.SetPosition(new b2Vec2(value.x, value.y));
+            }
+            var v = this._body.GetPosition();
+            return {x: v.x, y: v.y};
+        },
+        
+        velocity: function(value) {
+            if (value !== undefined) {
+                this._body.SetLinearVelocity(new b2Vec2(value.x, value.y));
+            }
+            var v = this._body.GetLinearVelocity();
+            return {x: v.x, y: v.y};
+        },
+        
+        // usages:
+        // applyImpulse(power, x, y)
+        // applyImpulse(power, degrees)
+        applyImpulse: function(power, a, b) {
+            var x;
+            var y;
+            a = a || 0;
+            if (b === undefined) {
+                a -= 90;
+                x = Math.cos(a * (Math.PI / 180)) * power;
+                y = Math.sin(a * (Math.PI / 180)) * power;
+            }
+            else {
+                x = a;
+                y = b;
+            }
+            this._body.ApplyImpulse(new b2Vec2(x, y),
+                                    this._body.GetWorldCenter());
+        },
+        
+        // usages:
+        // applyImpulse(power, x, y)
+        // applyImpulse(power, degrees)
+        applyForce: function(power, a, b) {
+            var x;
+            var y;
+            a = a || 0;
+            if (b === undefined) {
+                a -= 90;
+                x = Math.cos(a * (Math.PI / 180)) * power;
+                y = Math.sin(a * (Math.PI / 180)) * power;
+            }
+            else {
+                x = a;
+                y = b;
+            }
+            this._body.ApplyForce(new b2Vec2(x, y),
+                                  this._body.GetWorldCenter());
+        },
+        
+        // usages:
+        // applyImpulse(power, x, y)
+        // applyImpulse(power, degrees)
+        setVelocity: function(power, a, b) {
+            var x;
+            var y;
+            a = a || 0;
+            if (b === undefined) {
+                a -= 90;
+                x = Math.cos(a * (Math.PI / 180)) * power;
+                y = Math.sin(a * (Math.PI / 180)) * power;
+            }
+            else {
+                x = a;
+                y = b;
+            }
+            this._body.SetLinearVelocity(new b2Vec2(x, y),
+                                         this._body.GetWorldCenter());
+        },
+        
+        onKeydown: function(f) {
+            this._world._addKeydownHandler(this._id, f);
+        },
+        
+        onKeyup: function(f) {
+            this._world._addKeyupHandler(this._id, f);
         }
         
     }
