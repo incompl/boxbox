@@ -29,7 +29,7 @@ window.BB = (function() {
         return target;
     }
 
-    // Standard imports. TODO mechanism for custom imports
+    // these look like imports but there is no cost here
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
     var b2BodyDef = Box2D.Dynamics.b2BodyDef;
     var b2Body = Box2D.Dynamics.b2Body;
@@ -40,6 +40,7 @@ window.BB = (function() {
     var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
     var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
     var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+    var b2AABB = Box2D.Collision.b2AABB;
     
     // BB methods
         
@@ -203,22 +204,32 @@ window.BB = (function() {
             });
         },
         
-        _setConstantVelocity: function(id, body, x, y) {
-            this._constantVelocities[id] = {
+        _setConstantVelocity: function(name, id, body, x, y) {
+            this._constantVelocities[name + id] = {
+                id:id,
                 body:body,
                 x:x,
                 y:y
             };
         },
         
-        _setConstantForce: function(id, body, x, y) {
-            this._constantForces[id] = {
+        _clearConstantVelocity: function(name, id) {
+            delete this._constantVelocities[name + id];
+        },
+
+        _setConstantForce: function(name, id, body, x, y) {
+            this._constantForces[name + id] = {
+                id:id,
                 body:body,
                 x:x,
                 y:y
             };
         },
         
+        _clearConstantForce: function(name, id) {
+            delete this._constantForces[name + id];
+        },
+
         gravity: function(value) {
             if (value !== undefined) {
                 this._world.SetGravity(new b2Vec2(0, this._ops.gravity))
@@ -233,6 +244,43 @@ window.BB = (function() {
             entity._init(this, o, id);
             this._entities[id] = entity;
             return entity;
+        },
+
+        find: function(x1, y1, x2, y2) {
+            if (x2 === undefined) {
+                x2 = x1;
+            }
+            if (y2 === undefined) {
+                y2 = y1;
+            }
+            var self = this;
+            var result;
+            var aabb = new b2AABB();
+            aabb.lowerBound.Set(x1, y1);
+            aabb.upperBound.Set(x2, y2);
+            this._world.QueryAABB(function(fixt) {
+                result = self._entities[fixt.GetBody()._bbid];
+            }, aabb);
+            return result;
+        },
+
+        findAll: function(x1, y1, x2, y2) {
+            if (x2 === undefined) {
+                x2 = x1;
+            }
+            if (y2 === undefined) {
+                y2 = y1;
+            }
+            var self = this;
+            var result = [];
+            var aabb = new b2AABB();
+            aabb.lowerBound.Set(x1, y1);
+            aabb.upperBound.Set(x2, y2);
+            this._world.QueryAABB(function(fixt) {
+                result.push(self._entities[fixt.GetBody()._bbid]);
+                return true;
+            }, aabb);
+            return result;
         }
         
     };
@@ -249,7 +297,7 @@ window.BB = (function() {
         points: [{x:0, y:0}, // for polygon
                  {x:2, y:0},
                  {x:0, y:2}], 
-        density: 1,
+        density: 2,
         friction: .2,
         restitution: .2, // bounciness
         active: true, // participates in collision and dynamics
@@ -354,14 +402,22 @@ window.BB = (function() {
             this._world._applyImpulse(this._id, this._body, v.x, v.y);
         },
         
-        setForce: function(power, a, b) {
+        setForce: function(name, power, a, b) {
             var v = this._toVector(power, a, b);
-            this._world._setConstantForce(this._id, this._body, v.x, v.y);
+            this._world._setConstantForce(name, this._id, this._body, v.x, v.y);
         },
         
-        setVelocity: function(power, a, b) {
+        setVelocity: function(name, power, a, b) {
             var v = this._toVector(power, a, b);
-            this._world._setConstantVelocity(this._id, this._body, v.x, v.y);
+            this._world._setConstantVelocity(name, this._id, this._body, v.x, v.y);
+        },
+
+        clearForce: function(name) {
+            this._world._clearConstantForce(name, this._id);
+        },
+
+        clearVelocity: function(name) {
+            this._world._clearConstantVelocity(name, this._id);
         },
         
         onKeydown: function(f) {

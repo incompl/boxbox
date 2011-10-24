@@ -11,7 +11,7 @@
                 font-family: sans-serif;
                 font-weight: bold;
                 letter-spacing: .05em;
-                color: #777;
+                color: #555;
                 background-color: #d9d9d9;
             }
             canvas {
