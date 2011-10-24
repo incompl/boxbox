@@ -120,17 +120,12 @@ window.BB = (function() {
                 })();
                 
                 var body = document.getElementsByTagName('body')[0];
-                var keydown = false;
                 body.addEventListener('keydown', function(e) {
-                    if (keydown === false) {
-                        keydown = true;
-                        for (var key in self._keydownHandlers) {
-                            self._keydownHandlers[key].call(self._entities[key], e);
-                        }
+                    for (var key in self._keydownHandlers) {
+                        self._keydownHandlers[key].call(self._entities[key], e);
                     }
                 }, false);
                 body.addEventListener('keyup', function(e) {
-                    keydown = false;
                     for (var key in self._keyupHandlers) {
                         self._keyupHandlers[key].call(self._entities[key], e);
                     }
