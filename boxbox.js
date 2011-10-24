@@ -61,11 +61,16 @@ window.BB = (function() {
         _canvas: null,
         _keydownHandlers: {},
         _keyupHandlers: {},
+        _impulseQueue: [],
+        _constantVelocities: {},
+        _constantForces: {},
         _entities: {},
         _nextEntityId: 0,
         
         _init: function(canvasElem, options) {
             var self = this;
+            var key;
+            var i;
             this._ops = extend(options, WORLD_DEFAULT_OPTIONS);
             this._world = new b2World(new b2Vec2(0, this._ops.gravity), true);
             this._canvas = canvasElem;
@@ -83,9 +88,35 @@ window.BB = (function() {
                 world.SetDebugDraw(debugDraw);
                 
                 (function animationLoop(){
+
+                    // set velocities for this step
+                    for (key in self._constantVelocities) {
+                        var v = self._constantVelocities[key];
+                        v.body.SetLinearVelocity(new b2Vec2(v.x, v.y),
+                                                 v.body.GetWorldCenter());
+                    }
+
+                    // apply impulses for this step
+                    for (i = 0; i < self._impulseQueue.length; i++) {
+                        var impulse = self._impulseQueue.pop()
+                        if (done[impulse.id]) continue;
+                        impulse.body.ApplyImpulse(new b2Vec2(impulse.x, impulse.y),
+                                                  impulse.body.GetWorldCenter());
+                    }               
+                    
+                    // set forces for this step
+                    for (key in self._constantForces) {
+                        var f = self._constantForces[key];
+                        if (done[key]) continue;
+                        f.body.ApplyForce(new b2Vec2(f.x, f.y),
+                                          f.body.GetWorldCenter());
+                    }
+
                     // framerate, velocity iterations, position iterations
                     world.Step(1 / 60, 10, 10);
+                    world.ClearForces();
                     world.DrawDebugData();
+
                     // TODO paul irish shim
                     window.webkitRequestAnimationFrame(animationLoop);
                 })();
@@ -115,6 +146,31 @@ window.BB = (function() {
         
         _addKeyupHandler: function(id, f) {
             this._keyupHandlers[id] = f;
+        },
+
+        _applyImpulse: function(id, body, x, y) {
+          this._impulseQueue.push({
+                id:id,
+                body:body,
+                x:x,
+                y:y
+            });
+        },
+        
+        _setConstantVelocity: function(id, body, x, y) {
+            this._constantVelocities[id] = {
+                body:body,
+                x:x,
+                y:y
+            };
+        },
+        
+        _setConstantForce: function(id, body, x, y) {
+            this._constantForces[id] = {
+                body:body,
+                x:x,
+                y:y
+            };
         },
         
         gravity: function(value) {
@@ -147,7 +203,7 @@ window.BB = (function() {
                  {x:2, y:0},
                  {x:0, y:2}], 
         density: 1,
-        friction: .5,
+        friction: .2,
         restitution: .2, // bounciness
         active: true, // participates in collision and dynamics
         fixedRotation: false,
@@ -224,65 +280,39 @@ window.BB = (function() {
             var v = this._body.GetLinearVelocity();
             return {x: v.x, y: v.y};
         },
+
+        // returns a vector. params can be either of the following:
+        // power, x, y
+        // power, degrees
+        _toVector: function(power, a, b) {
+            var x;
+            var y;
+            a = a || 0;
+            if (b === undefined) {
+                a -= 90;
+                x = Math.cos(a * (Math.PI / 180)) * power;
+                y = Math.sin(a * (Math.PI / 180)) * power;
+            }
+            else {
+                x = a;
+                y = b;
+            }
+            return {x:x,y:y};
+        },
         
-        // usages:
-        // applyImpulse(power, x, y)
-        // applyImpulse(power, degrees)
         applyImpulse: function(power, a, b) {
-            var x;
-            var y;
-            a = a || 0;
-            if (b === undefined) {
-                a -= 90;
-                x = Math.cos(a * (Math.PI / 180)) * power;
-                y = Math.sin(a * (Math.PI / 180)) * power;
-            }
-            else {
-                x = a;
-                y = b;
-            }
-            this._body.ApplyImpulse(new b2Vec2(x, y),
-                                    this._body.GetWorldCenter());
+            var v = this._toVector(power, a, b);
+            this._world._applyImpulse(this._id, this._body, v.x, v.y);
         },
         
-        // usages:
-        // applyImpulse(power, x, y)
-        // applyImpulse(power, degrees)
-        applyForce: function(power, a, b) {
-            var x;
-            var y;
-            a = a || 0;
-            if (b === undefined) {
-                a -= 90;
-                x = Math.cos(a * (Math.PI / 180)) * power;
-                y = Math.sin(a * (Math.PI / 180)) * power;
-            }
-            else {
-                x = a;
-                y = b;
-            }
-            this._body.ApplyForce(new b2Vec2(x, y),
-                                  this._body.GetWorldCenter());
+        setForce: function(power, a, b) {
+            var v = this._toVector(power, a, b);
+            this._world._setConstantForce(this._id, this._body, v.x, v.y);
         },
         
-        // usages:
-        // applyImpulse(power, x, y)
-        // applyImpulse(power, degrees)
         setVelocity: function(power, a, b) {
-            var x;
-            var y;
-            a = a || 0;
-            if (b === undefined) {
-                a -= 90;
-                x = Math.cos(a * (Math.PI / 180)) * power;
-                y = Math.sin(a * (Math.PI / 180)) * power;
-            }
-            else {
-                x = a;
-                y = b;
-            }
-            this._body.SetLinearVelocity(new b2Vec2(x, y),
-                                         this._body.GetWorldCenter());
+            var v = this._toVector(power, a, b);
+            this._world._setConstantVelocity(this._id, this._body, v.x, v.y);
         },
         
         onKeydown: function(f) {
