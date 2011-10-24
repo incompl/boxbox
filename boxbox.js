@@ -61,6 +61,9 @@ window.BB = (function() {
         _canvas: null,
         _keydownHandlers: {},
         _keyupHandlers: {},
+        _startContactHandlers: {},
+        _finishContactHandlers: {},
+        _impactHandlers: {},
         _impulseQueue: [],
         _constantVelocities: {},
         _constantForces: {},
@@ -79,6 +82,7 @@ window.BB = (function() {
             if (this._canvas !== undefined) {
                 var world = this._world;
                 
+                // rendering
                 var debugDraw = new b2DebugDraw();
                 debugDraw.SetSprite(this._canvas.getContext("2d"));
                 debugDraw.SetDrawScale(30.0);
@@ -87,6 +91,7 @@ window.BB = (function() {
                 debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
                 world.SetDebugDraw(debugDraw);
                 
+                // animation loop
                 (function animationLoop(){
 
                     // set velocities for this step
@@ -119,6 +124,7 @@ window.BB = (function() {
                     window.webkitRequestAnimationFrame(animationLoop);
                 })();
                 
+                // keyboard events
                 var body = document.getElementsByTagName('body')[0];
                 body.addEventListener('keydown', function(e) {
                     for (var key in self._keydownHandlers) {
@@ -130,6 +136,41 @@ window.BB = (function() {
                         self._keyupHandlers[key].call(self._entities[key], e);
                     }
                 }, false);
+
+                // contact events
+                listener = new Box2D.Dynamics.b2ContactListener;
+                listener.BeginContact = function(contact) {
+                    var a = self._entities[contact.GetFixtureA().GetBody()._bbid];
+                    var b = self._entities[contact.GetFixtureB().GetBody()._bbid];
+                    for (var key in self._startContactHandlers) {
+                        if (a._id === Number(key)) {
+                            self._startContactHandlers[key].call(self._entities[key], b);
+                        }
+                    }
+                }
+                listener.EndContact = function(contact) {
+                    var a = self._entities[contact.GetFixtureA().GetBody()._bbid];
+                    var b = self._entities[contact.GetFixtureB().GetBody()._bbid];
+                    for (var key in self._finishContactHandlers) {
+                        if (a._id === Number(key)) {
+                            self._finishContactHandlers[key].call(self._entities[key], b);
+                        }
+                    }
+                }
+                listener.PostSolve = function(contact, impulse) {
+                    var a = self._entities[contact.GetFixtureA().GetBody()._bbid];
+                    var b = self._entities[contact.GetFixtureB().GetBody()._bbid];
+                    
+                    for (var key in self._impactHandlers) {
+                        if (a._id === Number(key)) {
+                            self._impactHandlers[key].call(self._entities[key],
+                                                           b,
+                                                           impulse.normalImpulses[0],
+                                                           impulse.tangentImpulses[0]);
+                        }
+                    }
+                }
+                world.SetContactListener(listener);
             }
         },
         
@@ -139,6 +180,18 @@ window.BB = (function() {
         
         _addKeyupHandler: function(id, f) {
             this._keyupHandlers[id] = f;
+        },
+
+        _addStartContactHandler: function(id, f) {
+            this._startContactHandlers[id] = f;
+        },
+        
+        _addFinishContactHandler: function(id, f) {
+            this._finishContactHandlers[id] = f;
+        },
+
+        _addImpactHandler: function(id, f) {
+            this._impactHandlers[id] = f;
         },
 
         _applyImpulse: function(id, body, x, y) {
@@ -185,6 +238,7 @@ window.BB = (function() {
     };
     
     var ENTITY_DEFAULT_OPTIONS = {
+        name: 'unnamed object',
         x: 10,
         y: 5,
         type: 'dynamic', // or static
@@ -195,7 +249,7 @@ window.BB = (function() {
         points: [{x:0, y:0}, // for polygon
                  {x:2, y:0},
                  {x:0, y:2}], 
-        density: 1,
+        density: 2,
         friction: .2,
         restitution: .2, // bounciness
         active: true, // participates in collision and dynamics
@@ -224,11 +278,12 @@ window.BB = (function() {
             fixture.density = ops.density;
             fixture.friction = ops.friction;
             fixture.restitution = ops.restitution;
-
             
             body.position.x = ops.x;
             body.position.y = ops.y;
             
+            this.name = ops.name;
+
             // type
             if (ops.type === 'static') {
                 body.type = b2Body.b2_staticBody;
@@ -256,6 +311,7 @@ window.BB = (function() {
             
             this._body = world._world.CreateBody(body); 
             this._body.CreateFixture(fixture);
+            this._body._bbid = id;
         },
         
         position: function(value) {
@@ -314,6 +370,18 @@ window.BB = (function() {
         
         onKeyup: function(f) {
             this._world._addKeyupHandler(this._id, f);
+        },
+
+        onStartContact: function(f) {
+            this._world._addStartContactHandler(this._id, f);
+        },
+
+        onFinishContact: function(f) {
+            this._world._addFinishContactHandler(this._id, f);
+        },
+
+        onImpact: function(f) {
+            this._world._addImpactHandler(this._id, f);
         }
         
     }

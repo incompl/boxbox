@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
         width: .5
     });
     
-    var MOVEMENT_FORCE = 50;
+    var MOVEMENT_FORCE = 35;
     
     myBox.onKeydown(function(e) {
         if (e.keyCode === 32) {
