@@ -65,6 +65,7 @@ window.BB = (function() {
         _startContactHandlers: {},
         _finishContactHandlers: {},
         _impactHandlers: {},
+        _destroyQueue: [],
         _impulseQueue: [],
         _constantVelocities: {},
         _constantForces: {},
@@ -115,9 +116,17 @@ window.BB = (function() {
                         f.body.ApplyForce(new b2Vec2(f.x, f.y),
                                           f.body.GetWorldCenter());
                     }
-
+                    
                     // framerate, velocity iterations, position iterations
                     world.Step(1 / 60, 10, 10);
+                    
+                    // destroy
+                    for (i = 0; i < self._destroyQueue.length; i++) {
+                        var toDestroy = self._destroyQueue.pop();
+                        toDestroy._destroyed = true;
+                        world.DestroyBody(toDestroy._body);
+                    }
+                    
                     world.ClearForces();
                     world.DrawDebugData();
 
@@ -147,6 +156,9 @@ window.BB = (function() {
                         if (a._id === Number(key)) {
                             self._startContactHandlers[key].call(self._entities[key], b);
                         }
+                        if (b._id === Number(key)) {
+                            self._startContactHandlers[key].call(self._entities[key], a);
+                        }
                     }
                 }
                 listener.EndContact = function(contact) {
@@ -155,6 +167,9 @@ window.BB = (function() {
                     for (var key in self._finishContactHandlers) {
                         if (a._id === Number(key)) {
                             self._finishContactHandlers[key].call(self._entities[key], b);
+                        }
+                        if (b._id === Number(key)) {
+                            self._finishContactHandlers[key].call(self._entities[key], a);
                         }
                     }
                 }
@@ -166,6 +181,12 @@ window.BB = (function() {
                         if (a._id === Number(key)) {
                             self._impactHandlers[key].call(self._entities[key],
                                                            b,
+                                                           impulse.normalImpulses[0],
+                                                           impulse.tangentImpulses[0]);
+                        }
+                        if (b._id === Number(key)) {
+                            self._impactHandlers[key].call(self._entities[key],
+                                                           a,
                                                            impulse.normalImpulses[0],
                                                            impulse.tangentImpulses[0]);
                         }
@@ -193,6 +214,10 @@ window.BB = (function() {
 
         _addImpactHandler: function(id, f) {
             this._impactHandlers[id] = f;
+        },
+        
+        _destroy: function(obj) {
+            this._destroyQueue.push(obj);
         },
 
         _applyImpulse: function(id, body, x, y) {
@@ -238,7 +263,13 @@ window.BB = (function() {
             return {x: v.x, y: v.y};
         },
         
-        createEntity: function(o) {
+        createEntity: function() {
+            var o = {};
+            var args = Array.prototype.slice.call(arguments);
+            args.reverse();
+            for (var key in args) {
+                extend(o, args[key]);
+            }
             var entity = create(Entity);
             var id = this._nextEntityId++;
             entity._init(this, o, id);
@@ -290,7 +321,7 @@ window.BB = (function() {
         x: 10,
         y: 5,
         type: 'dynamic', // or static
-        shape: 'box', // or circle or polygon
+        shape: 'square', // or circle or polygon
         height: 1, // for box
         width: 1, // for box
         radius: 1, // for circle
@@ -341,7 +372,7 @@ window.BB = (function() {
             }
             
             // shape
-            if (ops.shape === 'box') {
+            if (ops.shape === 'square') {
                 fixture.shape = new b2PolygonShape;
                 fixture.shape.SetAsBox(ops.width, ops.height);
             }
@@ -360,24 +391,19 @@ window.BB = (function() {
             this._body = world._world.CreateBody(body); 
             this._body.CreateFixture(fixture);
             this._body._bbid = id;
+            
+            // events
+            if (ops.onStartContact) {
+                this._world._addStartContactHandler(id, ops.onStartContact);
+            }
+            if (ops.onFinishContact) {
+                this._world._addFinishContactHandler(id, ops.onFinishContact);
+            }
+            if (ops.onImpact) {
+                this._world._addImpactHandler(id, ops.onImpact);
+            }
         },
         
-        position: function(value) {
-            if (value !== undefined) {
-                this._body.SetPosition(new b2Vec2(value.x, value.y));
-            }
-            var v = this._body.GetPosition();
-            return {x: v.x, y: v.y};
-        },
-        
-        velocity: function(value) {
-            if (value !== undefined) {
-                this._body.SetLinearVelocity(new b2Vec2(value.x, value.y));
-            }
-            var v = this._body.GetLinearVelocity();
-            return {x: v.x, y: v.y};
-        },
-
         // returns a vector. params can be either of the following:
         // power, x, y
         // power, degrees
@@ -397,6 +423,25 @@ window.BB = (function() {
             return {x:x,y:y};
         },
         
+        position: function(value) {
+            if (value !== undefined) {
+                this._body.SetPosition(new b2Vec2(value.x, value.y));
+            }
+            var v = this._body.GetPosition();
+            return {x: v.x, y: v.y};
+        },
+        
+        friction: function(value) {
+            if (value !== undefined) {
+                this._body.GetFixtureList().SetFriction(value);
+            }
+            return this._body.GetFixtureList().GetFriction();
+        },
+        
+        destroy: function() {
+            this._world._destroy(this);
+        },
+
         applyImpulse: function(power, a, b) {
             var v = this._toVector(power, a, b);
             this._world._applyImpulse(this._id, this._body, v.x, v.y);

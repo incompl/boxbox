@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>boxbox demo</title>
-        <script src="Box2dWeb-2.1.a.3.min.js"></script>
+        <script src="Box2dWeb-2.1.a.3.js"></script>
         <script src="boxbox.js"></script>
         <script src="demo.js"></script>
         <style>
@@ -17,7 +17,7 @@
             canvas {
                 background-color: white;
             }
-            #info {
+            #hud {
                 padding: .5em 1em;
             }
         </style>
@@ -26,8 +26,12 @@
         <canvas id="bbdemo" width="600" height="400">
             your browser doesn't support canvas
         </canvas>
-        <div id="info">
+        <div id="hud">
             arrow keys to move, space to jump
+            <br>
+            health: <span id="health">100</span>
+            <br>
+            score: <span id="score">0</span>
         </div>
     </body>
 </html>

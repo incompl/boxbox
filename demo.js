@@ -9,12 +9,36 @@ document.addEventListener("DOMContentLoaded", function() {
         x: .5,
         y: 12,
         height: .2,
-        width: .1,
+        width: .2,
         fixedRotation: true,
-        friction: .5
+        friction: .3,
+        restitution: 0
     });
     
+    var health = 100;
+    
+    var score = 0;
+    
+    function damage(x) {
+        health -= Math.round(x);
+        if (health < 1 && !player._destroyed) {
+            health = 0;
+            player.destroy();
+            alert('Game over.');
+        }
+        document.getElementById('health').innerHTML = health;
+    }
+    
+    function addScore(x) {
+        score += Math.round(x);
+        document.getElementById('score').innerHTML = '' + score;
+    }
+    
     player.onKeydown(function(e) {
+        
+        if (this._destroyed) {
+            return;
+        }
 
         var i;
         var obj;
@@ -23,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // determine what you're standing on
         var standingOn;
         var pos = this.position();
-        var allUnderMe = world.findAll(pos.x, pos.y + .2, pos.x + .1, pos.y + .3);
+        var allUnderMe = world.findAll(pos.x - .09, pos.y + .1, pos.x + .09, pos.y + .11);
         for (i = 0; i < allUnderMe.length; i++) {
             obj = allUnderMe[i];
             if (obj !== player) {
@@ -34,13 +58,12 @@ document.addEventListener("DOMContentLoaded", function() {
         
         // jump
         if (e.keyCode === 32 && standingOn) {
-            console.log('jumping off ' + standingOn.name);
-            this.applyImpulse(1);
+            this.applyImpulse(2);
             return false;
         }
 
         // when airborn movement is restricted
-        var force = 2;
+        var force = 4;
         if (!standingOn) {
             force = force / 2;
         }
@@ -48,76 +71,57 @@ document.addEventListener("DOMContentLoaded", function() {
         // move left
         if (e.keyCode === 37) {
             this.setForce('movement', force, 270);
+            this.friction(.1);
             return false;
         }
 
         // move right
         if (e.keyCode === 39) {
             this.setForce('movement', force, 90);
+            this.friction(.1);
             return false;
         }
+        
     });
     
     player.onKeyup(function(e) {
-        // clear movement force on keyup
-        if (e.keyCode === 37) {
+        
+        if (this._destroyed) {
+            return;
+        }
+        
+        // clear movement force on arrow keyup
+        if (e.keyCode === 37 || e.keyCode === 39) {
             this.clearForce('movement');
+            this.friction(3);
             return false;
         }
-        else if (e.keyCode === 39) {
-            this.clearForce('movement');
-            return false;
-        }
-    });
-    
-    player.onStartContact(function(other) {
-        console.log(this.name + ' touched ' + other.name);
-    });
-
-    player.onFinishContact(function(other) {
-        console.log(this.name + ' pulled away from ' + other.name);
+        
     });
 
     player.onImpact(function(other, power, tangentPower) {
-        if (power > 1) {
-            console.log('strong collision with ' + other.name + ' ' + power);
-        }
-        if (tangentPower > 1 || tangentPower < -1) {
-            console.log('strong friction against ' + other.name + ' ' + tangentPower);
+        if (power > 3) {
+            damage(power - 3);
         }
     });
 
-    world.createEntity({
+    var groundTemplate = {
         name: 'ground',
         type: 'static',
-        width: 10,
-        height: .1,
-        x: 10,
-        y: 13.22
-    });
+        height: .1
+    };
 
-    world.createEntity({
-        name: 'ground',
-        type: 'static',
-        width: 4,
-        height: .1,
-        x: 4,
-        y: 5
-    });
+    world.createEntity(groundTemplate, {width: 10, x: 10, y: 13.22});
 
-    world.createEntity({
-        name: 'ground',
-        type: 'static',
-        width: 4,
-        height: .1,
-        x: 16,
-        y: 5
-    });
+    world.createEntity(groundTemplate, {width: 4, x: 4, y: 5});
+
+    world.createEntity(groundTemplate, {width: 4, x: 16, y: 5});
     
     world.createEntity({
         name: 'square',
         x: 13,
-        y: 8
+        y: 8,
+        height: .8
     });
     
     world.createEntity({
@@ -141,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     var platformMovingUp = true;
+    
     window.setInterval(function() {
         platformMovingUp = !platformMovingUp;
         if (platformMovingUp) {
@@ -150,5 +155,30 @@ document.addEventListener("DOMContentLoaded", function() {
             platform.setVelocity('moving platform', 5, 180);
         }
     }, 1500);
+    
+    var coinTemplate = {
+        name: 'coin',
+        shape: 'circle',
+        radius: .1,
+        onStartContact: function(other) {
+            if (other.name === 'player') {
+                addScore(100);
+                this.destroy();
+            }
+        }
+    };
+    
+    world.createEntity(coinTemplate, {x: 2, y: 4});
+    
+    world.createEntity(coinTemplate, {x: 2, y: 12});
+    
+    // a square coin. why not? overrides the shape in the coin template
+    world.createEntity(coinTemplate, {
+        x: 16,
+        y: 5,
+        shape: 'square',
+        height: .1,
+        width: .1
+    });
     
 }, false);
