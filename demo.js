@@ -172,7 +172,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
     world.createEntity(coinTemplate, {x: 2, y: 12});
     
-    // a square coin. why not? overrides the shape in the coin template
     world.createEntity(coinTemplate, {
         x: 16,
         y: 5,
