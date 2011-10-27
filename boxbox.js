@@ -31,6 +31,7 @@ window.BB = (function() {
 
     // these look like imports but there is no cost here
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
+    var b2Math = Box2D.Common.Math.b2Math;
     var b2BodyDef = Box2D.Dynamics.b2BodyDef;
     var b2Body = Box2D.Dynamics.b2Body;
     var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
@@ -52,7 +53,8 @@ window.BB = (function() {
     
     var WORLD_DEFAULT_OPTIONS = {
         gravity: 10,
-        allowSleep: true
+        allowSleep: true,
+        scale: 30
     }
 
     var World = {
@@ -79,19 +81,23 @@ window.BB = (function() {
             this._ops = extend(options, WORLD_DEFAULT_OPTIONS);
             this._world = new b2World(new b2Vec2(0, this._ops.gravity), true);
             this._canvas = canvasElem;
+            this._ctx = this._canvas.getContext("2d");
+            this._scale = this._ops.scale;
             
             // Set up rendering on the provided canvas
             if (this._canvas !== undefined) {
                 var world = this._world;
                 
-                // rendering
-                var debugDraw = new b2DebugDraw();
-                debugDraw.SetSprite(this._canvas.getContext("2d"));
-                debugDraw.SetDrawScale(30.0);
-                debugDraw.SetFillAlpha(0.3);
-                debugDraw.SetLineThickness(1.0);
-                debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
-                world.SetDebugDraw(debugDraw);
+                // debug rendering
+                if (this._ops.debugDraw) {
+                    var debugDraw = new b2DebugDraw();
+                    debugDraw.SetSprite(this._canvas.getContext("2d"));
+                    debugDraw.SetDrawScale(this._scale);
+                    debugDraw.SetFillAlpha(0.3);
+                    debugDraw.SetLineThickness(1.0);
+                    debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+                    world.SetDebugDraw(debugDraw);
+                }
                 
                 // animation loop
                 (function animationLoop(){
@@ -120,11 +126,29 @@ window.BB = (function() {
                     // framerate, velocity iterations, position iterations
                     world.Step(1 / 60, 10, 10);
                     
+                    // render stuff
+                    self._canvas.width = self._canvas.width;
+                    for (key in self._entities) {
+                      entity = self._entities[key];
+                      entity._draw(self._ctx,
+                                   entity._body.m_xf.position.x,
+                                   entity._body.m_xf.position.y);
+                    }
+                    
                     // destroy
                     for (i = 0; i < self._destroyQueue.length; i++) {
                         var toDestroy = self._destroyQueue.pop();
-                        toDestroy._destroyed = true;
+                        var id = toDestroy._id;
                         world.DestroyBody(toDestroy._body);
+                        delete self._keydownHandlers[id];
+                        delete self._startContactHandlers[id];
+                        delete self._finishContactHandlers[id];
+                        delete self._impactHandlers[id];
+                        delete self._destroyQueue[id];
+                        delete self._impulseQueue[id];
+                        delete self._constantVelocities[id];
+                        delete self._constantForces[id];
+                        delete self._entities[id];
                     }
                     
                     world.ClearForces();
@@ -333,7 +357,84 @@ window.BB = (function() {
         restitution: .2, // bounciness
         active: true, // participates in collision and dynamics
         fixedRotation: false,
-        bullet: false // perform expensive continuous collision detection
+        bullet: false, // perform expensive continuous collision detection
+        image: null,
+        imageOffsetX: 0,
+        imageOffsetY: 0,
+        imageStretchToFit: null,
+        draw: function(ctx, x, y) {
+            ctx.fillStyle = this._ops.color || 'gray';
+            ctx.strokeStyle = 'black';
+            var i;
+            var scale = this._world._scale;
+            var ox = this._ops.imageOffsetX || 0;
+            var oy = this._ops.imageOffsetY || 0;
+            if (this._sprite !== undefined) {
+                var width;
+                var height;
+                if (this._ops.radius) {
+                    width = height = this._ops.radius * 2 * scale;
+                    x -= this._ops.radius / 2;
+                    y -= this._ops.radius / 2;
+                }
+                else if (this._ops.imageStretchToFit) {
+                    width = this._ops.width * scale * 2;
+                    height = this._ops.height * scale * 2;
+                }
+                else {
+                    width = this._sprite.width * scale / 30;
+                    height = this._sprite.height * scale / 30;
+                }
+                //ctx.translate(x * scale, y * scale);
+                //ctx.rotate(this._body.GetAngle());
+                ctx.drawImage(this._sprite,
+                              (x + ox) * scale - this._ops.width * scale,
+                              (y + oy) * scale - this._ops.height * scale,
+                              width,
+                              height);
+                //ctx.rotate(0 - this._body.GetAngle());
+                //ctx.translate(0 - (x * scale), 0 - (y * scale));
+            }
+            else if (this._ops.shape === 'square') {
+                var sx = x * scale - this._ops.width * scale;
+                var sy = y * scale - this._ops.height * scale;
+                var sw = this._ops.width * scale * 2;
+                var sh = this._ops.height * scale * 2;
+                ctx.strokeRect(sx, sy, sw, sh);
+                ctx.fillRect(sx, sy, sw, sh);
+            }
+            else if (this._ops.shape === 'polygon') {
+                var i = 0;
+                var poly = this._body.GetFixtureList().GetShape();;
+                var vertexCount = parseInt(poly.GetVertexCount());
+                var localVertices = poly.GetVertices();
+                var vertices = new Vector(vertexCount);
+                var xf = this._body.m_xf;
+                for (i = 0; i < vertexCount; ++i) {
+                   vertices[i] = b2Math.MulX(xf, localVertices[i]);
+                }
+                ctx.beginPath();
+                ctx.moveTo((vertices[0].x) * scale, (vertices[0].y) * scale);
+                for (i = 1; i < vertices.length; i++) {
+                    ctx.lineTo((vertices[i].x) * scale, (vertices[i].y) * scale);
+                }
+                ctx.closePath();
+                ctx.stroke();
+                ctx.fill();
+            }
+            else if (this._ops.shape === 'circle') {
+                var p = this.position();
+                ctx.beginPath();
+                ctx.arc(p.x * scale,
+                        p.y * scale,
+                        this._ops.radius * scale,
+                        0,
+                        Math.PI * 2, true);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.fill();
+            }
+        }
     };
     
     var Entity = {
@@ -384,6 +485,15 @@ window.BB = (function() {
                 fixture.shape.SetAsArray(ops.points, ops.points.length);
             }
             
+            // rendering stuff
+            if (ops.draw) {
+                this._draw = ops.draw;
+            }
+            if (ops.image) {
+                this._sprite = new Image();
+                this._sprite.src = ops.image;
+            }
+            
             body.active = ops.active;
             body.fixedRotation = ops.fixedRotation;
             body.bullet = ops.bullet;
@@ -431,6 +541,13 @@ window.BB = (function() {
             return {x: v.x, y: v.y};
         },
         
+        rotation: function(value) {
+            if (value !== undefined) {
+                this._body.SetAngle(value);
+            }
+            return this._body.GetAngle();
+        },
+        
         friction: function(value) {
             if (value !== undefined) {
                 this._body.GetFixtureList().SetFriction(value);
@@ -439,6 +556,7 @@ window.BB = (function() {
         },
         
         destroy: function() {
+            this._destroyed = true;
             this._world._destroy(this);
         },
 

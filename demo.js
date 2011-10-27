@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
         width: .2,
         fixedRotation: true,
         friction: .3,
-        restitution: 0
+        restitution: 0,
+        color: 'blue'
     });
     
     var health = 100;
@@ -20,8 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
     var score = 0;
     
     function damage(x) {
+        if (player._destroyed) {
+            return;
+        }
         health -= Math.round(x);
-        if (health < 1 && !player._destroyed) {
+        if (health < 1) {
             health = 0;
             player.destroy();
             alert('Game over.');
@@ -108,12 +112,13 @@ document.addEventListener("DOMContentLoaded", function() {
     var groundTemplate = {
         name: 'ground',
         type: 'static',
-        height: .1
+        height: .1,
+        color: 'green'
     };
 
     world.createEntity(groundTemplate, {width: 10, x: 10, y: 13.22});
 
-    world.createEntity(groundTemplate, {width: 4, x: 4, y: 5});
+    world.createEntity(groundTemplate, {width: 3, x: 3, y: 5});
 
     world.createEntity(groundTemplate, {width: 4, x: 16, y: 5});
     
@@ -121,14 +126,19 @@ document.addEventListener("DOMContentLoaded", function() {
         name: 'square',
         x: 13,
         y: 8,
-        height: .8
+        height: .8,
+        image: 'marmot.png',
+        imageOffsetY: -.2
     });
     
     world.createEntity({
         name: 'circle',
         shape: 'circle',
+        radius: 2,
         x: 14,
-        y: 3
+        y: 3,
+        image: 'marmot.png',
+        imageStretchToFit: true
     });
     
     world.createEntity({
@@ -160,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function() {
         name: 'coin',
         shape: 'circle',
         radius: .1,
+        color: 'yellow',
         onStartContact: function(other) {
             if (other.name === 'player') {
                 addScore(100);
