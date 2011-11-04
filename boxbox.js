@@ -373,7 +373,7 @@ window.BB = (function() {
                 var width;
                 var height;
                 if (this._ops.radius) {
-                    width = height = this._ops.radius * 2 * scale;
+                    width = height = this._ops.radius * 2;
                     x -= this._ops.radius / 2;
                     y -= this._ops.radius / 2;
                 }
@@ -385,25 +385,26 @@ window.BB = (function() {
                     width = this._sprite.width * scale / 30;
                     height = this._sprite.height * scale / 30;
                 }
-                //ctx.translate(x * scale, y * scale);
-                //ctx.rotate(this._body.GetAngle());
+
+                var tx = x * scale + width / 4 * scale;
+                var ty = y * scale + height / 4 * scale;
+                
+                ctx.translate(tx, ty);
+                
+                ctx.rotate(this._body.GetAngle());
+                
                 ctx.drawImage(this._sprite,
-                              (x + ox) * scale - this._ops.width * scale,
-                              (y + oy) * scale - this._ops.height * scale,
-                              width,
-                              height);
-                //ctx.rotate(0 - this._body.GetAngle());
-                //ctx.translate(0 - (x * scale), 0 - (y * scale));
+                              -(width / 2 * scale),
+                              -(height / 2 * scale),
+                              width * scale,
+                              height * scale);
+                              
+                ctx.rotate(0 - this._body.GetAngle());              
+                              
+                ctx.translate(-tx, -ty);
+
             }
-            else if (this._ops.shape === 'square') {
-                var sx = x * scale - this._ops.width * scale;
-                var sy = y * scale - this._ops.height * scale;
-                var sw = this._ops.width * scale * 2;
-                var sh = this._ops.height * scale * 2;
-                ctx.strokeRect(sx, sy, sw, sh);
-                ctx.fillRect(sx, sy, sw, sh);
-            }
-            else if (this._ops.shape === 'polygon') {
+            else if (this._ops.shape === 'polygon' || this._ops.shape === 'square') {
                 var i = 0;
                 var poly = this._body.GetFixtureList().GetShape();;
                 var vertexCount = parseInt(poly.GetVertexCount());

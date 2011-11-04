@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
         x: 13,
         y: 8,
         height: .8,
-        image: 'marmot.png',
+        width: .2,
         imageOffsetY: -.2
     });
     
