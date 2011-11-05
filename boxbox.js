@@ -1,4 +1,4 @@
-window.BB = (function() {
+window.boxbox = (function() {
     
     // Make sure Box2D exists
     if (Box2D === undefined) {
@@ -73,6 +73,9 @@ window.BB = (function() {
         _constantForces: {},
         _entities: {},
         _nextEntityId: 0,
+        _cameraX: 0,
+        _cameraY: 0,
+        _onRender: function(){},
         
         _init: function(canvasElem, options) {
             var self = this;
@@ -123,18 +126,6 @@ window.BB = (function() {
                                           f.body.GetWorldCenter());
                     }
                     
-                    // framerate, velocity iterations, position iterations
-                    world.Step(1 / 60, 10, 10);
-                    
-                    // render stuff
-                    self._canvas.width = self._canvas.width;
-                    for (key in self._entities) {
-                      entity = self._entities[key];
-                      entity._draw(self._ctx,
-                                   entity._body.m_xf.position.x,
-                                   entity._body.m_xf.position.y);
-                    }
-                    
                     // destroy
                     for (i = 0; i < self._destroyQueue.length; i++) {
                         var toDestroy = self._destroyQueue.pop();
@@ -149,6 +140,20 @@ window.BB = (function() {
                         delete self._constantVelocities[id];
                         delete self._constantForces[id];
                         delete self._entities[id];
+                    }
+                    
+                    // framerate, velocity iterations, position iterations
+                    world.Step(1 / 60, 10, 10);
+                    
+                    self._onRender.call(self);
+                    
+                    // render stuff
+                    self._canvas.width = self._canvas.width;
+                    for (key in self._entities) {
+                      entity = self._entities[key];
+                      entity._draw(self._ctx,
+                                   entity._body.m_xf.position.x,
+                                   entity._body.m_xf.position.y);
                     }
                     
                     world.ClearForces();
@@ -336,6 +341,22 @@ window.BB = (function() {
                 return true;
             }, aabb);
             return result;
+        },
+        
+        camera: function(x, y) {
+            if (x === undefined && y === undefined) {
+                return {x:this._cameraX, y: this._cameraY}
+            }
+            if (x !== undefined) {
+                this._cameraX = x;
+            }
+            if (y !== undefined) {
+                this._cameraY = y;
+            }
+        },
+        
+        onRender: function(f) {
+            this._onRender = f;
         }
         
     };
@@ -351,7 +372,7 @@ window.BB = (function() {
         radius: 1, // for circle
         points: [{x:0, y:0}, // for polygon
                  {x:2, y:0},
-                 {x:0, y:2}], 
+                 {x:0, y:2}],
         density: 2,
         friction: 1,
         restitution: .2, // bounciness
@@ -363,6 +384,8 @@ window.BB = (function() {
         imageOffsetY: 0,
         imageStretchToFit: null,
         draw: function(ctx, x, y) {
+            var cameraOffsetX = -this._world._cameraX;
+            var cameraOffsetY = -this._world._cameraY;
             ctx.fillStyle = this._ops.color || 'gray';
             ctx.strokeStyle = 'black';
             var i;
@@ -386,8 +409,8 @@ window.BB = (function() {
                     height = this._sprite.height * scale / 30;
                 }
 
-                var tx = x * scale + width / 4 * scale;
-                var ty = y * scale + height / 4 * scale;
+                var tx = (cameraOffsetX + x + width / 4) * scale;
+                var ty = (cameraOffsetY + y + height / 4) * scale;
                 
                 ctx.translate(tx, ty);
                 
@@ -415,9 +438,9 @@ window.BB = (function() {
                    vertices[i] = b2Math.MulX(xf, localVertices[i]);
                 }
                 ctx.beginPath();
-                ctx.moveTo((vertices[0].x) * scale, (vertices[0].y) * scale);
+                ctx.moveTo((cameraOffsetX + vertices[0].x) * scale, (cameraOffsetY + vertices[0].y) * scale);
                 for (i = 1; i < vertices.length; i++) {
-                    ctx.lineTo((vertices[i].x) * scale, (vertices[i].y) * scale);
+                    ctx.lineTo((cameraOffsetX + vertices[i].x) * scale, (cameraOffsetY + vertices[i].y) * scale);
                 }
                 ctx.closePath();
                 ctx.stroke();
@@ -426,8 +449,8 @@ window.BB = (function() {
             else if (this._ops.shape === 'circle') {
                 var p = this.position();
                 ctx.beginPath();
-                ctx.arc(p.x * scale,
-                        p.y * scale,
+                ctx.arc((cameraOffsetX + p.x) * scale,
+                        (cameraOffsetY + p.y) * scale,
                         this._ops.radius * scale,
                         0,
                         Math.PI * 2, true);

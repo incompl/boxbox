@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     var canvas = document.getElementById('bbdemo');
     
-    var world = BB.createWorld(canvas);
+    var world = boxbox.createWorld(canvas, {debugDraw:false});
     
     var player = world.createEntity({
         name: 'player',
@@ -106,6 +106,17 @@ document.addEventListener("DOMContentLoaded", function() {
     player.onImpact(function(other, power, tangentPower) {
         if (power > 3) {
             damage(power - 3);
+        }
+    });
+    
+    world.onRender(function() {
+        var p = player.position();
+        var c = this.camera();
+        if (p.x - 8 < c.x) { 
+            this.camera(player.position().x - 8);
+        }
+        else if (p.x - 12 > c.x) { 
+            this.camera(player.position().x - 12);
         }
     });
 
