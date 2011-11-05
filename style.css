@@ -1,3 +1,21 @@
+@font-face {
+    font-family: "Midiet";
+    src: url("Midiet_Sans_Bold.otf");
+}
+
+a:link {
+    color: #834546;
+}
+a:visited {
+    color: black;
+}
+a:hover {
+    background-color: #FEE6E7;
+}
+a:active {
+    background-color: #FEE6E7;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -9,7 +27,8 @@ header {
     padding: 2em 0 0;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
+    font-family: Midiet;
     margin: 0;
 }
 
@@ -24,14 +43,14 @@ h2 {
 h3 {
     font-size: 1.2em;
     margin: 1em 0;
-    padding: .2em .5em;
+    padding: .3em .5em .2em;
     box-shadow: -3px -3px 0 black;
 }
 
 h4 {
     font-size: 1.2em;
     margin: 1em;
-    padding: .2em .5em;
+    padding: .3em .5em .2em;
     background-color: #FEE6E7;
 }
 
@@ -58,6 +77,7 @@ p {
 mark {
     background-color: #FEE6E7;
     font-weight: bold;
+    font-family: Midiet;
 }
 
 .section > p, .section > ul, .section > ol {
@@ -67,7 +87,7 @@ mark {
 .section > code {
     display: block;
     margin: 1em 3em;
-    padding: .5em;
+    padding: .7em 1em;
     background-color: #E3E3E3;
     white-space: pre;
 }

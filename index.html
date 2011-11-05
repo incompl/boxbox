@@ -18,7 +18,7 @@
         <article>
             <h2>what is boxbox?</h2>
             <p>
-                boxbox is a JavaScript library makes it easier to use the 
+                boxbox is a JavaScript library that makes it easier to use the 
                 <a href="http://box2d.org/">box2d</a> physics engine.
             </p>
             <h2>no, i mean really, what is it</h2>
@@ -29,15 +29,16 @@
                 <a href="http://box2d.org/">C++ program</a>.
             </p>
             <p>
-                The box2d physics engine is hard to use for a beginner. Further, its C++-style API
+                The box2d physics engine is hard to use for a beginner. Further, its C++ style API
                 doesn't make sense to JavaScript programmers. boxbox tries to solve both problems.
             </p>
             <h2>features</h2>
             <ul>
-                <li>humane API</li>
+                <li>simple API</li>
                 <li>work with entities rather than fixtures, bodies, and shapes</li>
                 <li>attach events to entities rather than the whole world</li>
                 <li>reuse common configuration among similar entities</li>
+                <li>built in render layer with image support</li>
             </ul>
             <h2>demo</h2>
             <p>
@@ -137,22 +138,22 @@ var world = boxbox.createWorld(canvas, {
                         </ol>
                     </p>
                     <code class="prettyprint">var player = world.createEntity({
-              name: 'Player',
-              x: 5,
-              y: 10,
-              shape: 'square',
-              width: 3
-              height: 6
-            });</code>
+  name: 'Player',
+  x: 5,
+  y: 10,
+  shape: 'square',
+  width: 3
+  height: 6
+});</code>
                     <p>
                         *Points look like this. They must go clockwise and they most produce a convex polygon.
                     </p>
                     <code class="prettyprint">world.createEntity({
-              shape: 'polygon',
-              points: [{x: 0, y: 0},
+  shape: 'polygon',
+  points: [{x: 0, y: 0},
                        {x: 1, y: 1},
                        {x: 0, y: 1}]
-            });</code>
+});</code>
         </div>
 
         <h3>entity</h3>
@@ -185,13 +186,13 @@ var world = boxbox.createWorld(canvas, {
             </p>
             
             <code class="prettyprint">// defaults to 0 degrees, which is up
-    entity.applyImpulse(10);</code>
+entity.applyImpulse(10);</code>
             
             <code class="prettyprint">// 180 degrees is down
-    entity.applyImpulse(10, 180);</code>
+entity.applyImpulse(10, 180);</code>
     
             <code class="prettyprint">// use a vector instead of degrees. 1,-1 is 45 degrees
-    entity.applyImpulse(10, 1, -1);</code>
+entity.applyImpulse(10, 1, -1);</code>
         </div>
 
         </article>
