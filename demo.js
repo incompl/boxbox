@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     var wheel1 = world.createEntity(wheelTemplate, {x: 1, y:1});
     var wheel2 = world.createEntity(wheelTemplate, {x: 3, y:1});
-    world.createJoint("prismatic", wheel1, wheel2);
+    world.createJoint("distance", wheel1, wheel2);
 
     var platform = world.createEntity({
         name: 'platform',
