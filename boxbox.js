@@ -286,9 +286,9 @@ window.boxbox = (function() {
 
         gravity: function(value) {
             if (value !== undefined) {
-                this._world.SetGravity(new b2Vec2(0, this._ops.gravity))
+                this._world.SetGravity(new b2Vec2(0, value))
             }
-            var v = this._body.GetGravity();
+            var v = this._world.GetGravity();
             return {x: v.x, y: v.y};
         },
         
@@ -304,6 +304,51 @@ window.boxbox = (function() {
             entity._init(this, o, id);
             this._entities[id] = entity;
             return entity;
+        },
+        
+        createJoint: function(type, e1, e2, options) {
+            options = options || {};
+            var joint;
+            
+            if (type === "distance") {
+                joint = new Box2D.Dynamics.Joints.b2DistanceJointDef();
+            }
+            else if (type === "revolute") {
+                joint = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
+            }
+            else if (type === "gear") {
+                joint = new Box2D.Dynamics.Joints.b2GearJointDef();
+            }
+            else if (type === "friction") {
+                joint = new Box2D.Dynamics.Joints.b2FrictionJointDef();
+            }
+            else if (type === "prismatic") {
+                joint = new Box2D.Dynamics.Joints.b2PrismaticJointDef();
+            }
+            else if (type === "weld") {
+                joint = new Box2D.Dynamics.Joints.b2WeldJointDef();
+            }
+            else if (type === "pulley") {
+                joint = new Box2D.Dynamics.Joints.b2PulleyJointDef();
+            }
+            else if (type === "mouse") {
+                joint = new Box2D.Dynamics.Joints.b2MouseJointDef();
+            }
+            else if (type === "line") {
+                joint = new Box2D.Dynamics.Joints.b2LineJointDef();
+            }
+            
+            if (options.enableMotor) {
+                joint.enableMotor = true;
+            }
+            
+            if (joint.Initialize) {
+                joint.Initialize(e1._body,
+                                 e2._body,
+                                 e1._body.GetWorldCenter(),
+                                 e2._body.GetWorldCenter());
+            }
+            this._world.CreateJoint(joint);
         },
 
         find: function(x1, y1, x2, y2) {

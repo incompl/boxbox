@@ -159,6 +159,16 @@ document.addEventListener("DOMContentLoaded", function() {
         y: 8
     });
 
+    // Car thing
+    var wheelTemplate = {
+        name: 'wheel',
+        shape: 'circle',
+        radius: .5
+    }
+    var wheel1 = world.createEntity(wheelTemplate, {x: 1, y:1});
+    var wheel2 = world.createEntity(wheelTemplate, {x: 3, y:1});
+    world.createJoint("prismatic", wheel1, wheel2);
+
     var platform = world.createEntity({
         name: 'platform',
         fixedRotation: true,
