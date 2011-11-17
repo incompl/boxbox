@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // determine what you're standing on
         var standingOn;
         var pos = this.position();
-        var allUnderMe = world.findAll(pos.x - .09, pos.y + .1, pos.x + .09, pos.y + .11);
+        var allUnderMe = world.findAll(pos.x - .09, pos.y + .1, pos.x + .09, pos.y + .105);
         for (i = 0; i < allUnderMe.length; i++) {
             obj = allUnderMe[i];
             if (obj !== player) {
@@ -109,7 +109,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     
-    world.onRender(function() {
+    world.onRender(function(ctx) {
+        
+        // update camera position every draw
         var p = player.position();
         var c = this.camera();
         if (p.x - 8 < c.x) { 
@@ -118,6 +120,16 @@ document.addEventListener("DOMContentLoaded", function() {
         else if (p.x - 12 > c.x) { 
             this.camera(player.position().x - 12);
         }
+        
+        // Rendering for the joint between the two wheels
+        var p1 = wheel1.canvasPosition();
+        var p2 = wheel2.canvasPosition();
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 3;
+        ctx.beginPath();  
+        ctx.moveTo(p1.x, p1.y);  
+        ctx.lineTo(p2.x, p2.y);    
+        ctx.stroke();  
     });
 
     var groundTemplate = {
@@ -148,7 +160,8 @@ document.addEventListener("DOMContentLoaded", function() {
         radius: 2,
         x: 14,
         y: 3,
-        image: 'marmot.png',
+        density: .5,
+        image: 'wheel.png',
         imageStretchToFit: true
     });
     
@@ -163,10 +176,11 @@ document.addEventListener("DOMContentLoaded", function() {
     var wheelTemplate = {
         name: 'wheel',
         shape: 'circle',
-        radius: .5
+        radius: 1,
+        image: 'wheel.png'
     }
     var wheel1 = world.createEntity(wheelTemplate, {x: 1, y:1});
-    var wheel2 = world.createEntity(wheelTemplate, {x: 3, y:1});
+    var wheel2 = world.createEntity(wheelTemplate, {x: 4, y:1});
     world.createJoint("distance", wheel1, wheel2);
 
     var platform = world.createEntity({

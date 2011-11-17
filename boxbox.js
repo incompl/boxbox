@@ -95,7 +95,7 @@ window.boxbox = (function() {
                 if (this._ops.debugDraw) {
                     var debugDraw = new b2DebugDraw();
                     debugDraw.SetSprite(this._canvas.getContext("2d"));
-                    debugDraw.SetDrawScale(this._scale);
+                    debugDraw.SetDrawScale(this._scale); // TODO update this if changed?
                     debugDraw.SetFillAlpha(0.3);
                     debugDraw.SetLineThickness(1.0);
                     debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
@@ -145,7 +145,7 @@ window.boxbox = (function() {
                     // framerate, velocity iterations, position iterations
                     world.Step(1 / 60, 10, 10);
                     
-                    self._onRender.call(self);
+                    
                     
                     // render stuff
                     self._canvas.width = self._canvas.width;
@@ -155,6 +155,7 @@ window.boxbox = (function() {
                                    entity._body.m_xf.position.x,
                                    entity._body.m_xf.position.y);
                     }
+                    self._onRender.call(self, self._ctx);
                     
                     world.ClearForces();
                     world.DrawDebugData();
@@ -402,6 +403,14 @@ window.boxbox = (function() {
         
         onRender: function(f) {
             this._onRender = f;
+        },
+        
+        scale: function(s) {
+            if (s !== undefined) {
+                this._scale = s;
+                // TODO update debug draw?
+            }
+            return this._scale;
         }
         
     };
@@ -606,8 +615,23 @@ window.boxbox = (function() {
             if (value !== undefined) {
                 this._body.SetPosition(new b2Vec2(value.x, value.y));
             }
-            var v = this._body.GetPosition();
-            return {x: v.x, y: v.y};
+            var p = this._body.GetPosition();
+            return {x: p.x, y: p.y};
+        },
+        
+        canvasPosition: function(value) {
+            if (value !== undefined) {
+                // TODO set
+            }
+            
+            var p = this.position();
+            var c = this._world.camera();
+            var s = this._world.scale();
+            
+            return {
+                x: Math.round((p.x + -c.x) * s),
+                y: Math.round((p.y + -c.y) * s)
+            }
         },
         
         rotation: function(value) {
