@@ -1,3 +1,10 @@
+/**
+ * @header boxbox api documentation
+ */
+
+/**
+ * @description global boxbox object
+ */
 window.boxbox = (function() {
     
     // Make sure Box2D exists
@@ -45,6 +52,12 @@ window.boxbox = (function() {
     
     // BB methods
         
+    /**
+     * @module boxbox
+     * @param canvas element to render on
+     * @param options object
+     * @return a boxbox World object
+     */
     this.createWorld = function(canvasElem, ops) {
         var world = create(World);
         world._init(canvasElem, ops);
@@ -57,6 +70,10 @@ window.boxbox = (function() {
         scale: 30
     }
 
+    /**
+     * @header
+     * @description contains a single self-contained physics simulation
+     */
     var World = {
         
         _ops: null,
@@ -285,6 +302,11 @@ window.boxbox = (function() {
             delete this._constantForces[name + id];
         },
 
+        /**
+         * @module world
+         * @param new value (optional)
+         * @description Get or set the world's gravity. Negative values allowed.
+         */
         gravity: function(value) {
             if (value !== undefined) {
                 this._world.SetGravity(new b2Vec2(0, value))
@@ -293,6 +315,11 @@ window.boxbox = (function() {
             return {x: v.x, y: v.y};
         },
         
+        /**
+         * @module world
+         * @param options object
+         * @return a new entity
+         */
         createEntity: function() {
             var o = {};
             var args = Array.prototype.slice.call(arguments);
@@ -352,6 +379,15 @@ window.boxbox = (function() {
             this._world.CreateJoint(joint);
         },
 
+        /**
+         * @module world
+         * @param x1 upper left of query box
+         * @param y1 upper left of query box
+         * @param x2 lower right of query box
+         * @param y2 lower right of query box
+         * @return a single Entity or undefined
+         * @description find an entity in a given query box
+         */
         find: function(x1, y1, x2, y2) {
             if (x2 === undefined) {
                 x2 = x1;
@@ -370,6 +406,15 @@ window.boxbox = (function() {
             return result;
         },
 
+        /**
+         * @module world
+         * @param x1 upper left of query box
+         * @param y1 upper left of query box
+         * @param x2 lower right of query box
+         * @param y2 lower right of query box
+         * @return array of Entities. may be empty
+         * @description find entities in a given query box
+         */
         findAll: function(x1, y1, x2, y2) {
             if (x2 === undefined) {
                 x2 = x1;
@@ -389,6 +434,13 @@ window.boxbox = (function() {
             return result;
         },
         
+        /**
+         * @module world
+         * @param x new camera position (optional)
+         * @param y new camera position (optional)
+         * @return current camera position {x,y}
+         * @description get or set position of camera
+         */
         camera: function(x, y) {
             if (x === undefined && y === undefined) {
                 return {x:this._cameraX, y: this._cameraY}
@@ -401,6 +453,12 @@ window.boxbox = (function() {
             }
         },
         
+        /**
+         * @module world
+         * @param callback
+         * @set the world's onRender callback. The callback gets the World
+         * as an argument.
+         */
         onRender: function(f) {
             this._onRender = f;
         },
@@ -515,6 +573,10 @@ window.boxbox = (function() {
         }
     };
     
+    /**
+     * @header
+     * @description a single physical object in the physics simulation
+     */
     var Entity = {
         
         _id: null,
@@ -611,6 +673,12 @@ window.boxbox = (function() {
             return {x:x,y:y};
         },
         
+        /**
+         * @module entity
+         * @param {x,y} (optional)
+         * @return {x,y}
+         * @description get or set entity position
+         */
         position: function(value) {
             if (value !== undefined) {
                 this._body.SetPosition(new b2Vec2(value.x, value.y));
@@ -634,6 +702,12 @@ window.boxbox = (function() {
             }
         },
         
+        /**
+         * @module entity
+         * @param degrees (optional)
+         * @return degrees
+         * @description get or set entity rotation
+         */
         rotation: function(value) {
             if (value !== undefined) {
                 this._body.SetAngle(value);
@@ -641,6 +715,12 @@ window.boxbox = (function() {
             return this._body.GetAngle();
         },
         
+        /**
+         * @module entity
+         * @param number (optional)
+         * @return number
+         * @description get or set entity function
+         */
         friction: function(value) {
             if (value !== undefined) {
                 this._body.GetFixtureList().SetFriction(value);
@@ -648,50 +728,122 @@ window.boxbox = (function() {
             return this._body.GetFixtureList().GetFriction();
         },
         
+        /**
+         * @module entity
+         * @description destroy this entity and remove it from the world
+         */
         destroy: function() {
             this._destroyed = true;
             this._world._destroy(this);
         },
 
+        /**
+         * @module entity
+         * @param power of impulse
+         * @param angle in degrees OR x of vector
+         * @param y of vector
+         * @description Apply an instantanious force on this Entity
+         */
         applyImpulse: function(power, a, b) {
             var v = this._toVector(power, a, b);
             this._world._applyImpulse(this._id, this._body, v.x, v.y);
         },
         
+        /**
+         * @module entity
+         * @param name of force
+         * @param power of force
+         * @param angle in degrees OR x of vector
+         * @param y of vector
+         * @description Apply a constant force on this Entity. Can be removed later
+         * using clearForce.
+         */
         setForce: function(name, power, a, b) {
             var v = this._toVector(power, a, b);
             this._world._setConstantForce(name, this._id, this._body, v.x, v.y);
         },
         
+        /**
+         * @module entity
+         * @param name of velocity
+         * @param power of force
+         * @param angle in degrees OR x of vector
+         * @param y of vector
+         * @description Continuously override velocity of this Entity. Can be removed later
+         * using clearVelocity.
+         */
         setVelocity: function(name, power, a, b) {
             var v = this._toVector(power, a, b);
             this._world._setConstantVelocity(name, this._id, this._body, v.x, v.y);
         },
 
+        /**
+         * @module entity
+         * @param name of force
+         * @description Stop the force with the given name.
+         */
         clearForce: function(name) {
             this._world._clearConstantForce(name, this._id);
         },
 
+        /**
+         * @module entity
+         * @param name of velocity
+         * @description Stop the constant velocity with the given name.
+         */
         clearVelocity: function(name) {
             this._world._clearConstantVelocity(name, this._id);
         },
         
+        /**
+         * @module entity
+         * @param callback
+         * @description Handle keydown event for this entity. Callback parameter
+         * is the keydown event. "this" is bound to this Entity.
+         */
         onKeydown: function(f) {
             this._world._addKeydownHandler(this._id, f);
         },
         
+        /**
+         * @module entity
+         * @param callback
+         * @description Handle keyup event for this entity. Callback parameter
+         * is the keydown event. "this" is bound to this Entity.
+         */
         onKeyup: function(f) {
             this._world._addKeyupHandler(this._id, f);
         },
 
+        /**
+         * @module entity
+         * @param callback
+         * @description Handle start of contact with another entity. Callback parameter
+         * is the Entity contact has started with. "this" is bound to this Entity.
+         */
         onStartContact: function(f) {
             this._world._addStartContactHandler(this._id, f);
         },
 
+        /**
+         * @module entity
+         * @param callback
+         * @description Handle end of contact with another entity. Callback parameter
+         * is the Entity contact has ended with. "this" is bound to this Entity.
+         */
         onFinishContact: function(f) {
             this._world._addFinishContactHandler(this._id, f);
         },
 
+        /**
+         * @module entity
+         * @param callback
+         * @description Handle impact with another entity.
+         * @callbackParam the Entity collided with
+         * @callbackParam the normal force of the impact
+         * @callbackParam the tangential force of the impact
+         * @callbackThis this Entity
+         */
         onImpact: function(f) {
             this._world._addImpactHandler(this._id, f);
         }
