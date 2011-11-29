@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // determine what you're standing on
         var standingOn;
         var pos = this.position();
-        var allUnderMe = world.findAll(pos.x - .08, pos.y + .1, pos.x + .09, pos.y + .105);
+        var allUnderMe = world.find(pos.x - .08, pos.y + .1, pos.x + .09, pos.y + .105);
         for (i = 0; i < allUnderMe.length; i++) {
             obj = allUnderMe[i];
             if (obj !== player) {
@@ -117,10 +117,10 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if (p.y < 14) {
             if (p.x - 8 < c.x) { 
-                this.camera(player.position().x - 8);
+                this.camera({x: player.position().x - 8});
             }
             else if (p.x - 12 > c.x) { 
-                this.camera(player.position().x - 12);
+                this.camera({x: player.position().x - 12});
             }
         }
         
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (newCameraX < -10) {
                     newCameraX = newCameraX + .3;
                 }
-                this.camera(newCameraX);
+                this.camera({x: newCameraX});
             }
         }
         

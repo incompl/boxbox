@@ -1,3 +1,12 @@
+/*
+Copyright (C) 2011 Greg Smith <gsmith@incompl.com>
+
+Released under the MIT license:
+https://github.com/incompl/boxbox/blob/master/LICENSE
+
+Created at Bocoup http://bocoup.com
+*/
+
 /**
  * @header boxbox api documentation
  */
@@ -54,7 +63,22 @@ window.boxbox = (function() {
      * @module boxbox
      * @param canvas element to render on
      * @param options object
-     * @return a boxbox World object
+     * @option gravity (default 10) can be negative
+     * @option allowSleep (default true) bodies may sleep when they come to
+     *         rest. a sleeping body is no longer being simulated, which can
+     *         improve performance.
+     * @option scale (default 30) scale for rendering in pixels / meter
+     * @return a new <a href="#name-World">World</a>
+     * @description
+     without options
+     <code>var canvasElem = document.getElementById("myCanvas");
+     var world = boxbox.createWorld(canvasElem);</code>
+     with options
+     <code>var canvasElem = document.getElementById("myCanvas");
+     var world = boxbox.createWorld(canvasElem, {
+     &nbsp;&nbsp;gravity: 20,
+     &nbsp;&nbsp;scale: 60
+     });</code>
      */
     this.createWorld = function(canvasElem, ops) {
         var world = create(World);
@@ -302,8 +326,9 @@ window.boxbox = (function() {
 
         /**
          * @module world
-         * @param new value (optional)
-         * @description Get or set the world's gravity. Negative values allowed.
+         * @param {x,y} (optional)
+         * @return {x,y}
+         * @description get or set the world's gravity
          */
         gravity: function(value) {
             if (value !== undefined) {
@@ -316,7 +341,36 @@ window.boxbox = (function() {
         /**
          * @module world
          * @param options object
-         * @return a new entity
+         * @option name used to identify this Entity
+         * @option x starting x coordinate
+         * @option y starting y coordinate
+         * @option type 'dynamic' or 'static'. static objects can't move
+         * @option shape 'square' or 'circle' or 'polygon'
+         * @option height for box (default 1)
+         * @option width for box (default 1)
+         * @option radius for circle (default 1)
+         * @option points for polygon [{x,y}, {x,y}, {x,y}] must go clockwise
+         * must be convex
+         * @option density (default 2)
+         * @option friction (default 1)
+         * @option restitution or bounciness (default .2)
+         * @option active (default true) participates in collisions and dynamics
+         * @option fixedRotation (default false)
+         * @option bullet (default false) perform expensive continuous
+         * collision detection
+         * @option image file for rendering
+         * @option imageOffsetX (default 0) for image
+         * @option imageOffsetY (default 0) for image
+         * @option imageStretchToFit (default false) for image
+         * @option draw custom draw function, params are context, x, and y
+         * @return a new <a href="#name-Entity">Entity</a>
+         * @description
+         example
+         <code>var player = world.createEntity({
+         &nbsp;&nbsp;name: "player",
+         &nbsp;&nbsp;shape: "circle",
+         &nbsp;&nbsp;radius: 2
+         });</code>
          */
         createEntity: function() {
             var o = {};
@@ -332,6 +386,18 @@ window.boxbox = (function() {
             return entity;
         },
         
+        /**
+         * @module world
+         * @param type one of: distance, revolute, gear, friction, prismatic,
+         * weld, pulley, mouse, line
+         * @param Entity on one side of the joint
+         * @param Entity on the other side of the joint
+         * @param options
+         * @option enableMotor (default false)
+         * @description Experimental joint support.
+         * See <a href="http://box2d.org/">box2d documentation</a> for more
+         * info.
+         */
         createJoint: function(type, e1, e2, options) {
             options = options || {};
             var joint;
@@ -383,37 +449,10 @@ window.boxbox = (function() {
          * @param y1 upper left of query box
          * @param x2 lower right of query box
          * @param y2 lower right of query box
-         * @return a single Entity or undefined
-         * @description find an entity in a given query box
+         * @return array of Entities. may be empty
+         * @description find Entities in a given query box
          */
         find: function(x1, y1, x2, y2) {
-            if (x2 === undefined) {
-                x2 = x1;
-            }
-            if (y2 === undefined) {
-                y2 = y1;
-            }
-            var self = this;
-            var result;
-            var aabb = new b2AABB();
-            aabb.lowerBound.Set(x1, y1);
-            aabb.upperBound.Set(x2, y2);
-            this._world.QueryAABB(function(fixt) {
-                result = self._entities[fixt.GetBody()._bbid];
-            }, aabb);
-            return result;
-        },
-
-        /**
-         * @module world
-         * @param x1 upper left of query box
-         * @param y1 upper left of query box
-         * @param x2 lower right of query box
-         * @param y2 lower right of query box
-         * @return array of Entities. may be empty
-         * @description find entities in a given query box
-         */
-        findAll: function(x1, y1, x2, y2) {
             if (x2 === undefined) {
                 x2 = x1;
             }
@@ -434,33 +473,40 @@ window.boxbox = (function() {
         
         /**
          * @module world
-         * @param x new camera position (optional)
-         * @param y new camera position (optional)
-         * @return current camera position {x,y}
+         * @param {x,y} (optional)
+         * @return {x,y}
          * @description get or set position of camera
          */
-        camera: function(x, y) {
-            if (x === undefined && y === undefined) {
+        camera: function(v) {
+            v = v || {};
+            if (v.x === undefined && v.y === undefined) {
                 return {x:this._cameraX, y: this._cameraY}
             }
-            if (x !== undefined) {
-                this._cameraX = x;
+            if (v.x !== undefined) {
+                this._cameraX = v.x;
             }
-            if (y !== undefined) {
-                this._cameraY = y;
+            if (v.y !== undefined) {
+                this._cameraY = v.y;
             }
         },
         
         /**
          * @module world
          * @param callback
-         * @set the world's onRender callback. The callback gets the World
-         * as an argument.
+         * @callbackParam canvas context
+         * @callbackThis World
+         * @description set the world's onRender callback
          */
         onRender: function(f) {
             this._onRender = f;
         },
         
+        /**
+         * @module world
+         * @param Number
+         * @return Number
+         * @description get or set the scale for rendering in pixels / meter
+         */
         scale: function(s) {
             if (s !== undefined) {
                 this._scale = s;
@@ -685,6 +731,14 @@ window.boxbox = (function() {
             return {x: p.x, y: p.y};
         },
         
+        /**
+         * @module entity
+         * @param unimplemented
+         * @return {x,y}
+         * @description Get the Entity position in pixels. Useful for custom
+         * rendering. Unlike <a href="#name-Position">position</a> the result
+         * is relative to the World's scale and camera position.
+         */
         canvasPosition: function(value) {
             if (value !== undefined) {
                 // TODO set
@@ -717,7 +771,7 @@ window.boxbox = (function() {
          * @module entity
          * @param number (optional)
          * @return number
-         * @description get or set entity function
+         * @description get or set entity friction
          */
         friction: function(value) {
             if (value !== undefined) {
@@ -796,8 +850,9 @@ window.boxbox = (function() {
         /**
          * @module entity
          * @param callback
-         * @description Handle keydown event for this entity. Callback parameter
-         * is the keydown event. "this" is bound to this Entity.
+         * @callbackParam keydown event
+         * @callbackThis this Entity
+         * @description Handle keydown event for this entity.
          */
         onKeydown: function(f) {
             this._world._addKeydownHandler(this._id, f);
@@ -806,8 +861,9 @@ window.boxbox = (function() {
         /**
          * @module entity
          * @param callback
-         * @description Handle keyup event for this entity. Callback parameter
-         * is the keydown event. "this" is bound to this Entity.
+         * @callbackParam keyup event
+         * @callbackThis this Entity
+         * @description Handle keyup event for this entity.
          */
         onKeyup: function(f) {
             this._world._addKeyupHandler(this._id, f);
@@ -816,8 +872,9 @@ window.boxbox = (function() {
         /**
          * @module entity
          * @param callback
-         * @description Handle start of contact with another entity. Callback parameter
-         * is the Entity contact has started with. "this" is bound to this Entity.
+         * @callbackParam Entity contact started with
+         * @callbackThis this Entity
+         * @description Handle start of contact with another entity.
          */
         onStartContact: function(f) {
             this._world._addStartContactHandler(this._id, f);
@@ -826,8 +883,9 @@ window.boxbox = (function() {
         /**
          * @module entity
          * @param callback
-         * @description Handle end of contact with another entity. Callback parameter
-         * is the Entity contact has ended with. "this" is bound to this Entity.
+         * @callbackParam Entity contact ended with
+         * @callbackThis this Entity
+         * @description Handle end of contact with another entity.
          */
         onFinishContact: function(f) {
             this._world._addFinishContactHandler(this._id, f);
