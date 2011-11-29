@@ -15,10 +15,12 @@
                 background-color: #d9d9d9;
             }
             canvas {
+                float: left;
                 background-color: white;
             }
             #hud {
-                padding: .5em 1em;
+                float: left;
+                padding: 1em;
             }
         </style>
     </head>
@@ -27,7 +29,9 @@
             your browser doesn't support canvas
         </canvas>
         <div id="hud">
-            arrow keys to move, space to jump
+            arrow keys to move
+            <br>
+            space to jump
             <br>
             health: <span id="health">100</span>
             <br>

@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // determine what you're standing on
         var standingOn;
         var pos = this.position();
-        var allUnderMe = world.findAll(pos.x - .09, pos.y + .1, pos.x + .09, pos.y + .105);
+        var allUnderMe = world.findAll(pos.x - .08, pos.y + .1, pos.x + .09, pos.y + .105);
         for (i = 0; i < allUnderMe.length; i++) {
             obj = allUnderMe[i];
             if (obj !== player) {
@@ -114,11 +114,33 @@ document.addEventListener("DOMContentLoaded", function() {
         // update camera position every draw
         var p = player.position();
         var c = this.camera();
-        if (p.x - 8 < c.x) { 
-            this.camera(player.position().x - 8);
+        
+        if (p.y < 14) {
+            if (p.x - 8 < c.x) { 
+                this.camera(player.position().x - 8);
+            }
+            else if (p.x - 12 > c.x) { 
+                this.camera(player.position().x - 12);
+            }
         }
-        else if (p.x - 12 > c.x) { 
-            this.camera(player.position().x - 12);
+        
+        // If you fall off the world, zoom out
+        else {
+            var scale = 30;
+            scale -= (p.y - 14);
+            scale = scale < 1 ? 1 : scale;
+            this.scale(scale);
+            
+            var newCameraX = c.x;
+                if (newCameraX > -9 || newCameraX < -11) {
+                if (newCameraX > -10) {
+                    newCameraX = newCameraX - .3;
+                }
+                if (newCameraX < -10) {
+                    newCameraX = newCameraX + .3;
+                }
+                this.camera(newCameraX);
+            }
         }
         
         // Rendering for the joint between the two wheels

@@ -1,3 +1,12 @@
+/**
+ * @header boxbox
+ * @description javascript physics made easy
+ */
+
+/**
+ * @header global boxbox object
+ * @module boxbox
+ */
 window.boxbox = (function() {
     
     // Make sure Box2D exists
@@ -44,7 +53,10 @@ window.boxbox = (function() {
     var b2AABB = Box2D.Collision.b2AABB;
     
     // BB methods
-        
+    
+    /**
+     * @module boxbox
+     */
     this.createWorld = function(canvasElem, ops) {
         var world = create(World);
         world._init(canvasElem, ops);
