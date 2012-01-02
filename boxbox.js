@@ -13,6 +13,19 @@ Created at Bocoup http://bocoup.com
  * @_page_compact_index
  */
 
+// Paul Irish requestAnimationFrame shim
+// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+window.requestAnimFrame = (function(){
+    return window.requestAnimationFrame || 
+           window.webkitRequestAnimationFrame || 
+           window.mozRequestAnimationFrame || 
+           window.oRequestAnimationFrame || 
+           window.msRequestAnimationFrame || 
+           function (callback){
+               window.setTimeout(callback, 1000 / 60);
+           };
+})();
+
 /**
  * @description global boxbox object
  */
@@ -89,13 +102,13 @@ window.boxbox = (function() {
         var world = create(World);
         world._init(canvas, options);
         return world;
-    }
+    };
     
     var WORLD_DEFAULT_OPTIONS = {
         gravity: 10,
         allowSleep: true,
         scale: 30
-    }
+    };
 
     /**
      * @header
@@ -207,7 +220,7 @@ window.boxbox = (function() {
                     world.DrawDebugData();
 
                     // TODO paul irish shim
-                    window.webkitRequestAnimationFrame(animationLoop);
+                    window.requestAnimFrame(animationLoop);
                 })();
                 
                 // keyboard events
@@ -981,7 +994,7 @@ window.boxbox = (function() {
             this._world._addImpactHandler(this._id, callback);
         }
         
-    }
+    };
     
     return this;
 
