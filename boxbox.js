@@ -765,8 +765,8 @@ window.boxbox = (function() {
                 y = Math.sin(a * (Math.PI / 180)) * power;
             }
             else {
-                x = a;
-                y = b;
+                x = a * power;
+                y = b * power;
             }
             return {x:x,y:y};
         },

@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
         restitution: 0,
         color: 'blue'
     });
+    window.player = player;
     
     var health = 100;
     
