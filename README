@@ -1,9 +1,7 @@
-boxbox is a wrapper for box2dweb. box2dweb is a sweet 2d physics engine.
+Learn about boxbox here:
 
-Download box2dweb here: http://code.google.com/p/box2dweb/
+http://incompl.github.com/boxbox
 
-box2dweb is a JavaScript port of an Actionscript port of a C++ program. boxbox is an attempt to give box2dweb a better API that doesn't smell like C++
+box2dweb files are from:
 
-To try the demo, put box2dweb's library in this directory. Make sure the JavaScript include in demo.html is correct. Then open demo.html in a browser.
-
-boxbox has the same license as box2dweb
+http://code.google.com/p/box2dweb/
