@@ -8,7 +8,9 @@ Created at Bocoup http://bocoup.com
 */
 
 /**
- * @header boxbox api documentation
+ * @_page_title boxbox
+ * @_page_description api documentation
+ * @_page_compact_index
  */
 
 /**
@@ -60,14 +62,16 @@ window.boxbox = (function() {
     var b2AABB = Box2D.Collision.b2AABB;
     
     /**
-     * @module boxbox
-     * @param canvas element to render on
-     * @param options object
-     * @option gravity (default 10) can be negative
-     * @option allowSleep (default true) bodies may sleep when they come to
-     *         rest. a sleeping body is no longer being simulated, which can
-     *         improve performance.
-     * @option scale (default 30) scale for rendering in pixels / meter
+     * @_module boxbox
+     * @canvas element to render on
+     * @options
+     * <ul>
+     * @gravity (default 10) can be negative
+     * @allowSleep (default true) bodies may sleep when they come to
+     *     rest. a sleeping body is no longer being simulated, which can
+     *     improve performance.
+     * @scale (default 30) scale for rendering in pixels / meter
+     * </ul>
      * @return a new <a href="#name-World">World</a>
      * @description
      without options
@@ -80,9 +84,9 @@ window.boxbox = (function() {
      &nbsp;&nbsp;scale: 60
      });</code>
      */
-    this.createWorld = function(canvasElem, ops) {
+    this.createWorld = function(canvas, options) {
         var world = create(World);
-        world._init(canvasElem, ops);
+        world._init(canvas, options);
         return world;
     }
     
@@ -194,7 +198,7 @@ window.boxbox = (function() {
                                    entity._body.m_xf.position.x,
                                    entity._body.m_xf.position.y);
                     }
-                    self._onRender.call(self, self._ctx);
+                    self._onRender.call(self._ctx);
                     
                     world.ClearForces();
                     world.DrawDebugData();
@@ -325,9 +329,10 @@ window.boxbox = (function() {
         },
 
         /**
-         * @module world
-         * @param {x,y} (optional)
-         * @return {x,y}
+         * @_module world
+         * @_params [value]
+         * @value: {x,y}
+         * @return: {x,y}
          * @description get or set the world's gravity
          */
         gravity: function(value) {
@@ -339,30 +344,31 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module world
-         * @param options object
-         * @option name used to identify this Entity
-         * @option x starting x coordinate
-         * @option y starting y coordinate
-         * @option type 'dynamic' or 'static'. static objects can't move
-         * @option shape 'square' or 'circle' or 'polygon'
-         * @option height for box (default 1)
-         * @option width for box (default 1)
-         * @option radius for circle (default 1)
-         * @option points for polygon [{x,y}, {x,y}, {x,y}] must go clockwise
+         * @_module world
+         * @_params options
+         * @options
+         * <ul>
+         * @y starting y coordinate
+         * @type 'dynamic' or 'static'. static objects can't move
+         * @shape 'square' or 'circle' or 'polygon'
+         * @height for box (default 1)
+         * @width for box (default 1)
+         * @radius for circle (default 1)
+         * @points for polygon [{x,y}, {x,y}, {x,y}] must go clockwise
          * must be convex
-         * @option density (default 2)
-         * @option friction (default 1)
-         * @option restitution or bounciness (default .2)
-         * @option active (default true) participates in collisions and dynamics
-         * @option fixedRotation (default false)
-         * @option bullet (default false) perform expensive continuous
+         * @density (default 2)
+         * @friction (default 1)
+         * @restitution or bounciness (default .2)
+         * @active (default true) participates in collisions and dynamics
+         * @fixedRotation (default false)
+         * @bullet (default false) perform expensive continuous
          * collision detection
-         * @option image file for rendering
-         * @option imageOffsetX (default 0) for image
-         * @option imageOffsetY (default 0) for image
-         * @option imageStretchToFit (default false) for image
-         * @option draw custom draw function, params are context, x, and y
+         * @image file for rendering
+         * @imageOffsetX (default 0) for image
+         * @imageOffsetY (default 0) for image
+         * @imageStretchToFit (default false) for image
+         * @draw custom draw function, params are context, x, and y
+         * </ul>
          * @return a new <a href="#name-Entity">Entity</a>
          * @description
          example
@@ -387,18 +393,31 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module world
-         * @param type one of: distance, revolute, gear, friction, prismatic,
-         * weld, pulley, mouse, line
-         * @param Entity on one side of the joint
-         * @param Entity on the other side of the joint
-         * @param options
-         * @option enableMotor (default false)
+         * @_module world
+         * @_params type, entity1, entity2, [options]
+         * @type can be:
+         * <ul>
+         * @distance these entities will always remain the same distance apart
+         * @revolute
+         * @gear
+         * @friction
+         * @prismatic
+         * @weld
+         * @pulley
+         * @mouse
+         * @line
+         * </ul>
+         * @entity1 Entity on one side of the joint
+         * @entity2 Entity on the other side of the joint
+         * @options
+         * <ul>
+         * @enableMotor (default false)
+         * </ul>
          * @description Experimental joint support.
          * See <a href="http://box2d.org/">box2d documentation</a> for more
          * info.
          */
-        createJoint: function(type, e1, e2, options) {
+        createJoint: function(type, entity1, entity2, options) {
             options = options || {};
             var joint;
             
@@ -435,20 +454,20 @@ window.boxbox = (function() {
             }
             
             if (joint.Initialize) {
-                joint.Initialize(e1._body,
-                                 e2._body,
-                                 e1._body.GetWorldCenter(),
-                                 e2._body.GetWorldCenter());
+                joint.Initialize(entity1._body,
+                                 entity2._body,
+                                 entity1._body.GetWorldCenter(),
+                                 entity2._body.GetWorldCenter());
             }
             this._world.CreateJoint(joint);
         },
 
         /**
-         * @module world
-         * @param x1 upper left of query box
-         * @param y1 upper left of query box
-         * @param x2 lower right of query box
-         * @param y2 lower right of query box
+         * @_module world
+         * @x1 upper left of query box
+         * @y1 upper left of query box
+         * @x2 lower right of query box
+         * @y2 lower right of query box
          * @return array of Entities. may be empty
          * @description find Entities in a given query box
          */
@@ -472,8 +491,9 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module world
-         * @param {x,y} (optional)
+         * @_module world
+         * @_params [value]
+         * @value {x,y}
          * @return {x,y}
          * @description get or set position of camera
          */
@@ -491,20 +511,35 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module world
-         * @param callback
-         * @callbackParam canvas context
-         * @callbackThis World
+         * @_module world
+         * @callback function( context )
+         * <ul>
+         * @context canvas context for rendering
+         * @this World
+         * </ul>
          * @description set the world's onRender callback
+         * This is useful for custom rendering. For example, to draw text
+         * on every frame:
+         * <code>world.onRender(function(ctx) {
+         *   ctx.fillText("Score: " + score, 10, 10);
+         * });</code>
+         * This callback occurs after all entities have been rendered on the
+         * frame.
+         * callbacks and a means to unregister them.
+         * <br>
+         * <strong>Note: Right now there is only one onRender callback that is
+         * replaced on each onRender call. In the future there will be multiple
+         * onRender callbacks and a means to unregister them.</strong>
          */
-        onRender: function(f) {
-            this._onRender = f;
+        onRender: function(callback) {
+            this._onRender = callback;
         },
         
         /**
-         * @module world
-         * @param Number
-         * @return Number
+         * @_module world
+         * @_params [value]
+         * @value number
+         * @return number
          * @description get or set the scale for rendering in pixels / meter
          */
         scale: function(s) {
@@ -718,8 +753,9 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module entity
-         * @param {x,y} (optional)
+         * @_module entity
+         * @_params [value]
+         * @value {x,y}
          * @return {x,y}
          * @description get or set entity position
          */
@@ -732,8 +768,8 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module entity
-         * @param unimplemented
+         * @_module entity
+         * @_params
          * @return {x,y}
          * @description Get the Entity position in pixels. Useful for custom
          * rendering. Unlike <a href="#name-Position">position</a> the result
@@ -755,8 +791,9 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module entity
-         * @param degrees (optional)
+         * @_module entity
+         * @_params [value]
+         * @value degrees
          * @return degrees
          * @description get or set entity rotation
          */
@@ -768,8 +805,9 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module entity
-         * @param number (optional)
+         * @_module entity
+         * @_params [value]
+         * @value number
          * @return number
          * @description get or set entity friction
          */
@@ -781,7 +819,7 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module entity
+         * @_module entity
          * @description destroy this entity and remove it from the world
          */
         destroy: function() {
@@ -790,11 +828,16 @@ window.boxbox = (function() {
         },
 
         /**
-         * @module entity
-         * @param power of impulse
-         * @param angle in degrees OR x of vector
-         * @param y of vector
-         * @description Apply an instantanious force on this Entity
+         * @_module entity
+         * @power of impulse
+         * @degrees direction of force. 0 is up, 90 is right, etc.
+         * @_params power, degrees
+         * @description Apply an instantanious force on this Entity.
+         * <br>
+         * With this and all functions that take degrees, you can also provide
+         * a vector.
+         * <code>entity.applyImpulse(10, 45); // 45 degree angle
+         * entity.applyImpulse(10, 1, -1); // the vector x=1 y=-1}</code>
          */
         applyImpulse: function(power, a, b) {
             var v = this._toVector(power, a, b);
@@ -802,11 +845,11 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module entity
-         * @param name of force
-         * @param power of force
-         * @param angle in degrees OR x of vector
-         * @param y of vector
+         * @_module entity
+         * @name of force
+         * @power of force
+         * @degrees direction of force
+         * @_params name, power, degrees
          * @description Apply a constant force on this Entity. Can be removed later
          * using clearForce.
          */
@@ -816,11 +859,11 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module entity
-         * @param name of velocity
-         * @param power of force
-         * @param angle in degrees OR x of vector
-         * @param y of vector
+         * @_module entity
+         * @name of velocity
+         * @power of velocity
+         * @degrees direction of velocity
+         * @_params name, power, degrees
          * @description Continuously override velocity of this Entity. Can be removed later
          * using clearVelocity.
          */
@@ -830,8 +873,7 @@ window.boxbox = (function() {
         },
 
         /**
-         * @module entity
-         * @param name of force
+         * @_module entity
          * @description Stop the force with the given name.
          */
         clearForce: function(name) {
@@ -839,8 +881,7 @@ window.boxbox = (function() {
         },
 
         /**
-         * @module entity
-         * @param name of velocity
+         * @_module entity
          * @description Stop the constant velocity with the given name.
          */
         clearVelocity: function(name) {
@@ -848,60 +889,70 @@ window.boxbox = (function() {
         },
         
         /**
-         * @module entity
-         * @param callback
-         * @callbackParam keydown event
-         * @callbackThis this Entity
+         * @_module entity
+         * @callback function( e )
+         * <ul>
+         * @e keydown event
+         * @this this Entity
+         * </ul>
          * @description Handle keydown event for this entity.
          */
-        onKeydown: function(f) {
-            this._world._addKeydownHandler(this._id, f);
+        onKeydown: function(callback) {
+            this._world._addKeydownHandler(this._id, callback);
         },
         
         /**
-         * @module entity
-         * @param callback
-         * @callbackParam keyup event
-         * @callbackThis this Entity
+         * @_module entity
+         * @callback function( e )
+         * <ul>
+         * @e keyup event
+         * @this this Entity
+         * </ul>
          * @description Handle keyup event for this entity.
          */
-        onKeyup: function(f) {
-            this._world._addKeyupHandler(this._id, f);
+        onKeyup: function(callback) {
+            this._world._addKeyupHandler(this._id, callback);
         },
 
         /**
-         * @module entity
-         * @param callback
-         * @callbackParam Entity contact started with
-         * @callbackThis this Entity
+         * @_module entity
+         * @callback function( entity )
+         * <ul>
+         * @entity that contact started with
+         * @this this Entity
+         * </ul>
          * @description Handle start of contact with another entity.
          */
-        onStartContact: function(f) {
-            this._world._addStartContactHandler(this._id, f);
+        onStartContact: function(callback) {
+            this._world._addStartContactHandler(this._id, callback);
         },
 
         /**
-         * @module entity
-         * @param callback
-         * @callbackParam Entity contact ended with
-         * @callbackThis this Entity
+         * @_module entity
+         * @callback function( entity )
+         * <ul>
+         * @entity that contact ended with
+         * @this this Entity
+         * </ul>
          * @description Handle end of contact with another entity.
          */
-        onFinishContact: function(f) {
-            this._world._addFinishContactHandler(this._id, f);
+        onFinishContact: function(callback) {
+            this._world._addFinishContactHandler(this._id, callback);
         },
 
         /**
-         * @module entity
-         * @param callback
+         * @_module entity
+         * @callback function( entity, normalForce, tangentialForce )
+         * <ul>
+         * @entity collided with
+         * @normalForce force of two entities colliding
+         * @tangentialForce force of two entities "rubbing" up against each other
+         * @this this Entity
+         * </ul>
          * @description Handle impact with another entity.
-         * @callbackParam the Entity collided with
-         * @callbackParam the normal force of the impact
-         * @callbackParam the tangential force of the impact
-         * @callbackThis this Entity
          */
-        onImpact: function(f) {
-            this._world._addImpactHandler(this._id, f);
+        onImpact: function(callback) {
+            this._world._addImpactHandler(this._id, callback);
         }
         
     }

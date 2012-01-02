@@ -2,13 +2,14 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>updoc</title>
+    <title>boxbox</title>
     <script src="prettify.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="prettify.css">
     <style>
 body {
   padding: 0;
-  margin: 1em 0 0;
+  margin: 1em 1em 0;
   font-family: sans-serif;
   line-height: 1.4em;
 }
@@ -16,14 +17,22 @@ body {
 a:link {
   color: #000498;
 }
-a:hover {
-  color: #4549ff;
-}
 a:visited {
   color: black;
 }
+a:hover {
+  color: #4549ff;
+}
 a:active {
   color: black;
+}
+
+header {
+  margin: 0 0 1em;
+}
+
+header a {
+  text-decoration: none;
 }
 
 section {
@@ -35,7 +44,8 @@ section {
 
 h1, h2, h3 {
   text-shadow: 1px 1px 0 #838383;
-  margin: .2em 0;
+  margin: .2em 0 .5em;
+  font-family: serif;
 }
 
 h1 {
@@ -44,6 +54,7 @@ h1 {
 
 h2 {
   font-size: 1.4em;
+  margin: .5em 0;
 }
 
 h3 {
@@ -66,19 +77,21 @@ ul {
 }
 
 #content {
-  width: 900px;
   margin: 0 auto;
+  max-width: 800px;
 }
 
 nav {
-  float: left;
-  width: 180px;
   padding: 8px;
   background-color: #dce8f1;
   border-radius: 10px;
   border-style: none solid solid none;
   border-width: 2px;
   border-color: #8895a0;
+}
+
+nav.compact {
+  line-height: 2em;
 }
 
 nav ul {
@@ -88,8 +101,13 @@ nav ul {
   border-radius: 5px;
 }
 
-#sections {
-  margin-left: 205px;
+nav.compact ul li {
+  font-weight: bold;
+}
+
+.inlineIndexItem {
+  padding: .3em .2em;
+  background-color: rgba(255, 255, 255, 1);
 }
 
 footer {
@@ -119,8 +137,19 @@ code {
   border-color: #8895a0;
 }
 
+ul.properties {
+  list-style-type: none;
+  padding: 0 0 0 1em;
+}
+
+ul.properties li {
+  margin: .3em 0;
+}
+
 .property {
   font-weight: bold;
+  font-family: serif;
+  font-size: 1.2em;
 }
 
 .depth0 {
@@ -128,15 +157,14 @@ code {
 }
 
 .depth0 h1 {
-  text-shadow: 1px 1px 0 #cc7800;
+  text-shadow: 1px 1px 0 #005896;
 }
 
 .depth0.header {
   border-style: none solid solid none;
+  border-color: #00416e;
   border-width: 2px;
-  border-color: #9e5d00;
-  border-radius: 20px;
-  background-color: #ffc571;
+  background-color: #c9e9ff;
 }
 
 .depth1 {
@@ -165,302 +193,287 @@ code {
   </head>
   <body>
     <div id="content">
-      <nav>
+      <header>
+        <h1>
+          <a href="/">
+            boxbox
+          </a>
+        </h2>
+        api documentation
+      </header>
+      <nav class="compact">
         <ul>
           
             
               <li>
                 
-                
-                  <a href="#header-boxbox-api-documentation">boxbox api documentation</a>
-                
-                
-              </li>
-            
-          
-            
-              <li>
-                - 
+                  
                 
                 
-                  <a href="#name-boxbox">boxbox</a>
+                
+                  <a href="#name-boxbox" class="">boxbox</a>
                 
               </li>
             
           
             
+              
+                
+                
+                
+                  <a href="#name-createWorld" class="inlineIndexItem">createWorld</a>
+                
+              
+            
+          
+            
               <li>
-                - - 
+                
+                  
                 
                 
-                  <a href="#name-createWorld">createWorld</a>
+                
+                  <a href="#name-Entity" class="">Entity</a>
                 
               </li>
             
           
             
+              
+                
+                
+                
+                  <a href="#name-applyImpulse" class="inlineIndexItem">applyImpulse</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-canvasPosition" class="inlineIndexItem">canvasPosition</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-clearForce" class="inlineIndexItem">clearForce</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-clearVelocity" class="inlineIndexItem">clearVelocity</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-destroy" class="inlineIndexItem">destroy</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-friction" class="inlineIndexItem">friction</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onFinishContact" class="inlineIndexItem">onFinishContact</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onImpact" class="inlineIndexItem">onImpact</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onKeydown" class="inlineIndexItem">onKeydown</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onKeyup" class="inlineIndexItem">onKeyup</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onStartContact" class="inlineIndexItem">onStartContact</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-position" class="inlineIndexItem">position</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-rotation" class="inlineIndexItem">rotation</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-setForce" class="inlineIndexItem">setForce</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-setVelocity" class="inlineIndexItem">setVelocity</a>
+                
+              
+            
+          
+            
               <li>
-                - 
+                
+                  
                 
                 
-                  <a href="#name-Entity">Entity</a>
+                
+                  <a href="#name-World" class="">World</a>
                 
               </li>
             
           
             
-              <li>
-                - - 
+              
                 
                 
-                  <a href="#name-applyImpulse">applyImpulse</a>
                 
-              </li>
+                  <a href="#name-camera" class="inlineIndexItem">camera</a>
+                
+              
             
           
             
-              <li>
-                - - 
+              
                 
                 
-                  <a href="#name-canvasPosition">canvasPosition</a>
                 
-              </li>
+                  <a href="#name-createEntity" class="inlineIndexItem">createEntity</a>
+                
+              
             
           
             
-              <li>
-                - - 
+              
                 
                 
-                  <a href="#name-clearForce">clearForce</a>
                 
-              </li>
+                  <a href="#name-createJoint" class="inlineIndexItem">createJoint</a>
+                
+              
             
           
             
-              <li>
-                - - 
+              
                 
                 
-                  <a href="#name-clearVelocity">clearVelocity</a>
                 
-              </li>
+                  <a href="#name-find" class="inlineIndexItem">find</a>
+                
+              
             
           
             
-              <li>
-                - - 
+              
                 
                 
-                  <a href="#name-destroy">destroy</a>
                 
-              </li>
+                  <a href="#name-gravity" class="inlineIndexItem">gravity</a>
+                
+              
             
           
             
-              <li>
-                - - 
+              
                 
                 
-                  <a href="#name-friction">friction</a>
                 
-              </li>
+                  <a href="#name-onRender" class="inlineIndexItem">onRender</a>
+                
+              
             
           
             
-              <li>
-                - - 
+              
                 
                 
-                  <a href="#name-onFinishContact">onFinishContact</a>
                 
-              </li>
-            
-          
-            
-              <li>
-                - - 
+                  <a href="#name-scale" class="inlineIndexItem">scale</a>
                 
-                
-                  <a href="#name-onImpact">onImpact</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-onKeydown">onKeydown</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-onKeyup">onKeyup</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-onStartContact">onStartContact</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-position">position</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-rotation">rotation</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-setForce">setForce</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-setVelocity">setVelocity</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - 
-                
-                
-                  <a href="#name-World">World</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-camera">camera</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-createEntity">createEntity</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-createJoint">createJoint</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-find">find</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-gravity">gravity</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-onRender">onRender</a>
-                
-              </li>
-            
-          
-            
-              <li>
-                - - 
-                
-                
-                  <a href="#name-scale">scale</a>
-                
-              </li>
+              
             
           
         </ul>
       </nav>
       <div id="sections">
         
-          <section class="depth0 header" data-module="">
-          
-            <h1 id="header-boxbox-api-documentation">boxbox api documentation</h1>
-            
-            
-            
-            <ul>
-              
-                
-              
-                
-              
-                
-              
-            </ul>
-            
-            
-            
-          </section>
         
           <section class="depth1 header" data-module="boxbox">
           
@@ -468,13 +481,11 @@ code {
             
             
               <h2 id="name-boxbox">
-                
-                                
                 boxbox
               </h2>
             
             
-            <ul>
+            <ul class="properties">
               
                 
               
@@ -492,19 +503,20 @@ code {
             
           </section>
         
+        
           <section class="depth2 header" data-module="boxbox.createWorld">
           
             
             
             
               <h2 id="name-createWorld">
-                function
-                                
-                createWorld
+                .createWorld( canvas, options )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -514,57 +526,46 @@ code {
               
                 
                   <li>
-                    <span class="property">
-                      param1
-                    </span>
-                    canvas element to render on
+                    <span class="property">canvas</span>
+                    <span>element to render on</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param2
-                    </span>
-                    options object
+                    <span class="property">options</span>
+                    <span><ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option1
-                    </span>
-                    gravity (default 10) can be negative
+                    <span class="property">gravity</span>
+                    <span>(default 10) can be negative</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option2
-                    </span>
-                    allowSleep (default true) bodies may sleep when they come to
+                    <span class="property">allowSleep</span>
+                    <span>(default true) bodies may sleep when they come to
 rest. a sleeping body is no longer being simulated, which can
-improve performance.
+improve performance.</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option3
-                    </span>
-                    scale (default 30) scale for rendering in pixels / meter
+                    <span class="property">scale</span>
+                    <span>(default 30) scale for rendering in pixels / meter
+</ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      return
-                    </span>
-                    a new <a href="#name-World">World</a>
+                    <span class="property">return</span>
+                    <span>a new <a href="#name-World">World</a></span>
                   </li>
                 
               
@@ -586,19 +587,18 @@ var world = boxbox.createWorld(canvasElem, {
             
           </section>
         
+        
           <section class="depth1 header" data-module="Entity">
           
             
             
             
               <h2 id="name-Entity">
-                
-                                
                 Entity
               </h2>
             
             
-            <ul>
+            <ul class="properties">
               
                 
               
@@ -618,19 +618,20 @@ var world = boxbox.createWorld(canvasElem, {
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.applyImpulse">
           
             
             
             
               <h2 id="name-applyImpulse">
-                function
-                                
-                applyImpulse
+                .applyImpulse( power, degrees )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -640,28 +641,15 @@ var world = boxbox.createWorld(canvasElem, {
               
                 
                   <li>
-                    <span class="property">
-                      param1
-                    </span>
-                    power of impulse
+                    <span class="property">power</span>
+                    <span>of impulse</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param2
-                    </span>
-                    angle in degrees OR x of vector
-                  </li>
-                
-              
-                
-                  <li>
-                    <span class="property">
-                      param3
-                    </span>
-                    y of vector
+                    <span class="property">degrees</span>
+                    <span>direction of force. 0 is up, 90 is right, etc.</span>
                   </li>
                 
               
@@ -671,9 +659,15 @@ var world = boxbox.createWorld(canvasElem, {
               
             </ul>
             
-            <div class="description">Apply an instantanious force on this Entity</div>
+            <div class="description">Apply an instantanious force on this Entity.
+<br>
+With this and all functions that take degrees, you can also provide
+a vector.
+<code>entity.applyImpulse(10, 45); // 45 degree angle
+entity.applyImpulse(10, 1, -1); // the vector x=1 y=-1}</code></div>
             
           </section>
+        
         
           <section class="depth2 header" data-module="entity.canvasPosition">
           
@@ -681,13 +675,11 @@ var world = boxbox.createWorld(canvasElem, {
             
             
               <h2 id="name-canvasPosition">
-                function
-                                
-                canvasPosition
+                .canvasPosition(  )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
               
                 
               
@@ -695,21 +687,12 @@ var world = boxbox.createWorld(canvasElem, {
               
                 
               
-                
-                  <li>
-                    <span class="property">
-                      param
-                    </span>
-                    unimplemented
-                  </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      return
-                    </span>
-                    {x,y}
+                    <span class="property">return</span>
+                    <span>{x,y}</span>
                   </li>
                 
               
@@ -725,19 +708,18 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.clearForce">
           
             
             
             
               <h2 id="name-clearForce">
-                function
-                                
-                clearForce
+                .clearForce( name )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
               
                 
               
@@ -745,13 +727,6 @@ is relative to the World's scale and camera position.</div>
               
                 
               
-                
-                  <li>
-                    <span class="property">
-                      param
-                    </span>
-                    name of force
-                  </li>
                 
               
                 
@@ -764,19 +739,18 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.clearVelocity">
           
             
             
             
               <h2 id="name-clearVelocity">
-                function
-                                
-                clearVelocity
+                .clearVelocity( name )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
               
                 
               
@@ -784,13 +758,6 @@ is relative to the World's scale and camera position.</div>
               
                 
               
-                
-                  <li>
-                    <span class="property">
-                      param
-                    </span>
-                    name of velocity
-                  </li>
                 
               
                 
@@ -803,19 +770,20 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.destroy">
           
             
             
             
               <h2 id="name-destroy">
-                function
-                                
-                destroy
+                .destroy(  )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -833,19 +801,20 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.friction">
           
             
             
             
               <h2 id="name-friction">
-                function
-                                
-                friction
+                .friction( [value] )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -855,19 +824,15 @@ is relative to the World's scale and camera position.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    number (optional)
+                    <span class="property">value</span>
+                    <span>number</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      return
-                    </span>
-                    number
+                    <span class="property">return</span>
+                    <span>number</span>
                   </li>
                 
               
@@ -881,19 +846,20 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.onFinishContact">
           
             
             
             
               <h2 id="name-onFinishContact">
-                function
-                                
-                onFinishContact
+                .onFinishContact( callback )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -903,28 +869,24 @@ is relative to the World's scale and camera position.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    callback
+                    <span class="property">callback</span>
+                    <span>function( entity )
+<ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackParam
-                    </span>
-                    Entity contact ended with
+                    <span class="property">entity</span>
+                    <span>that contact ended with</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackThis
-                    </span>
-                    this Entity
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
                   </li>
                 
               
@@ -938,71 +900,64 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.onImpact">
           
             
             
             
               <h2 id="name-onImpact">
-                function
-                                
-                onImpact
+                .onImpact( callback )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
               
                 
               
                 
               
-                
-              
-                
-                  <li>
-                    <span class="property">
-                      param
-                    </span>
-                    callback
-                  </li>
                 
               
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackParam1
-                    </span>
-                    the Entity collided with
+                    <span class="property">callback</span>
+                    <span>function( entity, normalForce, tangentialForce )
+<ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackParam2
-                    </span>
-                    the normal force of the impact
+                    <span class="property">entity</span>
+                    <span>collided with</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackParam3
-                    </span>
-                    the tangential force of the impact
+                    <span class="property">normalForce</span>
+                    <span>force of two entities colliding</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackThis
-                    </span>
-                    this Entity
+                    <span class="property">tangentialForce</span>
+                    <span>force of two entities "rubbing" up against each other</span>
                   </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
+                  </li>
+                
+              
                 
               
                 
@@ -1013,19 +968,20 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.onKeydown">
           
             
             
             
               <h2 id="name-onKeydown">
-                function
-                                
-                onKeydown
+                .onKeydown( callback )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1035,28 +991,24 @@ is relative to the World's scale and camera position.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    callback
+                    <span class="property">callback</span>
+                    <span>function( e )
+<ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackParam
-                    </span>
-                    keydown event
+                    <span class="property">e</span>
+                    <span>keydown event</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackThis
-                    </span>
-                    this Entity
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
                   </li>
                 
               
@@ -1070,19 +1022,20 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.onKeyup">
           
             
             
             
               <h2 id="name-onKeyup">
-                function
-                                
-                onKeyup
+                .onKeyup( callback )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1092,28 +1045,24 @@ is relative to the World's scale and camera position.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    callback
+                    <span class="property">callback</span>
+                    <span>function( e )
+<ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackParam
-                    </span>
-                    keyup event
+                    <span class="property">e</span>
+                    <span>keyup event</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackThis
-                    </span>
-                    this Entity
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
                   </li>
                 
               
@@ -1127,19 +1076,20 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.onStartContact">
           
             
             
             
               <h2 id="name-onStartContact">
-                function
-                                
-                onStartContact
+                .onStartContact( callback )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1149,28 +1099,24 @@ is relative to the World's scale and camera position.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    callback
+                    <span class="property">callback</span>
+                    <span>function( entity )
+<ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackParam
-                    </span>
-                    Entity contact started with
+                    <span class="property">entity</span>
+                    <span>that contact started with</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackThis
-                    </span>
-                    this Entity
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
                   </li>
                 
               
@@ -1184,19 +1130,20 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.position">
           
             
             
             
               <h2 id="name-position">
-                function
-                                
-                position
+                .position( [value] )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1206,19 +1153,15 @@ is relative to the World's scale and camera position.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    {x,y} (optional)
+                    <span class="property">value</span>
+                    <span>{x,y}</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      return
-                    </span>
-                    {x,y}
+                    <span class="property">return</span>
+                    <span>{x,y}</span>
                   </li>
                 
               
@@ -1232,19 +1175,20 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.rotation">
           
             
             
             
               <h2 id="name-rotation">
-                function
-                                
-                rotation
+                .rotation( [value] )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1254,19 +1198,15 @@ is relative to the World's scale and camera position.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    degrees (optional)
+                    <span class="property">value</span>
+                    <span>degrees</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      return
-                    </span>
-                    degrees
+                    <span class="property">return</span>
+                    <span>degrees</span>
                   </li>
                 
               
@@ -1280,19 +1220,20 @@ is relative to the World's scale and camera position.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.setForce">
           
             
             
             
               <h2 id="name-setForce">
-                function
-                                
-                setForce
+                .setForce( name, power, degrees )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1302,37 +1243,22 @@ is relative to the World's scale and camera position.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param1
-                    </span>
-                    name of force
+                    <span class="property">name</span>
+                    <span>of force</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param2
-                    </span>
-                    power of force
+                    <span class="property">power</span>
+                    <span>of force</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param3
-                    </span>
-                    angle in degrees OR x of vector
-                  </li>
-                
-              
-                
-                  <li>
-                    <span class="property">
-                      param4
-                    </span>
-                    y of vector
+                    <span class="property">degrees</span>
+                    <span>direction of force</span>
                   </li>
                 
               
@@ -1347,19 +1273,20 @@ using clearForce.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="entity.setVelocity">
           
             
             
             
               <h2 id="name-setVelocity">
-                function
-                                
-                setVelocity
+                .setVelocity( name, power, degrees )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1369,37 +1296,22 @@ using clearForce.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param1
-                    </span>
-                    name of velocity
+                    <span class="property">name</span>
+                    <span>of velocity</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param2
-                    </span>
-                    power of force
+                    <span class="property">power</span>
+                    <span>of velocity</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param3
-                    </span>
-                    angle in degrees OR x of vector
-                  </li>
-                
-              
-                
-                  <li>
-                    <span class="property">
-                      param4
-                    </span>
-                    y of vector
+                    <span class="property">degrees</span>
+                    <span>direction of velocity</span>
                   </li>
                 
               
@@ -1414,19 +1326,18 @@ using clearVelocity.</div>
             
           </section>
         
+        
           <section class="depth1 header" data-module="World">
           
             
             
             
               <h2 id="name-World">
-                
-                                
                 World
               </h2>
             
             
-            <ul>
+            <ul class="properties">
               
                 
               
@@ -1446,19 +1357,20 @@ using clearVelocity.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="world.camera">
           
             
             
             
               <h2 id="name-camera">
-                function
-                                
-                camera
+                .camera( [value] )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1468,19 +1380,15 @@ using clearVelocity.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    {x,y} (optional)
+                    <span class="property">value</span>
+                    <span>{x,y}</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      return
-                    </span>
-                    {x,y}
+                    <span class="property">return</span>
+                    <span>{x,y}</span>
                   </li>
                 
               
@@ -1494,19 +1402,20 @@ using clearVelocity.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="world.createEntity">
           
             
             
             
               <h2 id="name-createEntity">
-                function
-                                
-                createEntity
+                .createEntity( options )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1516,201 +1425,144 @@ using clearVelocity.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    options object
+                    <span class="property">options</span>
+                    <span><ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option1
-                    </span>
-                    name used to identify this Entity
+                    <span class="property">y</span>
+                    <span>starting y coordinate</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option2
-                    </span>
-                    x starting x coordinate
+                    <span class="property">type</span>
+                    <span>'dynamic' or 'static'. static objects can't move</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option3
-                    </span>
-                    y starting y coordinate
+                    <span class="property">shape</span>
+                    <span>'square' or 'circle' or 'polygon'</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option4
-                    </span>
-                    type 'dynamic' or 'static'. static objects can't move
+                    <span class="property">height</span>
+                    <span>for box (default 1)</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option5
-                    </span>
-                    shape 'square' or 'circle' or 'polygon'
+                    <span class="property">width</span>
+                    <span>for box (default 1)</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option6
-                    </span>
-                    height for box (default 1)
+                    <span class="property">radius</span>
+                    <span>for circle (default 1)</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option7
-                    </span>
-                    width for box (default 1)
+                    <span class="property">points</span>
+                    <span>for polygon [{x,y}, {x,y}, {x,y}] must go clockwise
+must be convex</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option8
-                    </span>
-                    radius for circle (default 1)
+                    <span class="property">density</span>
+                    <span>(default 2)</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option9
-                    </span>
-                    points for polygon [{x,y}, {x,y}, {x,y}] must go clockwise
-must be convex
+                    <span class="property">friction</span>
+                    <span>(default 1)</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option10
-                    </span>
-                    density (default 2)
+                    <span class="property">restitution</span>
+                    <span>or bounciness (default .2)</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option11
-                    </span>
-                    friction (default 1)
+                    <span class="property">active</span>
+                    <span>(default true) participates in collisions and dynamics</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option12
-                    </span>
-                    restitution or bounciness (default .2)
+                    <span class="property">fixedRotation</span>
+                    <span>(default false)</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option13
-                    </span>
-                    active (default true) participates in collisions and dynamics
+                    <span class="property">bullet</span>
+                    <span>(default false) perform expensive continuous
+collision detection</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option14
-                    </span>
-                    fixedRotation (default false)
+                    <span class="property">image</span>
+                    <span>file for rendering</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option15
-                    </span>
-                    bullet (default false) perform expensive continuous
-collision detection
+                    <span class="property">imageOffsetX</span>
+                    <span>(default 0) for image</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option16
-                    </span>
-                    image file for rendering
+                    <span class="property">imageOffsetY</span>
+                    <span>(default 0) for image</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option17
-                    </span>
-                    imageOffsetX (default 0) for image
+                    <span class="property">imageStretchToFit</span>
+                    <span>(default false) for image</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option18
-                    </span>
-                    imageOffsetY (default 0) for image
+                    <span class="property">draw</span>
+                    <span>custom draw function, params are context, x, and y
+</ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option19
-                    </span>
-                    imageStretchToFit (default false) for image
-                  </li>
-                
-              
-                
-                  <li>
-                    <span class="property">
-                      option20
-                    </span>
-                    draw custom draw function, params are context, x, and y
-                  </li>
-                
-              
-                
-                  <li>
-                    <span class="property">
-                      return
-                    </span>
-                    a new <a href="#name-Entity">Entity</a>
+                    <span class="property">return</span>
+                    <span>a new <a href="#name-Entity">Entity</a></span>
                   </li>
                 
               
@@ -1729,19 +1581,20 @@ collision detection
             
           </section>
         
+        
           <section class="depth2 header" data-module="world.createJoint">
           
             
             
             
               <h2 id="name-createJoint">
-                function
-                                
-                createJoint
+                .createJoint( type, entity1, entity2, [options] )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1751,47 +1604,101 @@ collision detection
               
                 
                   <li>
-                    <span class="property">
-                      param1
-                    </span>
-                    type one of: distance, revolute, gear, friction, prismatic,
-weld, pulley, mouse, line
+                    <span class="property">type</span>
+                    <span>can be:
+<ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param2
-                    </span>
-                    Entity on one side of the joint
+                    <span class="property">distance</span>
+                    <span>these entities will always remain the same distance apart</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param3
-                    </span>
-                    Entity on the other side of the joint
+                    <span class="property">revolute</span>
+                    <span></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param4
-                    </span>
-                    options
+                    <span class="property">gear</span>
+                    <span></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      option
-                    </span>
-                    enableMotor (default false)
+                    <span class="property">friction</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">prismatic</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">weld</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">pulley</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">mouse</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">line</span>
+                    <span></ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">entity1</span>
+                    <span>Entity on one side of the joint</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">entity2</span>
+                    <span>Entity on the other side of the joint</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">options</span>
+                    <span><ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">enableMotor</span>
+                    <span>(default false)
+</ul></span>
                   </li>
                 
               
@@ -1807,19 +1714,20 @@ info.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="world.find">
           
             
             
             
               <h2 id="name-find">
-                function
-                                
-                find
+                .find( x1, y1, x2, y2 )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1829,46 +1737,36 @@ info.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param1
-                    </span>
-                    x1 upper left of query box
+                    <span class="property">x1</span>
+                    <span>upper left of query box</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param2
-                    </span>
-                    y1 upper left of query box
+                    <span class="property">y1</span>
+                    <span>upper left of query box</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param3
-                    </span>
-                    x2 lower right of query box
+                    <span class="property">x2</span>
+                    <span>lower right of query box</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      param4
-                    </span>
-                    y2 lower right of query box
+                    <span class="property">y2</span>
+                    <span>lower right of query box</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      return
-                    </span>
-                    array of Entities. may be empty
+                    <span class="property">return</span>
+                    <span>array of Entities. may be empty</span>
                   </li>
                 
               
@@ -1882,19 +1780,20 @@ info.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="world.gravity">
           
             
             
             
               <h2 id="name-gravity">
-                function
-                                
-                gravity
+                .gravity( [value] )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1904,19 +1803,15 @@ info.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    {x,y} (optional)
+                    <span class="property">value:</span>
+                    <span>{x,y}</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      return
-                    </span>
-                    {x,y}
+                    <span class="property">return:</span>
+                    <span>{x,y}</span>
                   </li>
                 
               
@@ -1930,19 +1825,20 @@ info.</div>
             
           </section>
         
+        
           <section class="depth2 header" data-module="world.onRender">
           
             
             
             
               <h2 id="name-onRender">
-                function
-                                
-                onRender
+                .onRender( callback )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -1952,28 +1848,24 @@ info.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    callback
+                    <span class="property">callback</span>
+                    <span>function( context )
+<ul></span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackParam
-                    </span>
-                    canvas context
+                    <span class="property">context</span>
+                    <span>canvas context for rendering</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      callbackThis
-                    </span>
-                    World
+                    <span class="property">this</span>
+                    <span>World
+</ul></span>
                   </li>
                 
               
@@ -1983,9 +1875,22 @@ info.</div>
               
             </ul>
             
-            <div class="description">set the world's onRender callback</div>
+            <div class="description">set the world's onRender callback
+This is useful for custom rendering. For example, to draw text
+on every frame:
+<code>world.onRender(function(ctx) {
+ctx.fillText("Score: " + score, 10, 10);
+});</code>
+This callback occurs after all entities have been rendered on the
+frame.
+callbacks and a means to unregister them.
+<br>
+<strong>Note: Right now there is only one onRender callback that is
+replaced on each onRender call. In the future there will be multiple
+onRender callbacks and a means to unregister them.</strong></div>
             
           </section>
+        
         
           <section class="depth2 header" data-module="world.scale">
           
@@ -1993,13 +1898,13 @@ info.</div>
             
             
               <h2 id="name-scale">
-                function
-                                
-                scale
+                .scale( [value] )
               </h2>
             
             
-            <ul>
+            <ul class="properties">
+              
+                
               
                 
               
@@ -2009,19 +1914,15 @@ info.</div>
               
                 
                   <li>
-                    <span class="property">
-                      param
-                    </span>
-                    Number
+                    <span class="property">value</span>
+                    <span>number</span>
                   </li>
                 
               
                 
                   <li>
-                    <span class="property">
-                      return
-                    </span>
-                    Number
+                    <span class="property">return</span>
+                    <span>number</span>
                   </li>
                 
               
@@ -2038,7 +1939,7 @@ info.</div>
       </div>
     </div>
     <footer>
-      generated by <a href="https://github.com/incompl/updoc">updoc</a> 0.1.0
+      generated by <a href="http://incompl.github.com/updoc/">updoc</a> 0.2.0
     </footer>
     <script>
 (function() {
