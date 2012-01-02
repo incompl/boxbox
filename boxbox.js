@@ -63,6 +63,7 @@ window.boxbox = (function() {
     
     /**
      * @_module boxbox
+     * @params canvas, [options]
      * @canvas element to render on
      * @options
      * <ul>
@@ -118,7 +119,7 @@ window.boxbox = (function() {
         _nextEntityId: 0,
         _cameraX: 0,
         _cameraY: 0,
-        _onRender: function(){},
+        _onRender: [],
         
         _init: function(canvasElem, options) {
             var self = this;
@@ -198,7 +199,9 @@ window.boxbox = (function() {
                                    entity._body.m_xf.position.x,
                                    entity._body.m_xf.position.y);
                     }
-                    self._onRender.call(self._ctx);
+                    for (i = 0; i < self._onRender.length; i++) {
+                      self._onRender[i].call(self, self._ctx);
+                    }
                     
                     world.ClearForces();
                     world.DrawDebugData();
@@ -517,7 +520,7 @@ window.boxbox = (function() {
          * @context canvas context for rendering
          * @this World
          * </ul>
-         * @description set the world's onRender callback
+         * @description Add an onRender callback to the World
          * This is useful for custom rendering. For example, to draw text
          * on every frame:
          * <code>world.onRender(function(ctx) {
@@ -525,14 +528,30 @@ window.boxbox = (function() {
          * });</code>
          * This callback occurs after all entities have been rendered on the
          * frame.
-         * callbacks and a means to unregister them.
          * <br>
-         * <strong>Note: Right now there is only one onRender callback that is
-         * replaced on each onRender call. In the future there will be multiple
-         * onRender callbacks and a means to unregister them.</strong>
+         * Multiple onRender callbacks can be added, and they can be removed
+         * with unbindOnRender.
          */
         onRender: function(callback) {
-            this._onRender = callback;
+            this._onRender.push(callback);
+        },
+        
+        /**
+         * @_module world
+         * @callback callback
+         * @description
+         * If the provided function is currently an onRender callback for this
+         * World, it is removed.
+         */
+        unbindOnRender: function(callback) {
+            var newArray = [];
+            var i;
+            for (i = 0; i < this._onRender.length; i++) {
+              if (this._onRender[i] !== callback) {
+                newArray.push(this._onRender[i]);
+              }
+            }
+            this._onRender = newArray;
         },
         
         /**
@@ -681,7 +700,7 @@ window.boxbox = (function() {
             body.position.x = ops.x;
             body.position.y = ops.y;
             
-            this.name = ops.name;
+            this._name = ops.name;
 
             // type
             if (ops.type === 'static') {
@@ -750,6 +769,13 @@ window.boxbox = (function() {
                 y = b;
             }
             return {x:x,y:y};
+        },
+        
+        /**
+         * @return entity name
+         */
+        name: function() {
+          return this._name;
         },
         
         /**

@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function() {
         radius: .1,
         color: 'yellow',
         onStartContact: function(other) {
-            if (other.name === 'player') {
+            if (other.name() === 'player') {
                 addScore(100);
                 this.destroy();
             }
