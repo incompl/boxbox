@@ -224,13 +224,12 @@ window.boxbox = (function() {
                 })();
                 
                 // keyboard events
-                var body = document.getElementsByTagName('body')[0];
-                body.addEventListener('keydown', function(e) {
+                window.addEventListener('keydown', function(e) {
                     for (var key in self._keydownHandlers) {
                         self._keydownHandlers[key].call(self._entities[key], e);
                     }
                 }, false);
-                body.addEventListener('keyup', function(e) {
+                window.addEventListener('keyup', function(e) {
                     for (var key in self._keyupHandlers) {
                         self._keyupHandlers[key].call(self._entities[key], e);
                     }

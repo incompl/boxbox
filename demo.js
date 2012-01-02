@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", function() {
-    
+(function() {
+      
     var canvas = document.getElementById('bbdemo');
     
     var world = boxbox.createWorld(canvas, {debugDraw:false});
@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
         shape: 'circle',
         radius: 1,
         image: 'wheel.png'
-    }
+    };
     var wheel1 = world.createEntity(wheelTemplate, {x: 1, y:1});
     var wheel2 = world.createEntity(wheelTemplate, {x: 4, y:1});
     world.createJoint("distance", wheel1, wheel2);
@@ -248,4 +248,4 @@ document.addEventListener("DOMContentLoaded", function() {
         width: .1
     });
     
-}, false);
+})();
