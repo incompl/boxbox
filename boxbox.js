@@ -109,6 +109,11 @@ window.boxbox = (function() {
         allowSleep: true,
         scale: 30
     };
+    
+    var JOINT_DEFAULT_OPTIONS = {
+        type: "distance",
+        allowCollisions: false
+    };
 
     /**
      * @header
@@ -432,8 +437,11 @@ window.boxbox = (function() {
          * See <a href="http://box2d.org/">box2d documentation</a> for more
          * info.
          */
-        createJoint: function(type, entity1, entity2, options) {
+        createJoint: function(entity1, entity2, options) {
             options = options || {};
+            options = extend(options, JOINT_DEFAULT_OPTIONS);
+            var type = options.type;
+            
             var joint;
             
             if (type === "distance") {
@@ -468,11 +476,30 @@ window.boxbox = (function() {
                 joint.enableMotor = true;
             }
             
-            if (joint.Initialize) {
+            var jointPositionOnEntity1 = entity1._body.GetWorldCenter();
+            if (options.jointPositionOnEntity1) {
+                jointPositionOnEntity1.x += options.jointPositionOnEntity1.x;
+                jointPositionOnEntity1.y += options.jointPositionOnEntity1.y;
+            }
+            
+            var jointPositionOnEntity2 = entity2._body.GetWorldCenter();
+            if (options.jointPositionOnEntity2) {
+                jointPositionOnEntity2.x += options.jointPositionOnEntity2.x;
+                jointPositionOnEntity2.y += options.jointPositionOnEntity2.y;
+            }
+            
+            if (type === "mouse") {
+                joint.bodyA = entity1._body;
+                joint.bodyB = entity2._body;
+            }
+            else if (joint.Initialize) {
                 joint.Initialize(entity1._body,
                                  entity2._body,
-                                 entity1._body.GetWorldCenter(),
-                                 entity2._body.GetWorldCenter());
+                                 jointPositionOnEntity1,
+                                 jointPositionOnEntity2);
+            }
+            if (options.allowCollisions) {
+                joint.collideConnected = true;
             }
             this._world.CreateJoint(joint);
         },
@@ -617,22 +644,22 @@ window.boxbox = (function() {
             if (this._sprite !== undefined) {
                 var width;
                 var height;
-                if (this._ops.radius) {
+                if (this._ops.shape === "circle" && this._ops.imageStretchToFit) {
                     width = height = this._ops.radius * 2;
                     x -= this._ops.radius / 2;
                     y -= this._ops.radius / 2;
                 }
                 else if (this._ops.imageStretchToFit) {
-                    width = this._ops.width * scale * 2;
-                    height = this._ops.height * scale * 2;
+                    width = this._ops.width * 2;
+                    height = this._ops.height * 2;
                 }
                 else {
-                    width = this._sprite.width * scale / 30;
-                    height = this._sprite.height * scale / 30;
+                    width = this._sprite.width / 30;
+                    height = this._sprite.height / 30;
                 }
 
-                var tx = (cameraOffsetX + x + width / 4) * scale;
-                var ty = (cameraOffsetY + y + height / 4) * scale;
+                var tx = ox + (cameraOffsetX + x + width / 4) * scale;
+                var ty = oy + (cameraOffsetY + y + height / 4) * scale;
                 
                 ctx.translate(tx, ty);
                 
