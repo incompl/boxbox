@@ -35,16 +35,20 @@ header a {
   text-decoration: none;
 }
 
+header h1 {
+  margin: 1em 0;
+}
+
 section {
-  padding: .6em 1em .4em;
+  padding: .5em 1em;
   margin: 1em;
-  background-color: #dce8f1;
-  border-radius: 10px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #e2e3ec;
 }
 
 h1, h2, h3 {
-  text-shadow: 1px 1px 0 #838383;
-  margin: .2em 0 .5em;
+  margin: 6px 0 .6em;
   font-family: serif;
 }
 
@@ -54,7 +58,7 @@ h1 {
 
 h2 {
   font-size: 1.4em;
-  margin: .5em 0;
+  margin: .4em 0 .8em;
 }
 
 h3 {
@@ -62,7 +66,7 @@ h3 {
 }
 
 p {
-  margin: .4em 0;
+  margin: .5em 0;
 }
 
 ul {
@@ -70,10 +74,7 @@ ul {
 }
 
 .description {
-  background-color: rgba(255, 255, 255, .5);
-  border-radius: 5px;
-  padding: .3em .5em;
-  margin: .5em 0 .3em;
+  margin: .5em 0;
 }
 
 #content {
@@ -82,23 +83,21 @@ ul {
 }
 
 nav {
-  padding: 8px;
-  background-color: #dce8f1;
-  border-radius: 10px;
-  border-style: none solid solid none;
-  border-width: 2px;
-  border-color: #8895a0;
+  padding: .3em;
 }
 
 nav.compact {
   line-height: 2em;
+  background-color: #e2e3ec;
 }
 
 nav ul {
   padding: 2px 7px;
   list-style-type: none;
-  background-color: rgba(255, 255, 255, .5);
-  border-radius: 5px;
+}
+
+nav.compact ul {
+  background-color: transparent;
 }
 
 nav.compact ul li {
@@ -107,7 +106,7 @@ nav.compact ul li {
 
 .inlineIndexItem {
   padding: .3em .2em;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: white;
 }
 
 footer {
@@ -121,20 +120,13 @@ footer a:link, footer a:visited {
 }
 
 code {
+  background-color: #eee;
   display: block;
   font-family: monospace;
   white-space: pre;
-  margin: .3em 0;
+  margin: .7em;
   padding: .3em .5em;
-  background-color: rgba(255, 255, 255, .8);
-  border-radius: 5px;
   color: #1f1f1f;
-}
-
-.header {
-  border-style: none solid solid none;
-  border-width: 2px;
-  border-color: #8895a0;
 }
 
 ul.properties {
@@ -154,32 +146,13 @@ ul.properties li {
 
 .depth0 {
   margin: 1em 0em;
-}
-
-.depth0 h1 {
-  text-shadow: 1px 1px 0 #005896;
-}
-
-.depth0.header {
-  border-style: none solid solid none;
-  border-color: #00416e;
-  border-width: 2px;
-  background-color: #c9e9ff;
+  border-color: #B2B3BB;
+  border-width: 4px;
 }
 
 .depth1 {
   margin: 1em 0 1em 1em;
-}
-
-.depth1 h1 {
-  text-shadow: 1px 1px 0 #005896;
-}
-
-.depth1.header {
-  border-style: none solid solid none;
-  border-color: #00416e;
-  border-width: 2px;
-  background-color: #c9e9ff;
+  border-color: #CECFD7;
 }
 
 .depth2 {
@@ -190,6 +163,9 @@ ul.properties li {
   margin: 1em 0 1em 3em;
 }
     </style>
+    
+      <link rel="stylesheet" href="updoc-custom.css"></style>
+    
   </head>
   <body>
     <div id="content">
@@ -294,6 +270,16 @@ ul.properties li {
                 
                 
                   <a href="#name-friction" class="inlineIndexItem">friction</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-name" class="inlineIndexItem">name</a>
                 
               
             
@@ -470,6 +456,16 @@ ul.properties li {
               
             
           
+            
+              
+                
+                
+                
+                  <a href="#name-unbindOnRender" class="inlineIndexItem">unbindOnRender</a>
+                
+              
+            
+          
         </ul>
       </nav>
       <div id="sections">
@@ -522,6 +518,13 @@ ul.properties li {
               
                 
               
+                
+              
+                
+                  <li>
+                    <span class="property">params</span>
+                    <span>canvas, [options]</span>
+                  </li>
                 
               
                 
@@ -843,6 +846,42 @@ is relative to the World's scale and camera position.</div>
             </ul>
             
             <div class="description">get or set entity friction</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.name">
+          
+            
+            
+            
+              <h2 id="name-name">
+                .name(  )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>entity name</span>
+                  </li>
+                
+              
+                
+              
+            </ul>
+            
+            
             
           </section>
         
@@ -1553,6 +1592,13 @@ collision detection</span>
               
                 
                   <li>
+                    <span class="property">color</span>
+                    <span>CSS color for rendering if no image is given (default 'gray')</span>
+                  </li>
+                
+              
+                
+                  <li>
                     <span class="property">draw</span>
                     <span>custom draw function, params are context, x, and y
 </ul></span>
@@ -1572,12 +1618,18 @@ collision detection</span>
               
             </ul>
             
-            <div class="description">example
+            <div class="description">Example:
 <code>var player = world.createEntity({
 &nbsp;&nbsp;name: "player",
 &nbsp;&nbsp;shape: "circle",
 &nbsp;&nbsp;radius: 2
-});</code></div>
+});</code>
+You can pass multiple options objects. This allows for "templates"
+with reusable defaults:
+<code>var redCircleTemplate = {color: "red", shape: "circle", radius: 3};
+world.createEntity(redCircleTemplate, {x: 5, y: 5});
+world.createEntity(redCircleTemplate, {x: 10, y: 5});</code>
+The options objects on the right take precedence.</div>
             
           </section>
         
@@ -1875,7 +1927,7 @@ info.</div>
               
             </ul>
             
-            <div class="description">set the world's onRender callback
+            <div class="description">Add an onRender callback to the World
 This is useful for custom rendering. For example, to draw text
 on every frame:
 <code>world.onRender(function(ctx) {
@@ -1883,11 +1935,9 @@ ctx.fillText("Score: " + score, 10, 10);
 });</code>
 This callback occurs after all entities have been rendered on the
 frame.
-callbacks and a means to unregister them.
 <br>
-<strong>Note: Right now there is only one onRender callback that is
-replaced on each onRender call. In the future there will be multiple
-onRender callbacks and a means to unregister them.</strong></div>
+Multiple onRender callbacks can be added, and they can be removed
+with unbindOnRender.</div>
             
           </section>
         
@@ -1936,10 +1986,49 @@ onRender callbacks and a means to unregister them.</strong></div>
             
           </section>
         
+        
+          <section class="depth2 header" data-module="world.unbindOnRender">
+          
+            
+            
+            
+              <h2 id="name-unbindOnRender">
+                .unbindOnRender( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>callback</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">If the provided function is currently an onRender callback for this
+World, it is removed.</div>
+            
+          </section>
+        
       </div>
     </div>
     <footer>
-      generated by <a href="http://incompl.github.com/updoc/">updoc</a> 0.2.0
+      generated by <a href="http://incompl.github.com/updoc/">updoc</a> 0.2.2
     </footer>
     <script>
 (function() {

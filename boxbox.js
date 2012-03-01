@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2011 Greg Smith <gsmith@incompl.com>
+Copyright (C) 2012 Greg Smith <gsmith@incompl.com>
 
 Released under the MIT license:
 https://github.com/incompl/boxbox/blob/master/LICENSE
@@ -9,6 +9,7 @@ Created at Bocoup http://bocoup.com
 
 /**
  * @_page_title boxbox
+ * @_page_css updoc-custom.css
  * @_page_description api documentation
  * @_page_compact_index
  */
@@ -387,16 +388,23 @@ window.boxbox = (function() {
          * @imageOffsetX (default 0) for image
          * @imageOffsetY (default 0) for image
          * @imageStretchToFit (default false) for image
+         * @color CSS color for rendering if no image is given (default 'gray')
          * @draw custom draw function, params are context, x, and y
          * </ul>
          * @return a new <a href="#name-Entity">Entity</a>
          * @description
-         example
+         Example:
          <code>var player = world.createEntity({
          &nbsp;&nbsp;name: "player",
          &nbsp;&nbsp;shape: "circle",
          &nbsp;&nbsp;radius: 2
          });</code>
+         You can pass multiple options objects. This allows for "templates"
+         with reusable defaults:
+         <code>var redCircleTemplate = {color: "red", shape: "circle", radius: 3};
+         world.createEntity(redCircleTemplate, {x: 5, y: 5});
+         world.createEntity(redCircleTemplate, {x: 10, y: 5});</code>
+         The options objects on the right take precedence.
          */
         createEntity: function() {
             var o = {};
@@ -632,10 +640,11 @@ window.boxbox = (function() {
         imageOffsetX: 0,
         imageOffsetY: 0,
         imageStretchToFit: null,
+        color: 'gray',
         draw: function(ctx, x, y) {
             var cameraOffsetX = -this._world._cameraX;
             var cameraOffsetY = -this._world._cameraY;
-            ctx.fillStyle = this._ops.color || 'gray';
+            ctx.fillStyle = this._ops.color;
             ctx.strokeStyle = 'black';
             var i;
             var scale = this._world._scale;
@@ -811,6 +820,7 @@ window.boxbox = (function() {
         },
         
         /**
+         * @_module entity
          * @return entity name
          */
         name: function() {
