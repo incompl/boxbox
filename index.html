@@ -16,21 +16,26 @@
             </h1>
         </header>
         <article>
+            <nav>
+                <a href="https://github.com/incompl/boxbox">download on github</a>
+                <a href="updoc.html">documentation</a>
+            </nav>
             <h2>what is boxbox?</h2>
             <p>
-                boxbox is a JavaScript library that makes it easier to use the 
+                boxbox is a library that makes it easy and fun to use the 
                 <a href="http://box2d.org/">box2d</a> physics engine.
             </p>
             <h2>no, i mean really, what is it</h2>
             <p>
-                boxbox is an API wrapper for a
-                <a href="http://code.google.com/p/box2dweb/">JavaScript port</a> of an
-                <a href="http://box2dflash.sourceforge.net/">ActionScript port</a> of a
-                <a href="http://box2d.org/">C++ program</a>.
+                boxbox is a framework for
+                <a href="http://code.google.com/p/box2dweb/">box2dweb</a>, a JavaScript port of
+                <a href="http://box2dflash.sourceforge.net/">box2dflash</a>, an ActionScript port of
+                <a href="http://box2d.org/">box2d</a>, a C++ library.
             </p>
             <p>
                 The box2d physics engine is hard to use for a beginner. Further, its C++ style API
-                doesn't make sense to JavaScript programmers. boxbox tries to solve both problems.
+                doesn't make sense to JavaScript programmers. boxbox tries to solve both problems
+                while adding its own sugar along the way.
             </p>
             <h2>features</h2>
             <ul>
@@ -38,144 +43,15 @@
                 <li>work with entities rather than fixtures, bodies, and shapes</li>
                 <li>attach events to entities rather than the whole world</li>
                 <li>reuse common configuration among similar entities</li>
-                <li>built in render layer with image support</li>
+                <li>built in canvas rendering with image support</li>
             </ul>
-            <h2>demo</h2>
-            <p>
-                <a href="http://static.incompl.com/boxbox/demo.html">take a look</a>
-            </p>
-            <h2>download / contribute</h2>
-            <p>
-                <a href="https://github.com/incompl/boxbox">on github</a>
-            </p>
-        </article>
-        <article>
-            <h2>getting started</h2>
-            <p>
-                boxbox is early in development. Feel free to grab the source and tinker. You need
-                to throw in a copy of box2dweb for it to work. See the README for more information.
-            </p>
-        </article>
-        <article id="docs">
-            <h2>api reference</h2>
             
-            <p>In progress. I'll make this a lot better when the API stabilizes.</p>
-            
-            <h3>boxbox</h3>
-            
-            <p>
-                Global boxbox object.
-            </p>
-            
-            <h4 class="collapse">boxbox.createWorld</h4>
-            <div class="section">
-                <p>
-                    Create a new world. A world is a single stand-alone physics simulation. It may contain
-                    any number of entities. It starts out empty.
-                </p>
-                <p>
-                    Parameters:
-                    <ol>
-                        <li>canvas (required) - canvas element to render on</li>
-                        <li>options
-                            <ul>
-                                <li><mark>debugDraw</mark> - render debugging shapes on canvas. default false</li>
-                                <li><mark>gravity</mark> - force of downward gravity. can be negative. default 10</li>
-                                <li><mark>scale</mark> - if rendering is used, rendering scale in pixels per meter. default 30</li>
-                            </ul>
-                        </li>
-                    </ol>
-                </p>
-            <code class="prettyprint">var canvas = document.getElementById('myCanvas');
-var world = boxbox.createWorld(canvas);</code>
-            <code class="prettyprint">var canvas = document.getElementById('myCanvas');
-var world = boxbox.createWorld(canvas, {
-  gravity: 20,
-  scale: 60
-});</code>
-            </div>
-
-        <h3>world</h3>
-        
-        <p>
-            A stand-alone physics simulation. Contains entities and renders out on a single canvas.
-        </p>
-        
-        <h4 class="collapse">world.createEntity</h4>
-        <div class="section">
-                    <p>
-                        Create a new entity. An entity is a single object in the world. It interacts with
-                        other entities and is rendered to the canvas.
-                    </p>
-                    <p>
-                        Parameters:
-            
-                        <ol>
-                            <li>options (all are technically optional and have defaults)
-                                <ul>
-                                    <li><mark>name</mark> - entity name, useful in event handlers</li>
-                                    <li><mark>x</mark> - starting x coordinate</li>
-                                    <li><mark>y</mark> - starting y coordinate</li>
-                                    <li><mark>shape</mark> - square, circle, or polygon. default square</li>
-                                    <li><mark>type</mark> - dynamic or static. static entities can't move. default dynamic</li>
-                                    <li><mark>width</mark> - for squares, in meters</li>
-                                    <li><mark>height</mark> - for squares, in meters</li>
-                                    <li><mark>radius</mark> - for circles, in meters</li>
-                                    <li><mark>points</mark> - for polygons*</li>
-                                    <li><mark>density</mark> - weight is calculated based on this and size. default 2</li>
-                                    <li><mark>friction</mark> - affects object interactions. default 1</li>
-                                    <li><mark>restitution</mark> - bounciness. default .2</li>
-                                    <li><mark>active</mark> - participates in collisions and dynamics. default true</li>
-                                    <li><mark>fixedRotation</mark> - object can't rotate. default false</li>
-                                    <li><mark>bullet</mark> - perform expensive continuous collision detection. default false</li>
-                                    <li><mark>image</mark> - path to image for rendering. default none</li>
-                                    <li><mark>imageOffsetX</mark> - adjust image rendering location</li>
-                                    <li><mark>imageOffsetY</mark> - adjust image rendering location</li>
-                                    <li><mark>imageStretchToFit</mark> - stretch image based on entity size</li>
-                                    <li><mark>draw</mark> - custom draw function for this entity</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </p>
-                    <code class="prettyprint">var player = world.createEntity({
-  name: 'Player',
-  x: 5,
-  y: 10,
-  shape: 'square',
-  width: 3
-  height: 6
-});</code>
-                    <p>
-                        *Points look like this. They must go clockwise and they most produce a convex polygon.
-                    </p>
-                    <code class="prettyprint">world.createEntity({
-  shape: 'polygon',
-  points: [{x: 0, y: 0},
-                       {x: 1, y: 1},
-                       {x: 0, y: 1}]
-});</code>
-        </div>
-
-        <h3>entity</h3>
-        
-        <p>
-            A single entity in a world. Is affected by forces, gravity, joints, and other entities.
-        </p>
-        
-        <h4 class="collapse">entity.destroy</h4>
-        <div class="section">
-            <p>
-                Destroy this entity and remove it from the world.
-            </p>
-            
-            <code class="prettyprint">entity.destroy();</code>
-        </div>
-        
-        <h4 class="collapse">entity.applyImpulse</h4>
-        <div class="section">
-            <p>
-                Apply an instantaneous force to an entity.
-            </p>
+            <h2>demos</h2>
+            <ul>
+                <li><a href="http://dontlookatme.maryrosecook.com/">Don't Look At Me</a></li>
+                <li><a href="http://static.incompl.com/boxbox/demos/platformer/demo.html">Platformer Demo</a></li>
+                <li><a href="http://static.incompl.com/boxbox/demos/chain/chain.html">Joints Demo</a></li>
+            </ul>
             
             <p>
                 Parameters:

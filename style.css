@@ -54,6 +54,23 @@ h4 {
     background-color: #FEE6E7;
 }
 
+nav {
+    text-align: right;
+    float: right;
+    margin: 0 0 0 1em;
+}
+
+nav a {
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    font-size: 1.2em;
+    border: solid black 2px;
+    padding: .2em .4em;
+    box-shadow: 3px 3px 0 #FCC3BC;
+    margin: 0 0 .5em;
+}
+
 article {
     width: 600px;
     margin: 2em auto;
@@ -84,18 +101,6 @@ mark {
     margin: .5em 1.5em;
 }
 
-.section > code {
-    display: block;
-    margin: 1em 3em;
-    padding: .7em 1em;
-    background-color: #E3E3E3;
-    white-space: pre;
-}
-
 #gutter {
     text-align: center;
-}
-
-.collapse {
-    cursor: pointer;
 }
