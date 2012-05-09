@@ -11,6 +11,7 @@ Created at Bocoup http://bocoup.com
  * @_page_title boxbox
  * @_page_css updoc-custom.css
  * @_page_description api documentation
+ * @_page_home_path .
  * @_page_compact_index
  */
 
