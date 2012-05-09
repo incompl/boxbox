@@ -25,7 +25,7 @@ window.requestAnimFrame = (function(){
            function (callback){
                window.setTimeout(callback, 1000 / 60);
            };
-})();
+}());
 
 /**
  * @description global boxbox object
@@ -144,15 +144,17 @@ window.boxbox = (function() {
             var self = this;
             var key;
             var i;
+            var world;
+            var listener;
             this._ops = extend(options, WORLD_DEFAULT_OPTIONS);
             this._world = new b2World(new b2Vec2(0, this._ops.gravity), true);
+            world = this._world;
             this._canvas = canvasElem;
             this._ctx = this._canvas.getContext("2d");
             this._scale = this._ops.scale;
             
             // Set up rendering on the provided canvas
             if (this._canvas !== undefined) {
-                var world = this._world;
                 
                 // debug rendering
                 if (this._ops.debugDraw) {
@@ -168,6 +170,9 @@ window.boxbox = (function() {
                 // animation loop
                 (function animationLoop(){
 
+                    var key;
+                    var entity;
+
                     // set velocities for this step
                     for (key in self._constantVelocities) {
                         var v = self._constantVelocities[key];
@@ -177,7 +182,7 @@ window.boxbox = (function() {
 
                     // apply impulses for this step
                     for (i = 0; i < self._impulseQueue.length; i++) {
-                        var impulse = self._impulseQueue.pop()
+                        var impulse = self._impulseQueue.pop();
                         impulse.body.ApplyImpulse(new b2Vec2(impulse.x, impulse.y),
                                                   impulse.body.GetWorldCenter());
                     }               
@@ -227,7 +232,7 @@ window.boxbox = (function() {
 
                     // TODO paul irish shim
                     window.requestAnimFrame(animationLoop);
-                })();
+                }());
                 
                 // keyboard events
                 window.addEventListener('keydown', function(e) {
@@ -242,7 +247,7 @@ window.boxbox = (function() {
                 }, false);
 
                 // contact events
-                listener = new Box2D.Dynamics.b2ContactListener;
+                listener = new Box2D.Dynamics.b2ContactListener();
                 listener.BeginContact = function(contact) {
                     var a = self._entities[contact.GetFixtureA().GetBody()._bbid];
                     var b = self._entities[contact.GetFixtureB().GetBody()._bbid];
@@ -254,7 +259,7 @@ window.boxbox = (function() {
                             self._startContactHandlers[key].call(self._entities[key], a);
                         }
                     }
-                }
+                };
                 listener.EndContact = function(contact) {
                     var a = self._entities[contact.GetFixtureA().GetBody()._bbid];
                     var b = self._entities[contact.GetFixtureB().GetBody()._bbid];
@@ -266,7 +271,7 @@ window.boxbox = (function() {
                             self._finishContactHandlers[key].call(self._entities[key], a);
                         }
                     }
-                }
+                };
                 listener.PostSolve = function(contact, impulse) {
                     var a = self._entities[contact.GetFixtureA().GetBody()._bbid];
                     var b = self._entities[contact.GetFixtureB().GetBody()._bbid];
@@ -285,7 +290,7 @@ window.boxbox = (function() {
                                                            impulse.tangentImpulses[0]);
                         }
                     }
-                }
+                };
                 world.SetContactListener(listener);
             }
         },
@@ -358,7 +363,7 @@ window.boxbox = (function() {
          */
         gravity: function(value) {
             if (value !== undefined) {
-                this._world.SetGravity(new b2Vec2(0, value))
+                this._world.SetGravity(new b2Vec2(0, value));
             }
             var v = this._world.GetGravity();
             return {x: v.x, y: v.y};
@@ -369,6 +374,7 @@ window.boxbox = (function() {
          * @_params options
          * @options
          * <ul>
+         * @x starting x coordinate
          * @y starting y coordinate
          * @type 'dynamic' or 'static'. static objects can't move
          * @shape 'square' or 'circle' or 'polygon'
@@ -550,7 +556,7 @@ window.boxbox = (function() {
         camera: function(v) {
             v = v || {};
             if (v.x === undefined && v.y === undefined) {
-                return {x:this._cameraX, y: this._cameraY}
+                return {x:this._cameraX, y: this._cameraY};
             }
             if (v.x !== undefined) {
                 this._cameraX = v.x;
@@ -632,7 +638,7 @@ window.boxbox = (function() {
                  {x:0, y:2}],
         density: 2,
         friction: 1,
-        restitution: .2, // bounciness
+        restitution: 0.2, // bounciness
         active: true, // participates in collision and dynamics
         fixedRotation: false,
         bullet: false, // perform expensive continuous collision detection
@@ -686,9 +692,8 @@ window.boxbox = (function() {
 
             }
             else if (this._ops.shape === 'polygon' || this._ops.shape === 'square') {
-                var i = 0;
-                var poly = this._body.GetFixtureList().GetShape();;
-                var vertexCount = parseInt(poly.GetVertexCount());
+                var poly = this._body.GetFixtureList().GetShape();
+                var vertexCount = parseInt(poly.GetVertexCount(), 10);
                 var localVertices = poly.GetVertices();
                 var vertices = new Vector(vertexCount);
                 var xf = this._body.m_xf;
@@ -734,13 +739,13 @@ window.boxbox = (function() {
             this._ops = extend(options, ENTITY_DEFAULT_OPTIONS);
             var ops = this._ops;
             
-            this._body = new b2BodyDef;
+            this._body = new b2BodyDef();
             var body = this._body;
             
             this._world = world;
             this._id = id;
             
-            var fixture = new b2FixtureDef;
+            var fixture = new b2FixtureDef();
             fixture.density = ops.density;
             fixture.friction = ops.friction;
             fixture.restitution = ops.restitution;
@@ -760,14 +765,14 @@ window.boxbox = (function() {
             
             // shape
             if (ops.shape === 'square') {
-                fixture.shape = new b2PolygonShape;
+                fixture.shape = new b2PolygonShape();
                 fixture.shape.SetAsBox(ops.width, ops.height);
             }
             else if (ops.shape === 'circle') {
                 fixture.shape = new b2CircleShape(ops.radius);
             }
             else if (ops.shape === 'polygon') {
-                fixture.shape = new b2PolygonShape;
+                fixture.shape = new b2PolygonShape();
                 fixture.shape.SetAsArray(ops.points, ops.points.length);
             }
             
@@ -862,7 +867,7 @@ window.boxbox = (function() {
             return {
                 x: Math.round((p.x + -c.x) * s),
                 y: Math.round((p.y + -c.y) * s)
-            }
+            };
         },
         
         /**
@@ -1034,4 +1039,4 @@ window.boxbox = (function() {
     
     return this;
 
-})();
+}());
