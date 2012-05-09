@@ -71,7 +71,7 @@ nav a {
     margin: 0 0 .5em;
 }
 
-article {
+section {
     width: 600px;
     margin: 2em auto;
     border: solid black 10px;
@@ -91,16 +91,7 @@ p {
     line-height: 1.2em;
 }
 
-mark {
-    background-color: #FEE6E7;
-    font-weight: bold;
-    font-family: Midiet;
-}
-
-.section > p, .section > ul, .section > ol {
-    margin: .5em 1.5em;
-}
-
-#gutter {
+footer {
     text-align: center;
+    margin: 0 0 1em;
 }

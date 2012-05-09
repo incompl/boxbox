@@ -15,7 +15,7 @@
                 javascript physics made easy
             </h1>
         </header>
-        <article>
+        <section>
             <nav>
                 <a href="https://github.com/incompl/boxbox">download on github</a>
                 <a href="updoc.html">documentation</a>
@@ -49,32 +49,14 @@
             <h2>demos</h2>
             <ul>
                 <li><a href="http://dontlookatme.maryrosecook.com/">Don't Look At Me</a></li>
-                <li><a href="http://static.incompl.com/boxbox/demos/platformer/demo.html">Platformer Demo</a></li>
-                <li><a href="http://static.incompl.com/boxbox/demos/chain/chain.html">Joints Demo</a></li>
+                <li><a href="./boxbox/demos/platformer/demo.html">Platformer Demo</a></li>
+                <li><a href="./boxbox/demos/chain/chain.html">Joints Demo</a></li>
             </ul>
             
-            <p>
-                Parameters:
-                <ol>
-                    <li>power - force of the impulse</li>
-                    <li>direction - direction of the force. if one argument it's degrees. if two arguments it's a vector</li>
-                </ol>
-            </p>
-            
-            <code class="prettyprint">// defaults to 0 degrees, which is up
-entity.applyImpulse(10);</code>
-            
-            <code class="prettyprint">// 180 degrees is down
-entity.applyImpulse(10, 180);</code>
-    
-            <code class="prettyprint">// use a vector instead of degrees. 1,-1 is 45 degrees
-entity.applyImpulse(10, 1, -1);</code>
-        </div>
-
-        </article>
+        </section>
         
-        <article id="gutter">
-            <a href="http://incompl.com/">my blog</a> | <a href="https://github.com/incompl/boxbox/issues">report an issue</a>
-        </article>
+        <footer>
+            <a href="http://incompl.com/">about me</a>
+        </footer>
     </body>
 </html>
