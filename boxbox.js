@@ -428,8 +428,13 @@ window.boxbox = (function() {
         
         /**
          * @_module world
-         * @_params type, entity1, entity2, [options]
-         * @type can be:
+         * @_params entity1, entity2, [options]
+         * @entity1 Entity on one side of the joint
+         * @entity2 Entity on the other side of the joint
+         * @options
+         * <ul>
+         * @enableMotor (default false)
+         * @type one of
          * <ul>
          * @distance these entities will always remain the same distance apart
          * @revolute
@@ -441,11 +446,6 @@ window.boxbox = (function() {
          * @mouse
          * @line
          * </ul>
-         * @entity1 Entity on one side of the joint
-         * @entity2 Entity on the other side of the joint
-         * @options
-         * <ul>
-         * @enableMotor (default false)
          * </ul>
          * @description Experimental joint support.
          * See <a href="http://box2d.org/">box2d documentation</a> for more
