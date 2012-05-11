@@ -1,0 +1,20 @@
+a:link, a:visited {
+  color: black;
+  background-color: white;
+}
+a:hover, a:active {
+  background-color: #FECCD3;
+}
+
+nav.compact {
+  background-color: #FEE6E7;
+  border: solid black 3px;
+}
+
+.depth1 {
+  border-color: black;
+}
+
+.depth2 {
+  border-color: #aaa;
+}

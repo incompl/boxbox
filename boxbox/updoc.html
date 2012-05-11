@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>boxbox</title>
+    <script src="prettify.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="prettify.css">
+    <style>
+body {
+  padding: 0;
+  margin: 1em 1em 0;
+  font-family: sans-serif;
+  line-height: 1.4em;
+}
+
+a:link {
+  color: #000498;
+}
+a:visited {
+  color: black;
+}
+a:hover {
+  color: #4549ff;
+}
+a:active {
+  color: black;
+}
+
+header {
+  margin: 0 0 1em;
+}
+
+header a {
+  text-decoration: none;
+}
+
+header h1 {
+  margin: 1em 0;
+}
+
+section {
+  padding: .5em 1em;
+  margin: 1em;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #e2e3ec;
+}
+
+h1, h2, h3 {
+  margin: 6px 0 .6em;
+  font-family: serif;
+}
+
+h1 {
+  font-size: 1.6em;
+}
+
+h2 {
+  font-size: 1.4em;
+  margin: .4em 0 .8em;
+}
+
+h3 {
+  font-size: 1.2em;
+}
+
+p {
+  margin: .5em 0;
+}
+
+ul {
+  margin: 0;
+}
+
+.description {
+  margin: .5em 0;
+}
+
+#content {
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+nav {
+  padding: .3em;
+}
+
+nav.compact {
+  line-height: 2em;
+  background-color: #e2e3ec;
+}
+
+nav ul {
+  padding: 2px 7px;
+  list-style-type: none;
+}
+
+nav.compact ul {
+  background-color: transparent;
+}
+
+nav.compact ul li {
+  font-weight: bold;
+}
+
+.inlineIndexItem {
+  padding: .3em .2em;
+  background-color: white;
+}
+
+footer {
+  text-align: center;
+  padding: .5em 0;
+  color: #858585;
+}
+
+footer a:link, footer a:visited {
+  color: #5b5c88;
+}
+
+code {
+  background-color: #eee;
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+  margin: .7em;
+  padding: .3em .5em;
+  color: #1f1f1f;
+}
+
+ul.properties {
+  list-style-type: none;
+  padding: 0 0 0 1em;
+}
+
+ul.properties li {
+  margin: .3em 0;
+}
+
+.property {
+  font-weight: bold;
+  font-family: serif;
+  font-size: 1.2em;
+}
+
+.depth0 {
+  margin: 1em 0em;
+  border-color: #B2B3BB;
+  border-width: 4px;
+}
+
+.depth1 {
+  margin: 1em 0 1em 1em;
+  border-color: #CECFD7;
+}
+
+.depth2 {
+  margin: 1em 0 1em 2em;
+}
+
+.depth3 {
+  margin: 1em 0 1em 3em;
+}
+    </style>
+    
+      <link rel="stylesheet" href="updoc-custom.css"></style>
+    
+  </head>
+  <body>
+    <div id="content">
+      <header>
+        <h1>
+          <a href=".">
+            boxbox
+          </a>
+        </h2>
+        api documentation
+      </header>
+      <nav class="compact">
+        <ul>
+          
+            
+              <li>
+                
+                  
+                
+                
+                
+                  <a href="#name-boxbox" class="">boxbox</a>
+                
+              </li>
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-createWorld" class="inlineIndexItem">createWorld</a>
+                
+              
+            
+          
+            
+              <li>
+                
+                  
+                
+                
+                
+                  <a href="#name-Entity" class="">Entity</a>
+                
+              </li>
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-applyImpulse" class="inlineIndexItem">applyImpulse</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-canvasPosition" class="inlineIndexItem">canvasPosition</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-clearForce" class="inlineIndexItem">clearForce</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-clearVelocity" class="inlineIndexItem">clearVelocity</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-destroy" class="inlineIndexItem">destroy</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-friction" class="inlineIndexItem">friction</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-name" class="inlineIndexItem">name</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onFinishContact" class="inlineIndexItem">onFinishContact</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onImpact" class="inlineIndexItem">onImpact</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onKeydown" class="inlineIndexItem">onKeydown</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onKeyup" class="inlineIndexItem">onKeyup</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onStartContact" class="inlineIndexItem">onStartContact</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-position" class="inlineIndexItem">position</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-rotation" class="inlineIndexItem">rotation</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-setForce" class="inlineIndexItem">setForce</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-setVelocity" class="inlineIndexItem">setVelocity</a>
+                
+              
+            
+          
+            
+              <li>
+                
+                  
+                
+                
+                
+                  <a href="#name-World" class="">World</a>
+                
+              </li>
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-camera" class="inlineIndexItem">camera</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-createEntity" class="inlineIndexItem">createEntity</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-createJoint" class="inlineIndexItem">createJoint</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-find" class="inlineIndexItem">find</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-gravity" class="inlineIndexItem">gravity</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onRender" class="inlineIndexItem">onRender</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-scale" class="inlineIndexItem">scale</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-unbindOnRender" class="inlineIndexItem">unbindOnRender</a>
+                
+              
+            
+          
+        </ul>
+      </nav>
+      <div id="sections">
+        
+        
+          <section class="depth1 header" data-module="boxbox">
+          
+            
+            
+            
+              <h2 id="name-boxbox">
+                boxbox
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">global boxbox object</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="boxbox.createWorld">
+          
+            
+            
+            
+              <h2 id="name-createWorld">
+                .createWorld( canvas, options )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">params</span>
+                    <span>canvas, [options]</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">canvas</span>
+                    <span>element to render on</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">options</span>
+                    <span><ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">gravity</span>
+                    <span>(default 10) can be negative</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">allowSleep</span>
+                    <span>(default true) bodies may sleep when they come to
+rest. a sleeping body is no longer being simulated, which can
+improve performance.</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">scale</span>
+                    <span>(default 30) scale for rendering in pixels / meter
+</ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>a new <a href="#name-World">World</a></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">without options
+<code>var canvasElem = document.getElementById("myCanvas");
+var world = boxbox.createWorld(canvasElem);</code>
+with options
+<code>var canvasElem = document.getElementById("myCanvas");
+var world = boxbox.createWorld(canvasElem, {
+&nbsp;&nbsp;gravity: 20,
+&nbsp;&nbsp;scale: 60
+});</code></div>
+            
+          </section>
+        
+        
+          <section class="depth1 header" data-module="Entity">
+          
+            
+            
+            
+              <h2 id="name-Entity">
+                Entity
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">a single physical object in the physics simulation</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.applyImpulse">
+          
+            
+            
+            
+              <h2 id="name-applyImpulse">
+                .applyImpulse( power, degrees )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">power</span>
+                    <span>of impulse</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">degrees</span>
+                    <span>direction of force. 0 is up, 90 is right, etc.</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Apply an instantanious force on this Entity.
+<br>
+With this and all functions that take degrees, you can also provide
+a vector.
+<code>entity.applyImpulse(10, 45); // 45 degree angle
+entity.applyImpulse(10, 1, -1); // the vector x=1 y=-1}</code></div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.canvasPosition">
+          
+            
+            
+            
+              <h2 id="name-canvasPosition">
+                .canvasPosition(  )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>{x,y}</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Get the Entity position in pixels. Useful for custom
+rendering. Unlike <a href="#name-Position">position</a> the result
+is relative to the World's scale and camera position.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.clearForce">
+          
+            
+            
+            
+              <h2 id="name-clearForce">
+                .clearForce( name )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Stop the force with the given name.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.clearVelocity">
+          
+            
+            
+            
+              <h2 id="name-clearVelocity">
+                .clearVelocity( name )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Stop the constant velocity with the given name.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.destroy">
+          
+            
+            
+            
+              <h2 id="name-destroy">
+                .destroy(  )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">destroy this entity and remove it from the world</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.friction">
+          
+            
+            
+            
+              <h2 id="name-friction">
+                .friction( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity friction</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.name">
+          
+            
+            
+            
+              <h2 id="name-name">
+                .name(  )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>entity name</span>
+                  </li>
+                
+              
+                
+              
+            </ul>
+            
+            
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.onFinishContact">
+          
+            
+            
+            
+              <h2 id="name-onFinishContact">
+                .onFinishContact( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>function( entity )
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">entity</span>
+                    <span>that contact ended with</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Handle end of contact with another entity.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.onImpact">
+          
+            
+            
+            
+              <h2 id="name-onImpact">
+                .onImpact( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>function( entity, normalForce, tangentialForce )
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">entity</span>
+                    <span>collided with</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">normalForce</span>
+                    <span>force of two entities colliding</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">tangentialForce</span>
+                    <span>force of two entities "rubbing" up against each other</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Handle impact with another entity.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.onKeydown">
+          
+            
+            
+            
+              <h2 id="name-onKeydown">
+                .onKeydown( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>function( e )
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">e</span>
+                    <span>keydown event</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Handle keydown event for this entity.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.onKeyup">
+          
+            
+            
+            
+              <h2 id="name-onKeyup">
+                .onKeyup( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>function( e )
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">e</span>
+                    <span>keyup event</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Handle keyup event for this entity.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.onStartContact">
+          
+            
+            
+            
+              <h2 id="name-onStartContact">
+                .onStartContact( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>function( entity )
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">entity</span>
+                    <span>that contact started with</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>this Entity
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Handle start of contact with another entity.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.position">
+          
+            
+            
+            
+              <h2 id="name-position">
+                .position( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>{x,y}</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>{x,y}</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity position</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.rotation">
+          
+            
+            
+            
+              <h2 id="name-rotation">
+                .rotation( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>degrees</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>degrees</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity rotation</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.setForce">
+          
+            
+            
+            
+              <h2 id="name-setForce">
+                .setForce( name, power, degrees )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">name</span>
+                    <span>of force</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">power</span>
+                    <span>of force</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">degrees</span>
+                    <span>direction of force</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Apply a constant force on this Entity. Can be removed later
+using clearForce.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.setVelocity">
+          
+            
+            
+            
+              <h2 id="name-setVelocity">
+                .setVelocity( name, power, degrees )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">name</span>
+                    <span>of velocity</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">power</span>
+                    <span>of velocity</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">degrees</span>
+                    <span>direction of velocity</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Continuously override velocity of this Entity. Can be removed later
+using clearVelocity.</div>
+            
+          </section>
+        
+        
+          <section class="depth1 header" data-module="World">
+          
+            
+            
+            
+              <h2 id="name-World">
+                World
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">contains a single self-contained physics simulation</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.camera">
+          
+            
+            
+            
+              <h2 id="name-camera">
+                .camera( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>{x,y}</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>{x,y}</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set position of camera</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.createEntity">
+          
+            
+            
+            
+              <h2 id="name-createEntity">
+                .createEntity( options )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">options</span>
+                    <span><ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">x</span>
+                    <span>starting x coordinate</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">y</span>
+                    <span>starting y coordinate</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">type</span>
+                    <span>'dynamic' or 'static'. static objects can't move</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">shape</span>
+                    <span>'square' or 'circle' or 'polygon'</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">height</span>
+                    <span>for box (default 1)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">width</span>
+                    <span>for box (default 1)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">radius</span>
+                    <span>for circle (default 1)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">points</span>
+                    <span>for polygon [{x,y}, {x,y}, {x,y}] must go clockwise
+must be convex</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">density</span>
+                    <span>(default 2)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">friction</span>
+                    <span>(default 1)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">restitution</span>
+                    <span>or bounciness (default .2)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">active</span>
+                    <span>(default true) participates in collisions and dynamics</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">fixedRotation</span>
+                    <span>(default false)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">bullet</span>
+                    <span>(default false) perform expensive continuous
+collision detection</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">image</span>
+                    <span>file for rendering</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">imageOffsetX</span>
+                    <span>(default 0) for image</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">imageOffsetY</span>
+                    <span>(default 0) for image</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">imageStretchToFit</span>
+                    <span>(default false) for image</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">color</span>
+                    <span>CSS color for rendering if no image is given (default 'gray')</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">draw</span>
+                    <span>custom draw function, params are context, x, and y
+</ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>a new <a href="#name-Entity">Entity</a></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Example:
+<code>var player = world.createEntity({
+&nbsp;&nbsp;name: "player",
+&nbsp;&nbsp;shape: "circle",
+&nbsp;&nbsp;radius: 2
+});</code>
+You can pass multiple options objects. This allows for "templates"
+with reusable defaults:
+<code>var redCircleTemplate = {color: "red", shape: "circle", radius: 3};
+world.createEntity(redCircleTemplate, {x: 5, y: 5});
+world.createEntity(redCircleTemplate, {x: 10, y: 5});</code>
+The options objects on the right take precedence.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.createJoint">
+          
+            
+            
+            
+              <h2 id="name-createJoint">
+                .createJoint( entity1, entity2, [options] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">entity1</span>
+                    <span>Entity on one side of the joint</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">entity2</span>
+                    <span>Entity on the other side of the joint</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">options</span>
+                    <span><ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">enableMotor</span>
+                    <span>(default false)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">type</span>
+                    <span>one of
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">distance</span>
+                    <span>these entities will always remain the same distance apart</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">revolute</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">gear</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">friction</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">prismatic</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">weld</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">pulley</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">mouse</span>
+                    <span></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">line</span>
+                    <span></ul>
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Experimental joint support.
+See <a href="http://box2d.org/">box2d documentation</a> for more
+info.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.find">
+          
+            
+            
+            
+              <h2 id="name-find">
+                .find( x1, y1, x2, y2 )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">x1</span>
+                    <span>upper left of query box</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">y1</span>
+                    <span>upper left of query box</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">x2</span>
+                    <span>lower right of query box</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">y2</span>
+                    <span>lower right of query box</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>array of Entities. may be empty</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">find Entities in a given query box</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.gravity">
+          
+            
+            
+            
+              <h2 id="name-gravity">
+                .gravity( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value:</span>
+                    <span>{x,y}</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return:</span>
+                    <span>{x,y}</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set the world's gravity</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.onRender">
+          
+            
+            
+            
+              <h2 id="name-onRender">
+                .onRender( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>function( context )
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">context</span>
+                    <span>canvas context for rendering</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>World
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Add an onRender callback to the World
+This is useful for custom rendering. For example, to draw text
+on every frame:
+<code>world.onRender(function(ctx) {
+ctx.fillText("Score: " + score, 10, 10);
+});</code>
+This callback occurs after all entities have been rendered on the
+frame.
+<br>
+Multiple onRender callbacks can be added, and they can be removed
+with unbindOnRender.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.scale">
+          
+            
+            
+            
+              <h2 id="name-scale">
+                .scale( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set the scale for rendering in pixels / meter</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.unbindOnRender">
+          
+            
+            
+            
+              <h2 id="name-unbindOnRender">
+                .unbindOnRender( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>callback</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">If the provided function is currently an onRender callback for this
+World, it is removed.</div>
+            
+          </section>
+        
+      </div>
+    </div>
+    <footer>
+      generated by <a href="http://incompl.github.com/updoc/">updoc</a> 0.2.5
+    </footer>
+    <script>
+(function() {
+  var codes = document.getElementsByTagName("code")
+  for (var i = 0; i < codes.length; i++) {
+    codes[i].className = codes[i].className + " prettyprint";
+  }
+  prettyPrint();
+})();
+  </script>
+  </body>
+</html>
