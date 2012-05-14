@@ -13,7 +13,8 @@
         fixedRotation: true,
         friction: .3,
         restitution: 0,
-        color: 'blue'
+        color: 'blue',
+        maxVelocityX: 4
     });
     
     var health = 100;
@@ -67,7 +68,7 @@
         }
 
         // when airborn movement is restricted
-        var force = 4;
+        var force = 8;
         if (!standingOn) {
             force = force / 2;
         }

@@ -173,32 +173,54 @@ window.boxbox = (function() {
 
                     var key;
                     var entity;
+                    var v;
+                    var impulse;
+                    var f;
+                    var toDestroy;
+                    var id;
 
                     // set velocities for this step
                     for (key in self._constantVelocities) {
-                        var v = self._constantVelocities[key];
+                        v = self._constantVelocities[key];
                         v.body.SetLinearVelocity(new b2Vec2(v.x, v.y),
                                                  v.body.GetWorldCenter());
                     }
 
                     // apply impulses for this step
                     for (i = 0; i < self._impulseQueue.length; i++) {
-                        var impulse = self._impulseQueue.pop();
+                        impulse = self._impulseQueue.pop();
                         impulse.body.ApplyImpulse(new b2Vec2(impulse.x, impulse.y),
                                                   impulse.body.GetWorldCenter());
                     }               
                     
                     // set forces for this step
                     for (key in self._constantForces) {
-                        var f = self._constantForces[key];
+                        f = self._constantForces[key];
                         f.body.ApplyForce(new b2Vec2(f.x, f.y),
                                           f.body.GetWorldCenter());
+                    }
+
+                    for (key in self._entities) {
+                        entity = self._entities[key];
+                        v = entity._body.GetLinearVelocity();
+                        if (v.x > entity._ops.maxVelocityX) {
+                            v.x = entity._ops.maxVelocityX;
+                        }
+                        if (v.x < -entity._ops.maxVelocityX) {
+                            v.x = -entity._ops.maxVelocityX;
+                        }
+                        if (v.y > entity._ops.maxVelocityY) {
+                            v.y = entity._ops.maxVelocityY;
+                        }
+                        if (v.y < -entity._ops.maxVelocityY) {
+                            v.y = -entity._ops.maxVelocityY;
+                        }
                     }
                     
                     // destroy
                     for (i = 0; i < self._destroyQueue.length; i++) {
-                        var toDestroy = self._destroyQueue.pop();
-                        var id = toDestroy._id;
+                        toDestroy = self._destroyQueue.pop();
+                        id = toDestroy._id;
                         world.DestroyBody(toDestroy._body);
                         delete self._keydownHandlers[id];
                         delete self._startContactHandlers[id];
@@ -213,8 +235,6 @@ window.boxbox = (function() {
                     
                     // framerate, velocity iterations, position iterations
                     world.Step(1 / 60, 10, 10);
-                    
-                    
                     
                     // render stuff
                     self._canvas.width = self._canvas.width;
@@ -391,6 +411,8 @@ window.boxbox = (function() {
          * @fixedRotation (default false)
          * @bullet (default false) perform expensive continuous
          * collision detection
+         * @maxVelocityX Prevent entity from moving too fast either left or right
+         * @maxVelocityY Prevent entity from moving too fast either up or down
          * @image file for rendering
          * @imageOffsetX (default 0) for image
          * @imageOffsetY (default 0) for image
@@ -643,6 +665,8 @@ window.boxbox = (function() {
         active: true, // participates in collision and dynamics
         fixedRotation: false,
         bullet: false, // perform expensive continuous collision detection
+        maxVelocityX: 1000,
+        maxVelocityY: 1000,
         image: null,
         imageOffsetX: 0,
         imageOffsetY: 0,
@@ -946,7 +970,7 @@ window.boxbox = (function() {
          * @degrees direction of velocity
          * @_params name, power, degrees
          * @description Continuously override velocity of this Entity. Can be removed later
-         * using clearVelocity.
+         * using clearVelocity. Usually you probably want setForce or applyImpulse.
          */
         setVelocity: function(name, power, a, b) {
             var v = this._toVector(power, a, b);

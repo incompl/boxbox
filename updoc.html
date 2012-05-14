@@ -1361,7 +1361,7 @@ using clearForce.</div>
             </ul>
             
             <div class="description">Continuously override velocity of this Entity. Can be removed later
-using clearVelocity.</div>
+using clearVelocity. Usually you probably want setForce or applyImpulse.</div>
             
           </section>
         
@@ -1566,6 +1566,20 @@ must be convex</span>
                     <span class="property">bullet</span>
                     <span>(default false) perform expensive continuous
 collision detection</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">maxVelocityX</span>
+                    <span>Prevent entity from moving too fast either left or right</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">maxVelocityY</span>
+                    <span>Prevent entity from moving too fast either up or down</span>
                   </li>
                 
               
