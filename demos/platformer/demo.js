@@ -159,7 +159,9 @@
         name: 'ground',
         type: 'static',
         height: .1,
-        color: 'green'
+        color: 'green',
+        borderColor: 'rgba(0, 100, 0, .5)',
+        borderWidth: 3
     };
 
     world.createEntity(groundTemplate, {width: 10, x: 10, y: 13.22});

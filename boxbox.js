@@ -418,6 +418,8 @@ window.boxbox = (function() {
          * @imageOffsetY (default 0) for image
          * @imageStretchToFit (default false) for image
          * @color CSS color for rendering if no image is given (default 'gray')
+         * @borderColor CSS color for rendering the shape's border (default 'black')
+         * @borderWidth Width of the border. The border does not impact physics. (default 1)
          * @draw custom draw function, params are context, x, and y
          * </ul>
          * @return a new <a href="#name-Entity">Entity</a>
@@ -672,11 +674,14 @@ window.boxbox = (function() {
         imageOffsetY: 0,
         imageStretchToFit: null,
         color: 'gray',
+        borderColor: 'black',
+        borderWidth: 1,
         draw: function(ctx, x, y) {
             var cameraOffsetX = -this._world._cameraX;
             var cameraOffsetY = -this._world._cameraY;
             ctx.fillStyle = this._ops.color;
-            ctx.strokeStyle = 'black';
+            ctx.strokeStyle = this._ops.borderColor;
+            ctx.lineWidth = this._ops.borderWidth;
             var i;
             var scale = this._world._scale;
             var ox = this._ops.imageOffsetX || 0;
