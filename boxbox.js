@@ -28,10 +28,12 @@ window.requestAnimFrame = (function(){
            };
 }());
 
-/**
- * @description global boxbox object
- */
-window.boxbox = (function() {
+(function() {
+
+    /**
+     * @description global boxbox object
+     */
+    window.boxbox = {};
     
     // Make sure Box2D exists
     if (Box2D === undefined) {
@@ -100,7 +102,7 @@ window.boxbox = (function() {
      &nbsp;&nbsp;scale: 60
      });</code>
      */
-    this.createWorld = function(canvas, options) {
+    window.boxbox.createWorld = function(canvas, options) {
         var world = create(World);
         world._init(canvas, options);
         return world;
@@ -1066,7 +1068,5 @@ window.boxbox = (function() {
         }
         
     };
-    
-    return this;
 
 }());
