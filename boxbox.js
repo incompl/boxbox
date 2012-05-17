@@ -647,6 +647,22 @@ window.requestAnimFrame = (function(){
                 // TODO update debug draw?
             }
             return this._scale;
+        },
+
+        /**
+         * @_module world
+         * @return {x,y}
+         * @description Get a canvas position for a corresponding world position. Useful
+         * for custom rendering in onRender. Respects world scale and camera position.
+         */
+        canvasPositionAt: function(x, y) {
+            var c = this.camera();
+            var s = this.scale();
+            
+            return {
+                x: Math.round((x + -c.x) * s),
+                y: Math.round((y + -c.y) * s)
+            };
         }
         
     };
@@ -893,13 +909,8 @@ window.requestAnimFrame = (function(){
             }
             
             var p = this.position();
-            var c = this._world.camera();
-            var s = this._world.scale();
-            
-            return {
-                x: Math.round((p.x + -c.x) * s),
-                y: Math.round((p.y + -c.y) * s)
-            };
+
+            return this._world.canvasPositionAt(p.x, p.y);
         },
         
         /**
