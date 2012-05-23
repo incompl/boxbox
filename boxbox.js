@@ -268,7 +268,7 @@ Created at Bocoup http://bocoup.com
                     world.DrawDebugData();
 
                     // TODO paul irish shim
-                    window.requestAnimFrame(animationLoop);
+                    window.requestAnimationFrame(animationLoop);
                 }());
                 
                 // keyboard events
