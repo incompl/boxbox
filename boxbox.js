@@ -246,8 +246,8 @@ Created at Bocoup http://bocoup.com
                         delete self._startContactHandlers[id];
                         delete self._finishContactHandlers[id];
                         delete self._impactHandlers[id];
-                        delete self._destroyQueue[id];
-                        delete self._impulseQueue[id];
+                        self._destroyQueue.splice(id, 1);
+                        self._impulseQueue.splice(id, 1);
                         delete self._constantVelocities[id];
                         delete self._constantForces[id];
                         delete self._entities[id];
@@ -458,6 +458,9 @@ Created at Bocoup http://bocoup.com
          The options objects on the right take precedence.
          */
         createEntity: function() {
+            if (this._world.IsLocked()) {
+              throw "You can't create entities in a callback.";
+            }
             var o = {};
             var args = Array.prototype.slice.call(arguments);
             args.reverse();
@@ -855,7 +858,7 @@ Created at Bocoup http://bocoup.com
             body.fixedRotation = ops.fixedRotation;
             body.bullet = ops.bullet;
             
-            this._body = world._world.CreateBody(body); 
+            this._body = world._world.CreateBody(body);
             this._body.CreateFixture(fixture);
             this._body._bbid = id;
             
