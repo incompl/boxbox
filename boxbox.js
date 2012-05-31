@@ -26,7 +26,7 @@ Created at Bocoup http://bocoup.com
           'CancelRequestAnimationFrame'];
     }
 
-    if (!window.requestAnimationFrame)
+    if (!window.requestAnimationFrame) {
         window.requestAnimationFrame = function(callback, element) {
             var currTime = new Date().getTime();
             var timeToCall = Math.max(0, 16 - (currTime - lastTime));
@@ -35,14 +35,18 @@ Created at Bocoup http://bocoup.com
             lastTime = currTime + timeToCall;
             return id;
         };
+    }
 
-    if (!window.cancelAnimationFrame)
+    if (!window.cancelAnimationFrame) {
         window.cancelAnimationFrame = function(id) {
             clearTimeout(id);
-        };
-}())
+      };
+    }
+}());
 
 (function() {
+
+    var DEGREES_PER_RADIAN = 57.2957795; // 180 / pi
 
     /**
      * @description global boxbox object
@@ -936,9 +940,9 @@ Created at Bocoup http://bocoup.com
          */
         rotation: function(value) {
             if (value !== undefined) {
-                this._body.SetAngle(value);
+                this._body.SetAngle(value / DEGREES_PER_RADIAN);
             }
-            return this._body.GetAngle();
+            return this._body.GetAngle() * DEGREES_PER_RADIAN;
         },
         
         /**
