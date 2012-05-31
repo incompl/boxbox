@@ -437,6 +437,11 @@ Created at Bocoup http://bocoup.com
          * @imageOffsetX (default 0) for image
          * @imageOffsetY (default 0) for image
          * @imageStretchToFit (default false) for image
+         * @spriteSheet Image is a sprite sheet (default false)
+         * @spriteWidth Used with spriteSheet (default 16)
+         * @spriteHeight Used with spriteSheet (default 16)
+         * @spriteX Used with spriteSheet (default 0)
+         * @spriteY Used with spriteSheet (default 0)
          * @color CSS color for rendering if no image is given (default 'gray')
          * @borderColor CSS color for rendering the shape's border (default 'black')
          * @borderWidth Width of the border. The border does not impact physics. (default 1)
@@ -715,6 +720,11 @@ Created at Bocoup http://bocoup.com
         color: 'gray',
         borderColor: 'black',
         borderWidth: 1,
+        spriteSheet: false,
+        spriteWidth: 16,
+        spriteHeight: 16,
+        spriteX: 0,
+        spriteY: 0,
         draw: function(ctx, x, y) {
             var cameraOffsetX = -this._world._cameraX;
             var cameraOffsetY = -this._world._cameraY;
@@ -737,6 +747,10 @@ Created at Bocoup http://bocoup.com
                     width = this._ops.width * 2;
                     height = this._ops.height * 2;
                 }
+                else if (this._ops.spriteSheet) {
+                    width = this._ops.spriteWidth / 30;
+                    height = this._ops.spriteHeight / 30;
+                }
                 else {
                     width = this._sprite.width / 30;
                     height = this._sprite.height / 30;
@@ -749,11 +763,24 @@ Created at Bocoup http://bocoup.com
                 
                 ctx.rotate(this._body.GetAngle());
                 
-                ctx.drawImage(this._sprite,
-                              -(width / 2 * scale),
-                              -(height / 2 * scale),
-                              width * scale,
-                              height * scale);
+                if (this._ops.spriteSheet) {
+                    ctx.drawImage(this._sprite,
+                                  this._ops.spriteX * this._ops.spriteWidth,
+                                  this._ops.spriteY * this._ops.spriteHeight,
+                                  this._ops.spriteWidth,
+                                  this._ops.spriteHeight,
+                                  -(width / 2 * scale),
+                                  -(height / 2 * scale),
+                                  width * scale,
+                                  height * scale);
+                }
+                else {
+                    ctx.drawImage(this._sprite,
+                                  -(width / 2 * scale),
+                                  -(height / 2 * scale),
+                                  width * scale,
+                                  height * scale);
+                }
                               
                 ctx.rotate(0 - this._body.GetAngle());              
                               
@@ -775,7 +802,9 @@ Created at Bocoup http://bocoup.com
                     ctx.lineTo((cameraOffsetX + vertices[i].x) * scale, (cameraOffsetY + vertices[i].y) * scale);
                 }
                 ctx.closePath();
-                ctx.stroke();
+                if (this._ops.borderWidth !== 0) {
+                    ctx.stroke();
+                }
                 ctx.fill();
             }
             else if (this._ops.shape === 'circle') {
@@ -787,7 +816,9 @@ Created at Bocoup http://bocoup.com
                         0,
                         Math.PI * 2, true);
                 ctx.closePath();
-                ctx.stroke();
+                if (this._ops.borderWidth !== 0) {
+                    ctx.stroke();
+                }
                 ctx.fill();
             }
         }
@@ -807,12 +838,20 @@ Created at Bocoup http://bocoup.com
         _init: function(world, options, id) {
             this._ops = extend(options, ENTITY_DEFAULT_OPTIONS);
             var ops = this._ops;
+            var op;
             
             this._body = new b2BodyDef();
             var body = this._body;
             
             this._world = world;
             this._id = id;
+
+            // $ props
+            for (op in this._ops) {
+                if (op.match(/^\$/)) {
+                    this[op] = this._ops[op];
+                }
+            }
             
             var fixture = new b2FixtureDef();
             fixture.density = ops.density;
@@ -1097,6 +1136,16 @@ Created at Bocoup http://bocoup.com
          */
         onImpact: function(callback) {
             this._world._addImpactHandler(this._id, callback);
+        },
+
+        /**
+         * @_module entity
+         * @description Set the entity's image to the sprite at x, y on the sprite sheet.
+         * Used only on entities with spriteSheet:true
+         */
+        sprite: function(x, y) {
+            this._ops.spriteX = x;
+            this._ops.spriteY = y;
         }
         
     };
