@@ -16,7 +16,7 @@
         color: 'blue',
         maxVelocityX: 4
     });
-    
+
     var health = 100;
     
     var score = 0;

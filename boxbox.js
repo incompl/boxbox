@@ -107,6 +107,7 @@ Created at Bocoup http://bocoup.com
      *     rest. a sleeping body is no longer being simulated, which can
      *     improve performance.
      * @scale (default 30) scale for rendering in pixels / meter
+     * @tickFrequency (default 50) onTick events happen every tickFrequency milliseconds
      * </ul>
      * @return a new <a href="#name-World">World</a>
      * @description
@@ -129,7 +130,8 @@ Created at Bocoup http://bocoup.com
     var WORLD_DEFAULT_OPTIONS = {
         gravity: 10,
         allowSleep: true,
-        scale: 30
+        scale: 30,
+        tickFrequency: 50
     };
     
     var JOINT_DEFAULT_OPTIONS = {
@@ -160,6 +162,7 @@ Created at Bocoup http://bocoup.com
         _cameraX: 0,
         _cameraY: 0,
         _onRender: [],
+        _onTick: [],
         
         _init: function(canvasElem, options) {
             var self = this;
@@ -187,6 +190,14 @@ Created at Bocoup http://bocoup.com
                     debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
                     world.SetDebugDraw(debugDraw);
                 }
+
+                // game loop (onTick events)
+                window.setInterval(function() {
+                    var i;
+                    for (i = 0; i < self._onTick.length; i++) {
+                        self._onTick[i].call(self);
+                    }
+                }, this._ops.tickFrequency);
                 
                 // animation loop
                 (function animationLoop(){
@@ -659,6 +670,44 @@ Created at Bocoup http://bocoup.com
             }
             this._onRender = newArray;
         },
+
+        /**
+         * @_module world
+         * @callback function()
+         * <ul>
+         * @this World
+         * </ul>
+         * @description Add an onTick callback to the World
+         * <br>
+         * Ticks are periodic events that happen independant of rendering.
+         * You can use ticks as your "game loop". The default tick frequency
+         * is 50 milliseconds, and it can be set as an option when creating
+         * the world.
+         * <br>
+         * Multiple onTick callbacks can be added, and they can be removed
+         * with unbindOnTick.
+         */
+        onTick: function(callback) {
+            this._onTick.push(callback);
+        },
+
+        /**
+         * @_module world
+         * @callback callback
+         * @description
+         * If the provided function is currently an onTick callback for this
+         * World, it is removed.
+         */
+        unbindOnTick: function(callback) {
+            var newArray = [];
+            var i;
+            for (i = 0; i < this._onTick.length; i++) {
+              if (this._onTick[i] !== callback) {
+                newArray.push(this._onTick[i]);
+              }
+            }
+            this._onTick = newArray;
+        },
         
         /**
          * @_module world
@@ -934,9 +983,14 @@ Created at Bocoup http://bocoup.com
         
         /**
          * @_module entity
+         * @_params [value]
          * @return entity name
+         * @description get or set entity name
          */
-        name: function() {
+        name: function(value) {
+          if (value !== undefined) {
+            this._name = value;
+          }
           return this._name;
         },
         
@@ -1136,6 +1190,42 @@ Created at Bocoup http://bocoup.com
          */
         onImpact: function(callback) {
             this._world._addImpactHandler(this._id, callback);
+        },
+
+        /**
+         * @_module entity
+         * @callback function( context )
+         * <ul>
+         * @context canvas context for rendering
+         * @this Entity
+         * </ul>
+         * @description Add an onRender callback to this Entity
+         * <br>
+         * Multiple onRender callbacks can be added, and they can be removed
+         * with world.unbindOnRender.
+         */
+        onRender: function(callback) {
+            this._world.onRender(callback.bind(this));
+        },
+
+        /**
+         * @_module entity
+         * @callback function()
+         * <ul>
+         * @this Entity
+         * </ul>
+         * @description Add an onTick callback to this Entity
+         * <br>
+         * Ticks are periodic events that happen independant of rendering.
+         * You can use ticks as your "game loop". The default tick frequency
+         * is 50 milliseconds, and it can be set as an option when creating
+         * the world.
+         * <br>
+         * Multiple onTick callbacks can be added, and they can be removed
+         * with world.unbindOnTick.
+         */
+        onTick: function(callback) {
+            this._world.onTick(callback.bind(this));
         },
 
         /**
