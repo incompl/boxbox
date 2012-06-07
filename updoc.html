@@ -395,6 +395,16 @@ ul.properties li {
             
           
             
+              
+                
+                
+                
+                  <a href="#name-sprite" class="inlineIndexItem">sprite</a>
+                
+              
+            
+          
+            
               <li>
                 
                   
@@ -1537,6 +1547,38 @@ using clearVelocity. Usually you probably want setForce or applyImpulse.</div>
           </section>
         
         
+          <section class="depth2 header" data-module="entity.sprite">
+          
+            
+            
+            
+              <h2 id="name-sprite">
+                .sprite( x, y )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Set the entity's image to the sprite at x, y on the sprite sheet.
+Used only on entities with spriteSheet:true</div>
+            
+          </section>
+        
+        
           <section class="depth1 header" data-module="World">
           
             
@@ -1823,6 +1865,41 @@ collision detection</span>
               
                 
                   <li>
+                    <span class="property">spriteSheet</span>
+                    <span>Image is a sprite sheet (default false)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">spriteWidth</span>
+                    <span>Used with spriteSheet (default 16)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">spriteHeight</span>
+                    <span>Used with spriteSheet (default 16)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">spriteX</span>
+                    <span>Used with spriteSheet (default 0)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">spriteY</span>
+                    <span>Used with spriteSheet (default 0)</span>
+                  </li>
+                
+              
+                
+                  <li>
                     <span class="property">color</span>
                     <span>CSS color for rendering if no image is given (default 'gray')</span>
                   </li>
@@ -1863,18 +1940,25 @@ collision detection</span>
               
             </ul>
             
-            <div class="description">Example:
+            <div class="description"><h2>Example</h2>
 <code>var player = world.createEntity({
 &nbsp;&nbsp;name: "player",
 &nbsp;&nbsp;shape: "circle",
 &nbsp;&nbsp;radius: 2
 });</code>
+<h2>Templates</h2>
 You can pass multiple options objects. This allows for "templates"
 with reusable defaults:
 <code>var redCircleTemplate = {color: "red", shape: "circle", radius: 3};
 world.createEntity(redCircleTemplate, {x: 5, y: 5});
 world.createEntity(redCircleTemplate, {x: 10, y: 5});</code>
-The options objects on the right take precedence.</div>
+The options objects on the right take precedence.
+<h2>Dollar Properties</h2>
+You can provide options that start with a $ like this:
+<code>var ball = world.createEntity({color: "red", $customValue: 15});</code>
+These are passed onto the resulting entity as they are:
+<code>ball.$customValue === 15</code>
+This allows you to provide your own custom methods and properties.</div>
             
           </section>
         

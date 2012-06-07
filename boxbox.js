@@ -460,18 +460,25 @@ Created at Bocoup http://bocoup.com
          * </ul>
          * @return a new <a href="#name-Entity">Entity</a>
          * @description
-         Example:
+         <h2>Example</h2>
          <code>var player = world.createEntity({
          &nbsp;&nbsp;name: "player",
          &nbsp;&nbsp;shape: "circle",
          &nbsp;&nbsp;radius: 2
          });</code>
+         <h2>Templates</h2>
          You can pass multiple options objects. This allows for "templates"
          with reusable defaults:
          <code>var redCircleTemplate = {color: "red", shape: "circle", radius: 3};
          world.createEntity(redCircleTemplate, {x: 5, y: 5});
          world.createEntity(redCircleTemplate, {x: 10, y: 5});</code>
          The options objects on the right take precedence.
+         <h2>Dollar Properties</h2>
+         You can provide options that start with a $ like this:
+         <code>var ball = world.createEntity({color: "red", $customValue: 15});</code>
+         These are passed onto the resulting entity as they are:
+         <code>ball.$customValue === 15</code>
+         This allows you to provide your own custom methods and properties.
          */
         createEntity: function() {
             if (this._world.IsLocked()) {
