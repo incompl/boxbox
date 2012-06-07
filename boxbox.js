@@ -457,6 +457,7 @@ Created at Bocoup http://bocoup.com
          * @borderColor CSS color for rendering the shape's border (default 'black')
          * @borderWidth Width of the border. The border does not impact physics. (default 1)
          * @draw custom draw function, params are context, x, and y
+         * @init a function that is run when the entity is created
          * </ul>
          * @return a new <a href="#name-Entity">Entity</a>
          * @description
@@ -781,6 +782,7 @@ Created at Bocoup http://bocoup.com
         spriteHeight: 16,
         spriteX: 0,
         spriteY: 0,
+        init: null,
         draw: function(ctx, x, y) {
             var cameraOffsetX = -this._world._cameraX;
             var cameraOffsetY = -this._world._cameraY;
@@ -966,6 +968,11 @@ Created at Bocoup http://bocoup.com
             }
             if (ops.onImpact) {
                 this._world._addImpactHandler(id, ops.onImpact);
+            }
+
+            // custom init function
+            if (ops.init) {
+                ops.init.call(this);
             }
         },
         
