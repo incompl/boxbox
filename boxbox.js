@@ -163,6 +163,7 @@ Created at Bocoup http://bocoup.com
         _cameraY: 0,
         _onRender: [],
         _onTick: [],
+        _creationQueue: [],
         
         _init: function(canvasElem, options) {
             var self = this;
@@ -263,9 +264,14 @@ Created at Bocoup http://bocoup.com
                         delete self._constantForces[id];
                         delete self._entities[id];
                     }
-                    
+
                     // framerate, velocity iterations, position iterations
                     world.Step(1 / 60, 10, 10);
+
+                    // create
+                    for (i = 0; i < self._creationQueue.length; i++) {
+                        self.createEntity(self._creationQueue.pop());
+                    }
                     
                     // render stuff
                     self._canvas.width = self._canvas.width;
@@ -282,7 +288,6 @@ Created at Bocoup http://bocoup.com
                     world.ClearForces();
                     world.DrawDebugData();
 
-                    // TODO paul irish shim
                     window.requestAnimationFrame(animationLoop);
                 }());
                 
@@ -482,14 +487,15 @@ Created at Bocoup http://bocoup.com
          This allows you to provide your own custom methods and properties.
          */
         createEntity: function() {
-            if (this._world.IsLocked()) {
-              throw "You can't create entities in a callback.";
-            }
             var o = {};
             var args = Array.prototype.slice.call(arguments);
             args.reverse();
             for (var key in args) {
                 extend(o, args[key]);
+            }
+            if (this._world.IsLocked()) {
+                this._creationQueue.push(o);
+                return;
             }
             var entity = create(Entity);
             var id = this._nextEntityId++;
