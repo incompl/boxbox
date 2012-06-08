@@ -254,6 +254,7 @@ Created at Bocoup http://bocoup.com
                         toDestroy = self._destroyQueue.pop();
                         id = toDestroy._id;
                         world.DestroyBody(toDestroy._body);
+                        toDestroy._destroyed = true;
                         delete self._keydownHandlers[id];
                         delete self._startContactHandlers[id];
                         delete self._finishContactHandlers[id];
@@ -309,10 +310,10 @@ Created at Bocoup http://bocoup.com
                     var a = self._entities[contact.GetFixtureA().GetBody()._bbid];
                     var b = self._entities[contact.GetFixtureB().GetBody()._bbid];
                     for (var key in self._startContactHandlers) {
-                        if (a._id === Number(key)) {
+                        if (a._id === Number(key) && !a._destroyed) {
                             self._startContactHandlers[key].call(self._entities[key], b);
                         }
-                        if (b._id === Number(key)) {
+                        if (b._id === Number(key) && !b._destroyed) {
                             self._startContactHandlers[key].call(self._entities[key], a);
                         }
                     }
@@ -321,10 +322,10 @@ Created at Bocoup http://bocoup.com
                     var a = self._entities[contact.GetFixtureA().GetBody()._bbid];
                     var b = self._entities[contact.GetFixtureB().GetBody()._bbid];
                     for (var key in self._finishContactHandlers) {
-                        if (a._id === Number(key)) {
+                        if (a._id === Number(key) && !a._destroyed) {
                             self._finishContactHandlers[key].call(self._entities[key], b);
                         }
-                        if (b._id === Number(key)) {
+                        if (b._id === Number(key) && !b._destroyed) {
                             self._finishContactHandlers[key].call(self._entities[key], a);
                         }
                     }
@@ -334,13 +335,13 @@ Created at Bocoup http://bocoup.com
                     var b = self._entities[contact.GetFixtureB().GetBody()._bbid];
                     
                     for (var key in self._impactHandlers) {
-                        if (a._id === Number(key)) {
+                        if (a._id === Number(key) && !a._destroyed) {
                             self._impactHandlers[key].call(self._entities[key],
                                                            b,
                                                            impulse.normalImpulses[0],
                                                            impulse.tangentImpulses[0]);
                         }
-                        if (b._id === Number(key)) {
+                        if (b._id === Number(key) && !b._destroyed) {
                             self._impactHandlers[key].call(self._entities[key],
                                                            a,
                                                            impulse.normalImpulses[0],
