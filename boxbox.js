@@ -295,12 +295,16 @@ Created at Bocoup http://bocoup.com
                 // keyboard events
                 window.addEventListener('keydown', function(e) {
                     for (var key in self._keydownHandlers) {
-                        self._keydownHandlers[key].call(self._entities[key], e);
+                        if (!self._entities[key]._destroyed) {
+                            self._keydownHandlers[key].call(self._entities[key], e);
+                        }
                     }
                 }, false);
                 window.addEventListener('keyup', function(e) {
                     for (var key in self._keyupHandlers) {
-                        self._keyupHandlers[key].call(self._entities[key], e);
+                        if (!self._entities[key]._destroyed) {
+                            self._keyupHandlers[key].call(self._entities[key], e);
+                        }
                     }
                 }, false);
 
