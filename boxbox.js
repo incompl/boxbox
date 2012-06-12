@@ -195,8 +195,12 @@ Created at Bocoup http://bocoup.com
                 // game loop (onTick events)
                 window.setInterval(function() {
                     var i;
+                    var ctx;
                     for (i = 0; i < self._onTick.length; i++) {
-                        self._onTick[i].call(self);
+                        ctx = self._onTick[i].ctx;
+                        if (!ctx._destroyed) {
+                            self._onTick[i].fun.call(ctx);
+                        }
                     }
                 }, this._ops.tickFrequency);
                 
@@ -283,7 +287,7 @@ Created at Bocoup http://bocoup.com
                                    entity._body.m_xf.position.y);
                     }
                     for (i = 0; i < self._onRender.length; i++) {
-                      self._onRender[i].call(self, self._ctx);
+                      self._onRender[i].fun.call(self._onRender[i].ctx, self._ctx);
                     }
                     
                     world.ClearForces();
@@ -660,7 +664,7 @@ Created at Bocoup http://bocoup.com
          * This is useful for custom rendering. For example, to draw text
          * on every frame:
          * <code>world.onRender(function(ctx) {
-         *   ctx.fillText("Score: " + score, 10, 10);
+         * &nbsp;&nbsp;ctx.fillText("Score: " + score, 10, 10);
          * });</code>
          * This callback occurs after all entities have been rendered on the
          * frame.
@@ -669,7 +673,10 @@ Created at Bocoup http://bocoup.com
          * with unbindOnRender.
          */
         onRender: function(callback) {
-            this._onRender.push(callback);
+            this._onRender.push({
+                fun: callback,
+                ctx: this
+            });
         },
         
         /**
@@ -683,7 +690,7 @@ Created at Bocoup http://bocoup.com
             var newArray = [];
             var i;
             for (i = 0; i < this._onRender.length; i++) {
-              if (this._onRender[i] !== callback) {
+              if (this._onRender[i].fun !== callback) {
                 newArray.push(this._onRender[i]);
               }
             }
@@ -707,7 +714,10 @@ Created at Bocoup http://bocoup.com
          * with unbindOnTick.
          */
         onTick: function(callback) {
-            this._onTick.push(callback);
+            this._onTick.push({
+                fun: callback,
+                ctx: this
+            });
         },
 
         /**
@@ -721,7 +731,7 @@ Created at Bocoup http://bocoup.com
             var newArray = [];
             var i;
             for (i = 0; i < this._onTick.length; i++) {
-              if (this._onTick[i] !== callback) {
+              if (this._onTick[i].fun !== callback) {
                 newArray.push(this._onTick[i]);
               }
             }
@@ -1230,7 +1240,10 @@ Created at Bocoup http://bocoup.com
          * with world.unbindOnRender.
          */
         onRender: function(callback) {
-            this._world.onRender(callback.bind(this));
+            this._world._onRender.push({
+                fun: callback,
+                ctx: this
+            });
         },
 
         /**
@@ -1250,7 +1263,10 @@ Created at Bocoup http://bocoup.com
          * with world.unbindOnTick.
          */
         onTick: function(callback) {
-            this._world.onTick(callback.bind(this));
+            this._world._onTick.push({
+                fun: callback,
+                ctx: this
+            });
         },
 
         /**
