@@ -329,7 +329,27 @@ ul.properties li {
                 
                 
                 
+                  <a href="#name-onRender" class="inlineIndexItem">onRender</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
                   <a href="#name-onStartContact" class="inlineIndexItem">onStartContact</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-onTick" class="inlineIndexItem">onTick</a>
                 
               
             
@@ -375,6 +395,16 @@ ul.properties li {
             
           
             
+              
+                
+                
+                
+                  <a href="#name-sprite" class="inlineIndexItem">sprite</a>
+                
+              
+            
+          
+            
               <li>
                 
                   
@@ -392,6 +422,16 @@ ul.properties li {
                 
                 
                   <a href="#name-camera" class="inlineIndexItem">camera</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-canvasPositionAt" class="inlineIndexItem">canvasPositionAt</a>
                 
               
             
@@ -451,6 +491,16 @@ ul.properties li {
                 
                 
                 
+                  <a href="#name-onTick" class="inlineIndexItem">onTick</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
                   <a href="#name-scale" class="inlineIndexItem">scale</a>
                 
               
@@ -462,6 +512,16 @@ ul.properties li {
                 
                 
                   <a href="#name-unbindOnRender" class="inlineIndexItem">unbindOnRender</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-unbindOnTick" class="inlineIndexItem">unbindOnTick</a>
                 
               
             
@@ -560,7 +620,14 @@ improve performance.</span>
                 
                   <li>
                     <span class="property">scale</span>
-                    <span>(default 30) scale for rendering in pixels / meter
+                    <span>(default 30) scale for rendering in pixels / meter</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">tickFrequency</span>
+                    <span>(default 50) onTick events happen every tickFrequency milliseconds
 </ul></span>
                   </li>
                 
@@ -856,7 +923,7 @@ is relative to the World's scale and camera position.</div>
             
             
               <h2 id="name-name">
-                .name(  )
+                .name( [value] )
               </h2>
             
             
@@ -879,9 +946,11 @@ is relative to the World's scale and camera position.</div>
               
                 
               
+                
+              
             </ul>
             
-            
+            <div class="description">get or set entity name</div>
             
           </section>
         
@@ -1116,6 +1185,63 @@ is relative to the World's scale and camera position.</div>
           </section>
         
         
+          <section class="depth2 header" data-module="entity.onRender">
+          
+            
+            
+            
+              <h2 id="name-onRender">
+                .onRender( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>function( context )
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">context</span>
+                    <span>canvas context for rendering</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>Entity
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Add an onRender callback to this Entity
+<br>
+Multiple onRender callbacks can be added, and they can be removed
+with world.unbindOnRender.</div>
+            
+          </section>
+        
+        
           <section class="depth2 header" data-module="entity.onStartContact">
           
             
@@ -1166,6 +1292,61 @@ is relative to the World's scale and camera position.</div>
             </ul>
             
             <div class="description">Handle start of contact with another entity.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.onTick">
+          
+            
+            
+            
+              <h2 id="name-onTick">
+                .onTick( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>function()
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>Entity
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Add an onTick callback to this Entity
+<br>
+Ticks are periodic events that happen independant of rendering.
+You can use ticks as your "game loop". The default tick frequency
+is 50 milliseconds, and it can be set as an option when creating
+the world.
+<br>
+Multiple onTick callbacks can be added, and they can be removed
+with world.unbindOnTick.</div>
             
           </section>
         
@@ -1366,6 +1547,38 @@ using clearVelocity. Usually you probably want setForce or applyImpulse.</div>
           </section>
         
         
+          <section class="depth2 header" data-module="entity.sprite">
+          
+            
+            
+            
+              <h2 id="name-sprite">
+                .sprite( x, y )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Set the entity's image to the sprite at x, y on the sprite sheet.
+Used only on entities with spriteSheet:true</div>
+            
+          </section>
+        
+        
           <section class="depth1 header" data-module="World">
           
             
@@ -1438,6 +1651,45 @@ using clearVelocity. Usually you probably want setForce or applyImpulse.</div>
             </ul>
             
             <div class="description">get or set position of camera</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.canvasPositionAt">
+          
+            
+            
+            
+              <h2 id="name-canvasPositionAt">
+                .canvasPositionAt( x, y )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>{x,y}</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Get a canvas position for a corresponding world position. Useful
+for custom rendering in onRender. Respects world scale and camera position.</div>
             
           </section>
         
@@ -1613,6 +1865,41 @@ collision detection</span>
               
                 
                   <li>
+                    <span class="property">spriteSheet</span>
+                    <span>Image is a sprite sheet (default false)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">spriteWidth</span>
+                    <span>Used with spriteSheet (default 16)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">spriteHeight</span>
+                    <span>Used with spriteSheet (default 16)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">spriteX</span>
+                    <span>Used with spriteSheet (default 0)</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">spriteY</span>
+                    <span>Used with spriteSheet (default 0)</span>
+                  </li>
+                
+              
+                
+                  <li>
                     <span class="property">color</span>
                     <span>CSS color for rendering if no image is given (default 'gray')</span>
                   </li>
@@ -1620,8 +1907,29 @@ collision detection</span>
               
                 
                   <li>
+                    <span class="property">borderColor</span>
+                    <span>CSS color for rendering the shape's border (default 'black')</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">borderWidth</span>
+                    <span>Width of the border. The border does not impact physics. (default 1)</span>
+                  </li>
+                
+              
+                
+                  <li>
                     <span class="property">draw</span>
-                    <span>custom draw function, params are context, x, and y
+                    <span>custom draw function, params are context, x, and y</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">init</span>
+                    <span>a function that is run when the entity is created
 </ul></span>
                   </li>
                 
@@ -1639,18 +1947,25 @@ collision detection</span>
               
             </ul>
             
-            <div class="description">Example:
+            <div class="description"><h2>Example</h2>
 <code>var player = world.createEntity({
 &nbsp;&nbsp;name: "player",
 &nbsp;&nbsp;shape: "circle",
 &nbsp;&nbsp;radius: 2
 });</code>
+<h2>Templates</h2>
 You can pass multiple options objects. This allows for "templates"
 with reusable defaults:
 <code>var redCircleTemplate = {color: "red", shape: "circle", radius: 3};
 world.createEntity(redCircleTemplate, {x: 5, y: 5});
 world.createEntity(redCircleTemplate, {x: 10, y: 5});</code>
-The options objects on the right take precedence.</div>
+The options objects on the right take precedence.
+<h2>Dollar Properties</h2>
+You can provide options that start with a $ like this:
+<code>var ball = world.createEntity({color: "red", $customValue: 15});</code>
+These are passed onto the resulting entity as they are:
+<code>ball.$customValue === 15</code>
+This allows you to provide your own custom methods and properties.</div>
             
           </section>
         
@@ -1952,13 +2267,68 @@ info.</div>
 This is useful for custom rendering. For example, to draw text
 on every frame:
 <code>world.onRender(function(ctx) {
-ctx.fillText("Score: " + score, 10, 10);
+&nbsp;&nbsp;ctx.fillText("Score: " + score, 10, 10);
 });</code>
 This callback occurs after all entities have been rendered on the
 frame.
 <br>
 Multiple onRender callbacks can be added, and they can be removed
 with unbindOnRender.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.onTick">
+          
+            
+            
+            
+              <h2 id="name-onTick">
+                .onTick( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>function()
+<ul></span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">this</span>
+                    <span>World
+</ul></span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">Add an onTick callback to the World
+<br>
+Ticks are periodic events that happen independant of rendering.
+You can use ticks as your "game loop". The default tick frequency
+is 50 milliseconds, and it can be set as an option when creating
+the world.
+<br>
+Multiple onTick callbacks can be added, and they can be removed
+with unbindOnTick.</div>
             
           </section>
         
@@ -2042,6 +2412,45 @@ with unbindOnRender.</div>
             </ul>
             
             <div class="description">If the provided function is currently an onRender callback for this
+World, it is removed.</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="world.unbindOnTick">
+          
+            
+            
+            
+              <h2 id="name-unbindOnTick">
+                .unbindOnTick( callback )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">callback</span>
+                    <span>callback</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">If the provided function is currently an onTick callback for this
 World, it is removed.</div>
             
           </section>
