@@ -915,9 +915,18 @@ Created at Bocoup http://bocoup.com
         _world: null,
         
         _init: function(world, options, id) {
-            this._ops = extend(options, ENTITY_DEFAULT_OPTIONS);
-            var ops = this._ops;
+            var ops;
             var op;
+
+            if (options && options.components !== undefined) {
+                options.components.reverse();
+                options.components.forEach(function(component) {
+                    extend(options, component);
+                });
+            }
+
+            this._ops = extend(options, ENTITY_DEFAULT_OPTIONS);
+            ops = this._ops;
             
             this._body = new b2BodyDef();
             var body = this._body;
