@@ -438,6 +438,7 @@ Created at Bocoup http://bocoup.com
          * @_params options
          * @options
          * <ul>
+         * @name of this entity
          * @x starting x coordinate for the center of the new entity
          * @y starting y coordinate for the center of the new entity
          * @type 'dynamic' or 'static'. static objects can't move
