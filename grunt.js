@@ -14,6 +14,9 @@ module.exports = function(grunt) {
       files: ['boxbox.js'],
       tasks: 'min'
     },
+    qunit: {
+      all: ['test/index.html']
+    },
     jshint: {
       options: {
         curly: true,

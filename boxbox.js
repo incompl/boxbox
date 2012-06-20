@@ -90,9 +90,7 @@ Created at Bocoup http://bocoup.com
     var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
     var b2Fixture = Box2D.Dynamics.b2Fixture;
     var b2World = Box2D.Dynamics.b2World;
-    var b2MassData = Box2D.Collision.Shapes.b2MassData;
-    var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
-    var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
+    var shapes = Box2D.Collision.Shapes;
     var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
     var b2AABB = Box2D.Collision.b2AABB;
     
@@ -961,15 +959,15 @@ Created at Bocoup http://bocoup.com
             
             // shape
             if (ops.shape === 'square') {
-                fixture.shape = new b2PolygonShape();
+                fixture.shape = new shapes.b2PolygonShape();
                 // box2d asks for "half the width", we ask for the actual width
                 fixture.shape.SetAsBox(ops.width / 2, ops.height / 2);
             }
             else if (ops.shape === 'circle') {
-                fixture.shape = new b2CircleShape(ops.radius);
+                fixture.shape = new shapes.b2CircleShape(ops.radius);
             }
             else if (ops.shape === 'polygon') {
-                fixture.shape = new b2PolygonShape();
+                fixture.shape = new shapes.b2PolygonShape();
                 fixture.shape.SetAsArray(ops.points, ops.points.length);
             }
             
