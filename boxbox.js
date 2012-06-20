@@ -1060,7 +1060,7 @@ Created at Bocoup http://bocoup.com
          * @_params
          * @return {x,y}
          * @description Get the Entity position in pixels. Useful for custom
-         * rendering. Unlike <a href="#name-Position">position</a> the result
+         * rendering. Unlike <a href="#name-position">position</a> the result
          * is relative to the World's scale and camera position.
          */
         canvasPosition: function(value) {
