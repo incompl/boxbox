@@ -812,6 +812,8 @@ Created at Bocoup http://bocoup.com
             var scale = this._world._scale;
             var ox = this._ops.imageOffsetX || 0;
             var oy = this._ops.imageOffsetY || 0;
+            ox *= scale;
+            oy *= scale;
             if (this._sprite !== undefined) {
                 var width;
                 var height;

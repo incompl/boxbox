@@ -37,8 +37,8 @@
         x: x,
         y: y,
         image: "parakeet toy.gif",
-        imageOffsetX: -50,
-        imageOffsetY: -10,
+        imageOffsetX: -1.5,
+        imageOffsetY: -.3,
         density: 5,
         width: 2,
         height: 2
