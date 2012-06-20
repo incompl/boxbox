@@ -8,8 +8,8 @@
     var previousEntity;
     
     var linkTemplate = {
-        width: .2,
-        height: .5,
+        width: .4,
+        height: 1,
         image: "parakeet chain.jpg",
         imageStretchToFit: true
     };
@@ -39,7 +39,9 @@
         image: "parakeet toy.gif",
         imageOffsetX: -50,
         imageOffsetY: -10,
-        density: 5
+        density: 5,
+        width: 2,
+        height: 2
     });
         
     world.createJoint(previousEntity, thisEntity, {

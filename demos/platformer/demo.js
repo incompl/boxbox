@@ -8,8 +8,8 @@
         name: 'player',
         x: .5,
         y: 12,
-        height: .2,
-        width: .2,
+        height: .4,
+        width: .4,
         fixedRotation: true,
         friction: .3,
         restitution: 0,
@@ -158,24 +158,24 @@
     var groundTemplate = {
         name: 'ground',
         type: 'static',
-        height: .1,
+        height: .2,
         color: 'green',
         borderColor: 'rgba(0, 100, 0, .5)',
         borderWidth: 3
     };
 
-    world.createEntity(groundTemplate, {width: 10, x: 10, y: 13.22});
+    world.createEntity(groundTemplate, {width: 20, x: 10, y: 13.22});
 
-    world.createEntity(groundTemplate, {width: 3, x: 3, y: 5});
+    world.createEntity(groundTemplate, {width: 6, x: 3, y: 5});
 
-    world.createEntity(groundTemplate, {width: 4, x: 16, y: 5});
+    world.createEntity(groundTemplate, {width: 8, x: 16, y: 5});
     
     world.createEntity({
         name: 'square',
         x: 13,
         y: 8,
-        height: .8,
-        width: .2,
+        height: 1.6,
+        width: .4,
         imageOffsetY: -.2
     });
     
@@ -212,7 +212,8 @@
     var platform = world.createEntity({
         name: 'platform',
         fixedRotation: true,
-        height: .1
+        height: .2,
+        width: 2
     });
 
     var platformMovingUp = true;
@@ -248,8 +249,8 @@
         x: 16,
         y: 5,
         shape: 'square',
-        height: .1,
-        width: .1
+        height: .2,
+        width: .2
     });
     
 })();

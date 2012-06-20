@@ -823,8 +823,8 @@ Created at Bocoup http://bocoup.com
                     y -= this._ops.radius / 2 * scale;
                 }
                 else if (this._ops.imageStretchToFit) {
-                    width = this._ops.width * 2;
-                    height = this._ops.height * 2;
+                    width = this._ops.width;
+                    height = this._ops.height;
                 }
                 else if (this._ops.spriteSheet) {
                     width = this._ops.spriteWidth / 30;
@@ -962,7 +962,8 @@ Created at Bocoup http://bocoup.com
             // shape
             if (ops.shape === 'square') {
                 fixture.shape = new b2PolygonShape();
-                fixture.shape.SetAsBox(ops.width, ops.height);
+                // box2d asks for "half the width", we ask for the actual width
+                fixture.shape.SetAsBox(ops.width / 2, ops.height / 2);
             }
             else if (ops.shape === 'circle') {
                 fixture.shape = new b2CircleShape(ops.radius);
