@@ -438,8 +438,8 @@ Created at Bocoup http://bocoup.com
          * @_params options
          * @options
          * <ul>
-         * @x starting x coordinate
-         * @y starting y coordinate
+         * @x starting x coordinate for the center of the new entity
+         * @y starting y coordinate for the center of the new entity
          * @type 'dynamic' or 'static'. static objects can't move
          * @shape 'square' or 'circle' or 'polygon'
          * @height for box (default 1)
