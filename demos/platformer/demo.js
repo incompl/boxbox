@@ -4,7 +4,7 @@
     
     var world = boxbox.createWorld(canvas, {debugDraw:false});
     
-    var player = world.createEntity({
+    player = world.createEntity({
         name: 'player',
         x: .5,
         y: 12,

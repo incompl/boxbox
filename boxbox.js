@@ -283,8 +283,8 @@ Created at Bocoup http://bocoup.com
                     for (key in self._entities) {
                       entity = self._entities[key];
                       entity._draw(self._ctx,
-                                   entity._body.m_xf.position.x,
-                                   entity._body.m_xf.position.y);
+                                   entity.canvasPosition().x,
+                                   entity.canvasPosition().y);
                     }
                     for (i = 0; i < self._onRender.length; i++) {
                       self._onRender[i].fun.call(self._onRender[i].ctx, self._ctx);
@@ -819,8 +819,8 @@ Created at Bocoup http://bocoup.com
                 var height;
                 if (this._ops.shape === "circle" && this._ops.imageStretchToFit) {
                     width = height = this._ops.radius * 2;
-                    x -= this._ops.radius / 2;
-                    y -= this._ops.radius / 2;
+                    x -= this._ops.radius / 2 * scale;
+                    y -= this._ops.radius / 2 * scale;
                 }
                 else if (this._ops.imageStretchToFit) {
                     width = this._ops.width * 2;
@@ -835,8 +835,8 @@ Created at Bocoup http://bocoup.com
                     height = this._sprite.height / 30;
                 }
 
-                var tx = ox + (cameraOffsetX + x + width / 4) * scale;
-                var ty = oy + (cameraOffsetY + y + height / 4) * scale;
+                var tx = ox + (x + width / 4 * scale);
+                var ty = oy + (y + height / 4 * scale);
                 
                 ctx.translate(tx, ty);
                 
