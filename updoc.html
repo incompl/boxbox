@@ -627,7 +627,14 @@ improve performance.</span>
                 
                   <li>
                     <span class="property">tickFrequency</span>
-                    <span>(default 50) onTick events happen every tickFrequency milliseconds
+                    <span>(default 50) onTick events happen every tickFrequency milliseconds</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">collisionOutlines</span>
+                    <span>(default false) render outlines over everything for debugging collisions
 </ul></span>
                   </li>
                 
@@ -773,7 +780,7 @@ entity.applyImpulse(10, 1, -1); // the vector x=1 y=-1}</code></div>
             </ul>
             
             <div class="description">Get the Entity position in pixels. Useful for custom
-rendering. Unlike <a href="#name-Position">position</a> the result
+rendering. Unlike <a href="#name-position">position</a> the result
 is relative to the World's scale and camera position.</div>
             
           </section>
@@ -1723,15 +1730,22 @@ for custom rendering in onRender. Respects world scale and camera position.</div
               
                 
                   <li>
+                    <span class="property">name</span>
+                    <span>of this entity</span>
+                  </li>
+                
+              
+                
+                  <li>
                     <span class="property">x</span>
-                    <span>starting x coordinate</span>
+                    <span>starting x coordinate for the center of the new entity</span>
                   </li>
                 
               
                 
                   <li>
                     <span class="property">y</span>
-                    <span>starting y coordinate</span>
+                    <span>starting y coordinate for the center of the new entity</span>
                   </li>
                 
               
@@ -1809,7 +1823,7 @@ must be convex</span>
                 
                   <li>
                     <span class="property">fixedRotation</span>
-                    <span>(default false)</span>
+                    <span>(default false) prevent entity from rotating</span>
                   </li>
                 
               
