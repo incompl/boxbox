@@ -106,6 +106,7 @@ Created at Bocoup http://bocoup.com
      *     improve performance.
      * @scale (default 30) scale for rendering in pixels / meter
      * @tickFrequency (default 50) onTick events happen every tickFrequency milliseconds
+     * @collisionOutlines (default false) render outlines over everything for debugging collisions
      * </ul>
      * @return a new <a href="#name-World">World</a>
      * @description
@@ -129,7 +130,8 @@ Created at Bocoup http://bocoup.com
         gravity: 10,
         allowSleep: true,
         scale: 30,
-        tickFrequency: 50
+        tickFrequency: 50,
+        collisionOutlines: false
     };
     
     var JOINT_DEFAULT_OPTIONS = {
@@ -452,7 +454,7 @@ Created at Bocoup http://bocoup.com
          * @friction (default 1)
          * @restitution or bounciness (default .2)
          * @active (default true) participates in collisions and dynamics
-         * @fixedRotation (default false)
+         * @fixedRotation (default false) prevent entity from rotating
          * @bullet (default false) perform expensive continuous
          * collision detection
          * @maxVelocityX Prevent entity from moving too fast either left or right
@@ -811,6 +813,7 @@ Created at Bocoup http://bocoup.com
             ctx.lineWidth = this._ops.borderWidth;
             var i;
             var scale = this._world._scale;
+            var collisionOutlines = this._world._ops.collisionOutlines;
             var ox = this._ops.imageOffsetX || 0;
             var oy = this._ops.imageOffsetY || 0;
             ox *= scale;
@@ -867,7 +870,20 @@ Created at Bocoup http://bocoup.com
                 ctx.translate(-tx, -ty);
 
             }
-            else if (this._ops.shape === 'polygon' || this._ops.shape === 'square') {
+
+            if (this._sprite && !collisionOutlines) {
+                return;
+            }
+
+            if (collisionOutlines) {
+                if (this._sprite !== undefined) {
+                    ctx.fillStyle = "transparent";
+                }
+                ctx.strokeStyle = "rgb(255, 0, 255)";
+                ctx.lineWidth = 2;
+            }
+
+            if (this._ops.shape === 'polygon' || this._ops.shape === 'square') {
                 var poly = this._body.GetFixtureList().GetShape();
                 var vertexCount = parseInt(poly.GetVertexCount(), 10);
                 var localVertices = poly.GetVertices();
@@ -882,7 +898,7 @@ Created at Bocoup http://bocoup.com
                     ctx.lineTo((cameraOffsetX + vertices[i].x) * scale, (cameraOffsetY + vertices[i].y) * scale);
                 }
                 ctx.closePath();
-                if (this._ops.borderWidth !== 0) {
+                if (this._ops.borderWidth !== 0 || collisionOutlines) {
                     ctx.stroke();
                 }
                 ctx.fill();
@@ -896,7 +912,7 @@ Created at Bocoup http://bocoup.com
                         0,
                         Math.PI * 2, true);
                 ctx.closePath();
-                if (this._ops.borderWidth !== 0) {
+                if (this._ops.borderWidth !== 0 || collisionOutlines) {
                     ctx.stroke();
                 }
                 ctx.fill();
