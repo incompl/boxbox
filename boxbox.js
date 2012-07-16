@@ -164,6 +164,7 @@ Created at Bocoup http://bocoup.com
         _onRender: [],
         _onTick: [],
         _creationQueue: [],
+        _positionQueue: [],
         
         _init: function(canvasElem, options) {
             var self = this;
@@ -216,6 +217,7 @@ Created at Bocoup http://bocoup.com
                     var f;
                     var toDestroy;
                     var id;
+                    var o;
 
                     // set velocities for this step
                     for (key in self._constantVelocities) {
@@ -278,6 +280,12 @@ Created at Bocoup http://bocoup.com
                     // create
                     for (i = 0; i < self._creationQueue.length; i++) {
                         self.createEntity(self._creationQueue.pop());
+                    }
+
+                    // position
+                    for (i = 0; i < self._positionQueue.length; i++) {
+                        o = self._positionQueue.pop();
+                        o.o.position.call(o.o, o.val);
                     }
                     
                     // render stuff
@@ -1067,7 +1075,15 @@ Created at Bocoup http://bocoup.com
          */
         position: function(value) {
             if (value !== undefined) {
-                this._body.SetPosition(new b2Vec2(value.x, value.y));
+                if (this._world._world.IsLocked()) {
+                    this._world._positionQueue.push({
+                        o: this,
+                        val: value
+                    });
+                }
+                else {
+                    this._body.SetPosition(new b2Vec2(value.x, value.y));
+                }
             }
             var p = this._body.GetPosition();
             return {x: p.x, y: p.y};
