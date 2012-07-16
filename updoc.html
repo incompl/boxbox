@@ -604,7 +604,7 @@ ul.properties li {
                 
                   <li>
                     <span class="property">gravity</span>
-                    <span>(default 10) can be negative</span>
+                    <span>(default {x:0, y:10}) can be horizontal, negative, etc</span>
                   </li>
                 
               
@@ -658,7 +658,7 @@ var world = boxbox.createWorld(canvasElem);</code>
 with options
 <code>var canvasElem = document.getElementById("myCanvas");
 var world = boxbox.createWorld(canvasElem, {
-&nbsp;&nbsp;gravity: 20,
+&nbsp;&nbsp;gravity: {x: 0, y: 20},
 &nbsp;&nbsp;scale: 60
 });</code></div>
             

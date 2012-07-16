@@ -2,7 +2,7 @@
     
     var canvas = document.getElementById('bbdemo');
     
-    var world = boxbox.createWorld(canvas);
+    var world = boxbox.createWorld(canvas, {gravity: {x: 0, y: 20}});
     
     var thisEntity;
     var previousEntity;

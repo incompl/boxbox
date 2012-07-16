@@ -100,7 +100,7 @@ Created at Bocoup http://bocoup.com
      * @canvas element to render on
      * @options
      * <ul>
-     * @gravity (default 10) can be negative
+     * @gravity (default {x:0, y:10}) can be horizontal, negative, etc
      * @allowSleep (default true) bodies may sleep when they come to
      *     rest. a sleeping body is no longer being simulated, which can
      *     improve performance.
@@ -116,7 +116,7 @@ Created at Bocoup http://bocoup.com
      with options
      <code>var canvasElem = document.getElementById("myCanvas");
      var world = boxbox.createWorld(canvasElem, {
-     &nbsp;&nbsp;gravity: 20,
+     &nbsp;&nbsp;gravity: {x: 0, y: 20},
      &nbsp;&nbsp;scale: 60
      });</code>
      */
@@ -127,7 +127,7 @@ Created at Bocoup http://bocoup.com
     };
     
     var WORLD_DEFAULT_OPTIONS = {
-        gravity: 10,
+        gravity: {x:0, y:10},
         allowSleep: true,
         scale: 30,
         tickFrequency: 50,
@@ -172,7 +172,9 @@ Created at Bocoup http://bocoup.com
             var world;
             var listener;
             this._ops = extend(options, WORLD_DEFAULT_OPTIONS);
-            this._world = new b2World(new b2Vec2(0, this._ops.gravity), true);
+            this._world = new b2World(new b2Vec2(this._ops.gravity.x,
+                                                 this._ops.gravity.y),
+                                                 true);
             world = this._world;
             this._canvas = canvasElem;
             this._ctx = this._canvas.getContext("2d");
