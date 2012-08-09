@@ -464,6 +464,7 @@ Created at Bocoup http://bocoup.com
          * @friction (default 1)
          * @restitution or bounciness (default .2)
          * @active (default true) participates in collisions and dynamics
+         * @rotation (default 0) initial rotation in degrees
          * @fixedRotation (default false) prevent entity from rotating
          * @bullet (default false) perform expensive continuous
          * collision detection
@@ -798,6 +799,7 @@ Created at Bocoup http://bocoup.com
         friction: 1,
         restitution: 0.2, // bounciness
         active: true, // participates in collision and dynamics
+        rotation: null,
         fixedRotation: false,
         bullet: false, // perform expensive continuous collision detection
         maxVelocityX: 1000,
@@ -1000,6 +1002,11 @@ Created at Bocoup http://bocoup.com
                 fixture.shape.SetAsArray(ops.points, ops.points.length);
             }
             
+            // rotation
+            if (ops.rotation) {
+                body.angle = ops.rotation / DEGREES_PER_RADIAN;
+            }
+
             // rendering stuff
             if (ops.draw) {
                 this._draw = ops.draw;
@@ -1026,6 +1033,18 @@ Created at Bocoup http://bocoup.com
             }
             if (ops.onImpact) {
                 this._world._addImpactHandler(id, ops.onImpact);
+            }
+            if (ops.onKeyDown) {
+                this._world._addKeydownHandler(id, ops.onKeyDown);
+            }
+            if (ops.onKeyUp) {
+                this._world._addKeyupHandler(id, ops.onKeyUp);
+            }
+            if (ops.onRender) {
+                this.onRender(ops.onRender);
+            }
+            if (ops.onTick) {
+                this.onTick(ops.onTick);
             }
 
             // custom init function
@@ -1133,6 +1152,204 @@ Created at Bocoup http://bocoup.com
                 this._body.GetFixtureList().SetFriction(value);
             }
             return this._body.GetFixtureList().GetFriction();
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value number
+         * @return number
+         * @description get or set entity restitution (bounciness)
+         */
+        restitution: function(value) {
+            if (value !== undefined) {
+                this._body.GetFixtureList().SetRestitution(value);
+            }
+            return this._body.GetFixtureList().GetRestitution();
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value number
+         * @return number
+         * @description get or set entity max velocity left or right
+         */
+        maxVelocityX: function(value) {
+            if (value !== undefined) {
+                this._ops.maxVelocityX = value;
+            }
+            return this._ops.maxVelocityX;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value number
+         * @return number
+         * @description get or set entity max velocity up or down
+         */
+        maxVelocityY: function(value) {
+            if (value !== undefined) {
+                this._ops.maxVelocityY = value;
+            }
+            return this._ops.maxVelocityY;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value string
+         * @return string
+         * @description get or set entity image
+         */
+        image: function(value) {
+            if (value !== undefined) {
+                this._sprite = new Image();
+                this._sprite.src = value;
+            }
+            return this._sprite.src;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value number
+         * @return number
+         * @description get or set entity image offset in the x direction
+         */
+        imageOffsetX: function(value) {
+            if (value !== undefined) {
+                this._ops.imageOffsetX = value;
+            }
+            return this._ops.imageOffsetX;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value number
+         * @return number
+         * @description get or set entity image offset in the y direction
+         */
+        imageOffsetY: function(value) {
+            if (value !== undefined) {
+                this._ops.imageOffsetY = value;
+            }
+            return this._ops.imageOffsetY;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value boolean
+         * @return boolean
+         * @description set to true to stretch image to entity size
+         */
+        imageStretchToFit: function(value) {
+            if (value !== undefined) {
+                this._ops.imageStretchToFit = value;
+            }
+            return this._ops.imageStretchToFit;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value css color string
+         * @return css color string
+         * @description get or set entity's color
+         */
+        color: function(value) {
+            if (value !== undefined) {
+                this._ops.color = value;
+            }
+            return this._ops.color;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value css color string
+         * @return css color string
+         * @description get or set entity's border color
+         */
+        borderColor: function(value) {
+            if (value !== undefined) {
+                this._ops.borderColor = value;
+            }
+            return this._ops.borderColor;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value number
+         * @return number
+         * @description get or set entity's border width.
+         * Set to 0 to not show a border.
+         */
+        borderWidth: function(value) {
+            if (value !== undefined) {
+                this._ops.borderWidth = value;
+            }
+            return this._ops.borderWidth;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value boolean
+         * @return boolean
+         * @description get or set if this entity's image is a sprite sheet
+         */
+        spriteSheet: function(value) {
+            if (value !== undefined) {
+                this._ops.spriteSheet = value;
+            }
+            return this._ops.spriteSheet;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value number
+         * @return number
+         * @description get or set width of a sprite on the sprite sheet
+         */
+        spriteWidth: function(value) {
+            if (value !== undefined) {
+                this._ops.spriteWidth = value;
+            }
+            return this._ops.spriteWidth;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value number
+         * @return number
+         * @description get or set height of a sprite on the sprite sheet
+         */
+        spriteHeight: function(value) {
+            if (value !== undefined) {
+                this._ops.spriteHeight = value;
+            }
+            return this._ops.spriteHeight;
+        },
+
+        /**
+         * @_module entity
+         * @_params [value]
+         * @value function
+         * @return function
+         * @description get or set the draw function for this entity
+         */
+        draw: function(value) {
+            if (value !== undefined) {
+                this._draw = value;
+            }
+            return this._draw;
         },
         
         /**
