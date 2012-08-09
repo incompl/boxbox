@@ -484,6 +484,13 @@ Created at Bocoup http://bocoup.com
          * @borderWidth Width of the border. The border does not impact physics. (default 1)
          * @draw custom draw function, params are context, x, and y
          * @init a function that is run when the entity is created
+         * @onKeyDown keydown event handler
+         * @onKeyUp keyup event handler
+         * @onStartContact start contact event handler
+         * @onFinishContact finish contact event handler
+         * @onImpact impact event handler
+         * @onRender event handler on render
+         * @onTick event handler on tick
          * </ul>
          * @return a new <a href="#name-Entity">Entity</a>
          * @description
