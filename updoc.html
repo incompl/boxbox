@@ -229,6 +229,26 @@ ul.properties li {
                 
                 
                 
+                  <a href="#name-borderColor" class="inlineIndexItem">borderColor</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-borderWidth" class="inlineIndexItem">borderWidth</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
                   <a href="#name-canvasPosition" class="inlineIndexItem">canvasPosition</a>
                 
               
@@ -259,6 +279,16 @@ ul.properties li {
                 
                 
                 
+                  <a href="#name-color" class="inlineIndexItem">color</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
                   <a href="#name-destroy" class="inlineIndexItem">destroy</a>
                 
               
@@ -269,7 +299,77 @@ ul.properties li {
                 
                 
                 
+                  <a href="#name-draw" class="inlineIndexItem">draw</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
                   <a href="#name-friction" class="inlineIndexItem">friction</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-image" class="inlineIndexItem">image</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-imageOffsetX" class="inlineIndexItem">imageOffsetX</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-imageOffsetY" class="inlineIndexItem">imageOffsetY</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-imageStretchToFit" class="inlineIndexItem">imageStretchToFit</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-maxVelocityX" class="inlineIndexItem">maxVelocityX</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-maxVelocityY" class="inlineIndexItem">maxVelocityY</a>
                 
               
             
@@ -369,6 +469,16 @@ ul.properties li {
                 
                 
                 
+                  <a href="#name-restitution" class="inlineIndexItem">restitution</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
                   <a href="#name-rotation" class="inlineIndexItem">rotation</a>
                 
               
@@ -400,6 +510,36 @@ ul.properties li {
                 
                 
                   <a href="#name-sprite" class="inlineIndexItem">sprite</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-spriteHeight" class="inlineIndexItem">spriteHeight</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-spriteSheet" class="inlineIndexItem">spriteSheet</a>
+                
+              
+            
+          
+            
+              
+                
+                
+                
+                  <a href="#name-spriteWidth" class="inlineIndexItem">spriteWidth</a>
                 
               
             
@@ -604,7 +744,7 @@ ul.properties li {
                 
                   <li>
                     <span class="property">gravity</span>
-                    <span>(default 10) can be negative</span>
+                    <span>(default {x:0, y:10}) can be horizontal, negative, etc</span>
                   </li>
                 
               
@@ -658,7 +798,7 @@ var world = boxbox.createWorld(canvasElem);</code>
 with options
 <code>var canvasElem = document.getElementById("myCanvas");
 var world = boxbox.createWorld(canvasElem, {
-&nbsp;&nbsp;gravity: 20,
+&nbsp;&nbsp;gravity: {x: 0, y: 20},
 &nbsp;&nbsp;scale: 60
 });</code></div>
             
@@ -742,6 +882,97 @@ With this and all functions that take degrees, you can also provide
 a vector.
 <code>entity.applyImpulse(10, 45); // 45 degree angle
 entity.applyImpulse(10, 1, -1); // the vector x=1 y=-1}</code></div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.borderColor">
+          
+            
+            
+            
+              <h2 id="name-borderColor">
+                .borderColor( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>css color string</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>css color string</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity's border color</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.borderWidth">
+          
+            
+            
+            
+              <h2 id="name-borderWidth">
+                .borderWidth( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity's border width.
+Set to 0 to not show a border.</div>
             
           </section>
         
@@ -848,6 +1079,51 @@ is relative to the World's scale and camera position.</div>
           </section>
         
         
+          <section class="depth2 header" data-module="entity.color">
+          
+            
+            
+            
+              <h2 id="name-color">
+                .color( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>css color string</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>css color string</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity's color</div>
+            
+          </section>
+        
+        
           <section class="depth2 header" data-module="entity.destroy">
           
             
@@ -875,6 +1151,51 @@ is relative to the World's scale and camera position.</div>
             </ul>
             
             <div class="description">destroy this entity and remove it from the world</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.draw">
+          
+            
+            
+            
+              <h2 id="name-draw">
+                .draw( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>function</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>function</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set the draw function for this entity</div>
             
           </section>
         
@@ -920,6 +1241,276 @@ is relative to the World's scale and camera position.</div>
             </ul>
             
             <div class="description">get or set entity friction</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.image">
+          
+            
+            
+            
+              <h2 id="name-image">
+                .image( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>string</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>string</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity image</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.imageOffsetX">
+          
+            
+            
+            
+              <h2 id="name-imageOffsetX">
+                .imageOffsetX( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity image offset in the x direction</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.imageOffsetY">
+          
+            
+            
+            
+              <h2 id="name-imageOffsetY">
+                .imageOffsetY( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity image offset in the y direction</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.imageStretchToFit">
+          
+            
+            
+            
+              <h2 id="name-imageStretchToFit">
+                .imageStretchToFit( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>boolean</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>boolean</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">set to true to stretch image to entity size</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.maxVelocityX">
+          
+            
+            
+            
+              <h2 id="name-maxVelocityX">
+                .maxVelocityX( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity max velocity left or right</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.maxVelocityY">
+          
+            
+            
+            
+              <h2 id="name-maxVelocityY">
+                .maxVelocityY( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity max velocity up or down</div>
             
           </section>
         
@@ -1403,6 +1994,51 @@ with world.unbindOnTick.</div>
           </section>
         
         
+          <section class="depth2 header" data-module="entity.restitution">
+          
+            
+            
+            
+              <h2 id="name-restitution">
+                .restitution( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set entity restitution (bounciness)</div>
+            
+          </section>
+        
+        
           <section class="depth2 header" data-module="entity.rotation">
           
             
@@ -1582,6 +2218,141 @@ using clearVelocity. Usually you probably want setForce or applyImpulse.</div>
             
             <div class="description">Set the entity's image to the sprite at x, y on the sprite sheet.
 Used only on entities with spriteSheet:true</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.spriteHeight">
+          
+            
+            
+            
+              <h2 id="name-spriteHeight">
+                .spriteHeight( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set height of a sprite on the sprite sheet</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.spriteSheet">
+          
+            
+            
+            
+              <h2 id="name-spriteSheet">
+                .spriteSheet( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>boolean</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>boolean</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set if this entity's image is a sprite sheet</div>
+            
+          </section>
+        
+        
+          <section class="depth2 header" data-module="entity.spriteWidth">
+          
+            
+            
+            
+              <h2 id="name-spriteWidth">
+                .spriteWidth( [value] )
+              </h2>
+            
+            
+            <ul class="properties">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="property">value</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">return</span>
+                    <span>number</span>
+                  </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+            
+            <div class="description">get or set width of a sprite on the sprite sheet</div>
             
           </section>
         
@@ -1822,6 +2593,13 @@ must be convex</span>
               
                 
                   <li>
+                    <span class="property">rotation</span>
+                    <span>(default 0) initial rotation in degrees</span>
+                  </li>
+                
+              
+                
+                  <li>
                     <span class="property">fixedRotation</span>
                     <span>(default false) prevent entity from rotating</span>
                   </li>
@@ -1943,7 +2721,56 @@ collision detection</span>
                 
                   <li>
                     <span class="property">init</span>
-                    <span>a function that is run when the entity is created
+                    <span>a function that is run when the entity is created</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">onKeyDown</span>
+                    <span>keydown event handler</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">onKeyUp</span>
+                    <span>keyup event handler</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">onStartContact</span>
+                    <span>start contact event handler</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">onFinishContact</span>
+                    <span>finish contact event handler</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">onImpact</span>
+                    <span>impact event handler</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">onRender</span>
+                    <span>event handler on render</span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="property">onTick</span>
+                    <span>event handler on tick
 </ul></span>
                   </li>
                 
