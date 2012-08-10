@@ -96,7 +96,7 @@ Created at Bocoup http://bocoup.com
     
     /**
      * @_module boxbox
-     * @params canvas, [options]
+     * @_params canvas, [options]
      * @canvas element to render on
      * @options
      * <ul>
