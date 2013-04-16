@@ -289,7 +289,6 @@ Created at Bocoup http://bocoup.com
                     }
                     
                     // render stuff
-                    self._canvas.width = self._canvas.width;
                     for (key in self._entities) {
                       entity = self._entities[key];
                       entity._draw(self._ctx,
