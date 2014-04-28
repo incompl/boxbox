@@ -10,7 +10,7 @@ http://incompl.github.com/boxbox
 
 http://code.google.com/p/box2dweb/
 
-## Add your boxbox experiment here!
+## Demos, experiments, projects, etc.
 
  * [Don't look at me](http://dontlookatme.maryrosecook.com/)
  * [Platformer demo](http://incompl.github.io/boxbox/boxbox/demos/platformer/demo.html)
