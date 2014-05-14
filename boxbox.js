@@ -195,6 +195,11 @@ Created at Bocoup http://bocoup.com
                     world.SetDebugDraw(debugDraw);
                 }
 
+                if (this._ops.fillWindow) {
+                    this._canvas.width = this._canvas.parentNode.clientWidth;
+                    this._canvas.height = this._canvas.parentNode.clientHeight;
+                }
+
                 // game loop (onTick events)
                 window.setInterval(function() {
                     var i;
